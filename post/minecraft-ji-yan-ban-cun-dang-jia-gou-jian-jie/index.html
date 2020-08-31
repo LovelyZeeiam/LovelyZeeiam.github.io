@@ -6,7 +6,7 @@
 
 <title>Minecraft基岩版存档架构简介 | Xueli的小博客</title>
 
-<link rel="shortcut icon" href="https://github.com/favicon.ico?v=1598859761840">
+<link rel="shortcut icon" href="https://github.com/favicon.ico?v=1598870264230">
 
 <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://github.com/styles/main.css">
@@ -77,7 +77,7 @@
             
         </div>
         <div style="text-align: center">
-            <form id="gridea-search-form" style="position: relative" data-update="1598859761840" action="/search/index.html">
+            <form id="gridea-search-form" style="position: relative" data-update="1598870264230" action="/search/index.html">
                 <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
                 <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
             </form>
@@ -129,14 +129,15 @@
 <p>【本节涉及到小字节序和大字节序，然后up不会讲,,,大家可以去看https://zhuanlan.zhihu.com/p/21388517的&quot;2.2 字节序&quot;一节】</p>
 <p>Minecraft在java版和基岩版的数据存储都或多或少的使用了NBT格式。在这里简单的说明一下NBT格式是个什么东西。首先得先说明一下，这种格式是可以嵌入的，不仅仅是在一个文件里面，还可以存在于一个文件的一部分。上面提到过，NBT全名Named Binary  Tag，学过编程的小伙伴可以理解为一个Json数据的结构，没有学过的可以理解成一个数学中的函数——即给出一串文字，有且仅有唯一一个对象与之对应（之类的东西）。在这里我们会来探讨这些数据是如何存储的。（notch提供的nbt.txt说明文档国内好像上不去，能得到这个文件的好心人可以把原文或者网盘地址放在评论区嘛，蟹蟹！~，地址：web.archive.org/web/20110723210920/http://www.minecraft.net/docs/NBT.txt）</p>
 <p>既然叫Named Binary Tag，咱们肯定先得看看一个Tag怎么存储。一个Tag的第一个字节代表这个Tag的类型，第二个字节和第三个字节在一起以大字节序组成一个数字，是这个Tag名字的长度。接下来跟着的就是这个Tag的内容，在百度百科叫做辅助信息。</p>
-<p><img src="https://i0.hdslb.com/bfs/article/d2e81a8aff8ca3015224f1c5fcdb0bdf204292ed.png" alt="img" loading="lazy">来自百度百科 - NBT （二进制命名标签）</p>
+<p><img src="..%5Cimages%5Cbedrock-save%5Cd2e81a8aff8ca3015224f1c5fcdb0bdf204292ed.png" alt="img" loading="lazy"><br>
+来自百度百科 - NBT （二进制命名标签）</p>
 <h1 id="存档其它信息"><strong>存档其它信息</strong></h1>
 <p>其它的信息包括地形信息，方块内部特有的信息，实体信息等等（或许概括全了）都<strong>存在&quot;db&quot;文件夹里面</strong>。这个文件夹里面存储的是一个LevelDB数据库（以下简称数据库）。与NBT类似，也是给出一个值，会返回另外一个唯一的值（程序员: 不就是key-value数据库嘛）。</p>
 <p>（偷个懒 技术玩家可以通过直接写代码的方式来访问这个数据库 其ta的玩家捏可以通过MCC ToolChest打开这个存档 不过后者可能可见的信息要少一些）</p>
 <p>既然给出一个值(key)就返回另外一个唯一的值(value)，那么我们肯定得先从给出的这个值开始入手。咱们从简单的开始。</p>
 <p><strong>计分板</strong></p>
 <p>计分板肯定得算比较简单的。直接向这个数据库里面传入&quot;scoreboard&quot;中每个字母的ascii码组成的数组就可以（Java: &quot;scoreboard&quot;.getBytes() 后 遗 症)，获取到一个未经压缩的小字节序NBT数据。这个数据中会存储着5个数据:</p>
-<p><img src="https://i0.hdslb.com/bfs/article/1feac2b904272561f7b536bf597f8978c5f40672.png" alt="img" loading="lazy">五个数据哦~</p>
+<p><img src="..%5Cimages%5Cbedrock-save%5C1feac2b904272561f7b536bf597f8978c5f40672.png" alt="img" loading="lazy">五个数据哦~</p>
 <p><strong>玩家</strong></p>
 <p>游戏中，玩家肯定也是不可少的一部分（废话）。修改玩家的信息也足够简单，不过获取一个玩家的信息是一件难事。目前还未发现比较轻便的查找对应玩家信息的方法。</p>
 <p>在数据库中，得到本地玩家的玩家信息要传的参数为&quot;~local_player&quot;；</p>
@@ -147,12 +148,12 @@
 <p>​    MsaId和SelfSignedId： 这两个标签似乎都有可能与ta所在标签的名称相同，目前未找到用途；</p>
 <p>​    ServerId： 可以直接将这个数据传进数据库，会得到上面提到的第三种情况的数据.</p>
 <p>得到的玩家的NBT数据可以直接根据其名称来判断这个属性控制的是游戏中的什么功能（学英文的重要性（ε=┏(゜ロ゜;)┛）） 其它看不懂的，大部分都有可能是一修改就出问题 或是无实际功能或修改价值 抑或是没修炼够/doge：</p>
-<p><img src="https://i0.hdslb.com/bfs/article/b3d378d421926dd8ab4bc85223a1fa9dde00e10e.png" alt="img" loading="lazy">不够可爱（恼）</p>
+<figure data-type="image" tabindex="2"><img src="..%5Cimages%5Cbedrock-save%5Cb3d378d421926dd8ab4bc85223a1fa9dde00e10e.png" alt="img" loading="lazy"></figure>
 <p>（当然可能也可以通过修改这个来达到使玩家pregnant的臆想效果（</p>
 <p>**地图<br>
 **</p>
 <p>像素画大师们最钟情（可能）的东西。在数据库中，要想找到一个指定的地图并非容易。得到一个地图数据需要传的参数的格式: &quot;map_&quot;+一串数字。如果单纯看这串十进制的数据，是比较难发现规律的。我们将其变成16进制康康：</p>
-<p><img src="https://i0.hdslb.com/bfs/article/a5e271909e7e54bb652b642a1108a8548ca6cdf6.png" alt="img" loading="lazy">是16进制desuyo~</p>
+<figure data-type="image" tabindex="3"><img src="..%5Cimages%5Cbedrock-save%5Ca5e271909e7e54bb652b642a1108a8548ca6cdf6.png" alt="img" loading="lazy"></figure>
 <p>不难发现（），这串数字的前四位与FF FF FF FF代表的数字相差加上1，即为在创建这个地图的时候进游戏的次数。不过这串数字后四个字节就非常非常神奇，观测是离关游戏的时间越近，这四个字节在大端序下代表的数字就会越小。</p>
 <p>并且有时候总会有5个地图的id是连续的。呐是因为呀，当玩家在游戏中创建了一个地图后，游戏内部会新增5个这样连续的id代表5个不同的地图数据。这5个不同的数据代表了该地图的5个级别，就算玩家没有主动去合成其它四个不同级别的地图。</p>
 <p>【似乎只能通过玩家手里拿的物品来找到指定的地图了】</p>
@@ -166,16 +167,134 @@
 <p><strong>【本节内容可能会有不对的地方 也请大佬们在评论底下修正 非常感谢！】</strong></p>
 <p>终于到我们的重头戏了——游戏的地形存储。今天小编就来带大家看看。</p>
 <p>首先还是我们的惯例，灵魂疑问：该怎么得到区块的信息呢？真的很简单，人人都可以学得会：首先将这个区块的x坐标以小字节序变成四个字节（即一个int类型）然后将这个区块的z坐标也以小字节序变成四个字节紧随其后，如果这个区块不是主世界区块那就再将其维度对应的id以小字节序还是变成四个字节跟在后面（1是地狱，2是末地），然后后面跟上一个特定的数字以一个字节存储的字节。这个特定的数字可以是下面的任意一个，取决于要申请的数据的类型：</p>
-<figure data-type="image" tabindex="2"><img src="https://i0.hdslb.com/bfs/article/77932686035b7324f5ba68f63e5db2352359bb6f.png" alt="img" loading="lazy"></figure>
+<figure data-type="image" tabindex="4"><img src="..%5Cimages%5Cbedrock-save%5C77932686035b7324f5ba68f63e5db2352359bb6f.png" alt="img" loading="lazy"></figure>
 <p>例： 如果想要申请x坐标是114514，z坐标是1919180的区块的高度图（臭味图（逃）和生物群系:</p>
-<figure data-type="image" tabindex="3"><img src="https://i0.hdslb.com/bfs/article/d43f4f78deb235cffff4e47725952c59ba7402c8.gif" alt="img" loading="lazy"></figure>
+<figure data-type="image" tabindex="5"><img src="..%5Cimages%5Cbedrock-save%5Cd43f4f78deb235cffff4e47725952c59ba7402c8.gif" alt="img" loading="lazy"></figure>
 <p><strong>高度图和生物群系</strong></p>
 <p>​    申请得到的高度图和生物群系中，前512个字节存储的是高度图。高度图存储了俯视这个区块得到的平面图中，每一格存储一个short类型（一个占两个字节的整数）代表这一格最高的方块处在的y坐标。紧接着是生物群系，以同样的方式，但是是以每一格一个byte类型存储生物群系id。</p>
-<p><img src="https://i0.hdslb.com/bfs/article/381545dcdfdacb447b46b2b1a65825984c7e65f8.png" alt="img" loading="lazy">左图:mcc tool chest pe截图 横坐标是x 纵坐标是z   右图:从数据库中取出的数据在十六进制编辑器中的模样</p>
+<p><img src="..%5Cimages%5Cbedrock-save%5C381545dcdfdacb447b46b2b1a65825984c7e65f8.png" alt="img" loading="lazy"><br>
+左图:mcc tool chest pe截图 横坐标是x 纵坐标是z   右图:从数据库中取出的数据在十六进制编辑器中的模样</p>
 <p><strong>方块实体数据</strong></p>
 <p>申请得到的方块实体数据是一个小字节序的NBT数据。</p>
-<figure data-type="image" tabindex="4"><img src="https://i0.hdslb.com/bfs/article/46b06817a8eb2f0db31b1c982eb1306f0d174a4c.png" alt="img" loading="lazy"></figure>
+<figure data-type="image" tabindex="6"><img src="..%5Cimages%5Cbedrock-save%5C46b06817a8eb2f0db31b1c982eb1306f0d174a4c.png" alt="img" loading="lazy"></figure>
 <p>由于未在minecraft维基上面找到每个方块实体存储的信息（抑或是我没找到），于是沃自己整理了一下：</p>
+<p>（以下来自wiki内容按照CC BY-NC-SA 3.0协议分享）</p>
+<ol>
+<li>
+<p>旗帜</p>
+<ul>
+<li>
+<p>Base: (Integer) 旗帜的背景颜色</p>
+<figure data-type="image" tabindex="7"><img src="..%5Cimages%5Cbedrock-save%5Cimage-20200831160640985.png" alt="image-20200831160640985" loading="lazy"></figure>
+</li>
+<li>
+<p>id: (String) 应该都是banner</p>
+</li>
+<li>
+<p>x, y, z: (Integer) 旗帜所占用的方块所在坐标 <strong>【这个参数是每个方块实体数据都有的哦 下面就不写啦】</strong></p>
+</li>
+<li>
+<p>isMovable: (Byte) 还未发现其用处，默认是1</p>
+</li>
+<li>
+<p>Type: (Integer) 还未发现其用处</p>
+</li>
+</ul>
+</li>
+<li>
+<p>蜂巢，蜂箱 （沃用summon指令创建多只蜜蜂然后游戏就卡死辽？？）</p>
+<ul>
+<li>
+<p>id: (String) 应该都是Beehive</p>
+</li>
+<li>
+<p>isMovable: (Byte) 也是不清楚是干嘛用的（或许每个方块实体存储都有这个参数），默认是1</p>
+</li>
+<li>
+<p>Occupants: (List) 指的是这个beehive里面存储了什么东西。里面存储的都是Json对象。每个Json对象包括:</p>
+<ul>
+<li>
+<p>ActorIdentifier: (String) 当这个值为&quot;minecraft:bee&lt;&gt;&quot;时，代表这是一只可爱的小蜜蜂~ （也没发现可以存什么其它的值呀/xk 不过保持严谨就对(个鬼)）</p>
+</li>
+<li>
+<p>TicksLeftToStay: (Integer) 表示从此刻开始多少个游戏刻之后蜜蜂就会跑粗来</p>
+</li>
+<li>
+<p>SaveData: (Compound) 当&quot;ActorIdentifier&quot;是”minecraft:bee&lt;&gt;“时，这里直接存储了这个蜜蜂的实体NBT，如下图:</p>
+<figure data-type="image" tabindex="8"><img src="..%5Cimages%5Cbedrock-save%5CQQ%E5%9B%BE%E7%89%8720200831171900.png" alt="So_Long~" loading="lazy"></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>牌子</p>
+<ul>
+<li>id: (String) 一直都是&quot;Sign&quot;的说~</li>
+<li>isMovable: (Byte) 还是不清楚是干嘛用的（果然是常驻居民），默认是1</li>
+<li>Text: (String) 牌子上面写的字 换行使用&quot;\n&quot;</li>
+<li>TextOwner: (String) 这个值似乎跟编辑这个牌子的玩家有关，但是好像又在玩家的nbt里面找不到与这段文字相同的内容,,,（或许是由于今天是开学前一天沃写的比较急就没有认真找的缘故吧）</li>
+</ul>
+</li>
+<li>
+<p>箱子，陷阱箱，漏斗，投掷器，发射器，潜影盒</p>
+<ul>
+<li>
+<p>id: (String) 一直都是&quot;Chest&quot;的</p>
+</li>
+<li>
+<p>isMovable: (Byte) 还是不清楚是干嘛用的（被怀疑凑字数），默认是1</p>
+</li>
+<li>
+<p>Items: (List) 存储了箱子里面的东西。这跟玩家物品栏的存储类似，就是只有当这一格有物品时，游戏才会将其存储到存档里面。当没有存放物品的时候，游戏会将这个存储成一个长度为0的空列表。当向里面存放物品的时候，游戏回家原封不动地将物品的NBT复制到这里面来，并加上一个Byte类型的Slot标签。</p>
+</li>
+<li>
+<p>（仅漏斗） TransferCooldown: (Integer) 猜测是当漏斗传输完一个物品，这个值就会变成漏斗传输物品的冷却tick数，每个tick对这个数递减，当这个数变成0之后就传输下一个物品。还未得到证实（因为太难证实了啊啊啊）</p>
+</li>
+<li>
+<p>（仅箱子，陷阱箱，潜影盒） Findable: (Byte) 似乎没什么用的亚子，默认是0</p>
+</li>
+<li>
+<p>（仅潜影盒） facing: (Byte) 潜影盒的朝向，如下表:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">方向</th>
+<th style="text-align:center">上</th>
+<th style="text-align:center">下</th>
+<th style="text-align:center">东</th>
+<th style="text-align:center">西</th>
+<th style="text-align:center">南</th>
+<th style="text-align:center">北</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">&quot;facing&quot;值</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">2</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+<p>例： 一个箱子的NBT:</p>
+<figure data-type="image" tabindex="9"><img src="D:%5Cblog%5Cimages%5Cbedrock-save%5Cimage-202008311830.PNG" alt="一个箱子的NBT" loading="lazy"></figure>
+</li>
+<li>
+<p>篝火，灵魂篝火</p>
+<ul>
+<li>id: (String) &quot;Campfire&quot;没得洗</li>
+<li>isMovable: (Byte) 不清楚是干嘛用的，默认是1</li>
+<li>Items1, Items2, Items3, Items4: (Compound) 是篝火的四个槽位。当这上面没有物品时，游戏就不会存储这个Tag。并且与箱子不同的是，这里并不会增加Slot标签。</li>
+<li></li>
+</ul>
+</li>
+</ol>
 
                 </div>
             </article>
