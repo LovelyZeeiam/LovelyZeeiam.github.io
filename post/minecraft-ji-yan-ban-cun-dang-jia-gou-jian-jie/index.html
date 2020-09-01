@@ -1,104 +1,506 @@
+<!DOCTYPE html>
 <html>
+
 <head>
-    <meta charset="utf-8"/>
-<meta name="description" content=""/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta charset="UTF-8" />
 
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="keywords" content="xueli 博客">
+<meta name="description" content="">
+<meta name="theme-color" content="#000">
 <title>Minecraft基岩版存档架构简介 | Xueli的小博客</title>
+<link rel="shortcut icon" href="/favicon.ico?v=1598965898184">
+<link rel="stylesheet" href="/styles/main.css">
+<link rel="stylesheet" href="/media/css/mist.css">
 
-<link rel="shortcut icon" href="https://github.com/favicon.ico?v=1598870264230">
+<link rel="stylesheet" href="/media/fonts/font-awesome.css">
+<link
+  href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Rosario:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext"
+  rel="stylesheet" type="text/css">
 
-<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://github.com/styles/main.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css">
+<link href="/media/hljs/styles/Vs 2015.css"
+  rel="stylesheet">
 
-<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
-<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
-<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+<script src="/media/hljs/highlight.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.0/velocity.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.0/velocity.ui.min.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script>
-<!-- DEMO JS -->
-<!--<script src="media/scripts/index.js"></script>-->
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+  <meta name="description" content="Minecraft基岩版存档架构简介" />
+  <meta name="keywords" content="" />
 </head>
-<body>
-<div class="main gt-bg-theme-color-first">
-    <nav class="navbar navbar-expand-lg">
-    <div class="navbar-brand">
-        <img class="user-avatar" src="/images/avatar.png" alt="头像">
-        <div class="site-name gt-c-content-color-first">
-            Xueli的小博客
-        </div>
-    </div>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <div class="navbar-nav mr-auto" style="text-align: center">
-            
-                <div class="nav-item">
-                    
-                        <a href="/" class="menu gt-a-link">
-                            首页
-                        </a>
-                    
-                </div>
-            
-                <div class="nav-item">
-                    
-                        <a href="/archives" class="menu gt-a-link">
-                            归档
-                        </a>
-                    
-                </div>
-            
-                <div class="nav-item">
-                    
-                        <a href="/tags" class="menu gt-a-link">
-                            标签
-                        </a>
-                    
-                </div>
-            
-                <div class="nav-item">
-                    
-                        <a href="/post/about" class="menu gt-a-link">
-                            关于
-                        </a>
-                    
-                </div>
-            
-        </div>
-        <div style="text-align: center">
-            <form id="gridea-search-form" style="position: relative" data-update="1598870264230" action="/search/index.html">
-                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
-                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
-            </form>
-        </div>
-    </div>
-</nav>
 
-    <div class="post-container">
-        <div class="post-detail gt-bg-theme-color-second">
-            <article class="gt-post-content">
-                <h2 class="post-title">
-                    Minecraft基岩版存档架构简介
-                </h2>
-                <div class="post-info">
-                    <time class="post-time gt-c-content-color-first">
-                        · 2020-08-31 ·
-                    </time>
-                    
-                </div>
-                <div class="post-content">
-                    <p>花絮： 今天的bgm是什么呢？</p>
+<body>
+  <div class="head-top-line"></div>
+  <div class="header-box">
+    
+<div class="mist">
+  <header class="header bg-color ">
+    <div class="blog-header box-shadow-wrapper  " id="header">
+      <div class="nav-toggle" id="nav_toggle">
+        <div class="toggle-box">
+          <div class="line line-top"></div>
+          <div class="line line-center"></div>
+          <div class="line line-bottom"></div>
+        </div>
+      </div>
+      <div class="site-meta">       
+        <div class="site-title">
+          
+            <a href="/" class="">
+              <span class="logo-line-before">
+                <i class=""></i>
+              </span>
+              <span class="main-title">Xueli的小博客</span>
+              <span class="logo-line-after">
+                <i class=""></i>
+              </span>
+            </a>  
+          
+        </div>
+        
+      </div>
+      <nav class="site-nav" id="site_nav">
+        <ul id="nav_ul">
+          
+            
+            
+            <li class="nav-item ">
+              
+              
+                <a href="/" target="_self">
+                  <i class="fa fa-home"></i> 首页
+                </a>
+              
+            </li>
+          
+            
+            
+            <li class="nav-item ">
+              
+              
+                <a href="/archives/" target="_self">
+                  <i class="fa fa-archive"></i> 归档
+                </a>
+              
+            </li>
+          
+            
+            
+            <li class="nav-item ">
+              
+              
+                <a href="/tags/" target="_self">
+                  <i class="fa fa-tags"></i> 标签
+                </a>
+              
+            </li>
+          
+            
+            
+            <li class="nav-item ">
+              
+              
+                <a href="/post/about/" target="_self">
+                  <i class="fa fa-user"></i> 关于
+                </a>
+              
+            </li>
+          
+          
+        </ul>
+      </nav>
+    </div>
+  </header>
+</div>
+
+<script type="text/javascript"> 
+ 
+  let showNav = true;
+
+  let navToggle = document.querySelector('#nav_toggle'),
+  siteNav = document.querySelector('#site_nav');
+  
+  function navClick() {
+    let sideBar = document.querySelector('.sidebar');
+    let navUl = document.querySelector('#nav_ul');
+    navToggle.classList.toggle('nav-toggle-active');
+    siteNav.classList.toggle('nav-menu-active');
+    if (siteNav.classList.contains('nav-menu-active')) {
+      siteNav.style = "height: " + (navUl.children.length * 42) +"px !important";
+    } else {
+      siteNav.style = "";
+    }
+  }
+
+  navToggle.addEventListener('click',navClick);  
+</script>
+  </div>
+  <div class="main-continer">
+    
+    <div
+      class="section-layout mist bg-color">
+      <div class="section-layout-wrapper">
+        
+
+<div class="sidebar">
+  
+    <div class="sidebar-box box-shadow-wrapper  right-motion" id="sidebar">
+      
+        <div class="post-list-sidebar">
+          <div class="sidebar-title">
+            <span id="tocSideBar" class="sidebar-title-item sidebar-title-active">文章目录</span>
+            <span id="metaSideBar" class="sidebar-title-item">站点概览</span>
+          </div>
+        </div>
+      
+      <div class="sidebar-body mist" id="sidebar_body">
+        
+          
+            <div class="post-side-meta" id="post_side_meta">
+              
+<div class="sidebar-wrapper box-shadow-wrapper ">
+  <div class="sidebar-item">
+    <img class="site-author-image right-motion" src="/images/avatar.png"/>
+    <p class="site-author-name">XueLi</p>
+    
+  </div>
+  <div class="sidebar-item side-item-stat right-motion">
+    <div class="sidebar-item-box">
+      <a href="/archives/">
+        
+        <span class="site-item-stat-count">1</span>
+        <span class="site-item-stat-name">文章</span>
+      </a>
+    </div>
+    <div class="sidebar-item-box">
+      <a href="">
+        <span class="site-item-stat-count">0</span>
+        <span class="site-item-stat-name">分类</span>
+      </a>
+    </div>
+    <div class="sidebar-item-box">
+      <a href="/tags/">
+        <span class="site-item-stat-count">0</span>
+        <span class="site-item-stat-name">标签</span>
+      </a>
+    </div>
+  </div>
+  
+  
+
+  
+
+
+</div>
+            </div>
+            <div class="post-toc sidebar-body-active" id="post_toc" style="opacity: 1;">
+              <div class="toc-box right-motion">
+  <div class="toc-wrapper auto-number auto"
+    id="toc_wrapper">
+    <ul class="markdownIt-TOC">
+<li><a href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2">写在前面</a></li>
+<li><a href="#%E7%9B%AE%E5%BD%95"><strong>目录</strong></a></li>
+<li><a href="#%E5%AD%98%E6%A1%A3%E5%85%A8%E5%B1%80%E4%BF%A1%E6%81%AF"><strong>存档全局信息</strong></a></li>
+<li><a href="#%E5%AD%98%E6%A1%A3%E8%B5%84%E6%BA%90%E5%8C%85%E4%BF%A1%E6%81%AF"><strong>存档资源包信息</strong></a></li>
+<li><a href="#nbt%E6%A0%BC%E5%BC%8F%E6%A6%82%E8%BF%B0">NBT格式概述</a></li>
+<li><a href="#%E5%AD%98%E6%A1%A3%E5%85%B6%E5%AE%83%E4%BF%A1%E6%81%AF"><strong>存档其它信息</strong></a></li>
+<li><a href="#%E5%9C%B0%E5%BD%A2%E5%AD%98%E5%82%A8">地形存储</a></li>
+</ul>
+
+  </div>
+</div>
+
+<script>
+
+  let lastTop = 0, lList = [], hList = [], postBody, lastIndex = -1;
+  let active = 'active-show', activeClass = 'active-current';
+  let tocWrapper = document.querySelector('#toc_wrapper');
+  let tocContent = tocWrapper.children[0];
+  let autoNumber = tocWrapper && tocWrapper.classList.contains('auto-number');
+
+  function addTocNumber(elem, deep) {
+    if (!elem) {
+      return;
+    }
+    let prop = elem.__proto__;
+
+    if (prop === HTMLUListElement.prototype) {
+      for (let i = 0; i < elem.children.length; i++) {
+        addTocNumber(elem.children[i], deep + (i + 1) + '.');
+      }
+    } else if (prop === HTMLLIElement.prototype) {
+      // 保存li元素
+      if (elem.children[0].__proto__ === HTMLAnchorElement.prototype) {
+        lList.push(elem);
+      }
+      for (let i = 0; i < elem.children.length; i++) {
+        let cur = elem.children[i];
+        if (cur.__proto__ === HTMLAnchorElement.prototype) {
+          if (autoNumber) {
+            cur.text = deep + ' ' + cur.text;
+          }
+        } else if (cur.__proto__ === HTMLUListElement.prototype) {
+          addTocNumber(cur, deep);
+        }
+      }
+    }
+  }
+
+  function removeParentActiveClass() {
+    let parents = tocContent.querySelectorAll('.' + active)
+    parents.forEach(function (elem) {
+      elem.classList.remove(active);
+    });
+  }
+
+  function addActiveClass(index) {
+    if (index >= 0 && index < hList.length) {
+      lList[index].classList.add(activeClass);
+    }
+  }
+
+  function removeActiveClass(index) {
+    if (index >= 0 && index < hList.length) {
+      lList[index].classList.remove(activeClass);
+    }
+  }
+
+  function addActiveLiElemment(elem, parent) {
+    if (!elem || elem === parent) {
+      return;
+    } else {
+      if (elem.__proto__ === HTMLLIElement.prototype) {
+        elem.classList.add(active);
+      }
+      addActiveLiElemment(elem.parentElement, parent);
+    }
+  }
+
+  function showToc() {
+    if (tocWrapper) {
+      postBody = document.querySelector('#post_body');
+      for (let i = 0; i < postBody.children.length; i++) {
+        if (postBody.children[i].__proto__ === HTMLHeadingElement.prototype) {
+          hList.push(postBody.children[i]);
+        }
+      }
+      if (tocWrapper.classList.contains('compress')) {
+        tocContent.classList.add('closed');
+      } else if (tocWrapper.classList.contains('no_compress')) {
+        tocContent.classList.add('expanded');
+      } else {
+        if (hList.length > 10) {
+          active = 'active-hidden'
+          tocContent.classList.add('closed');
+        } else {
+          tocContent.classList.add('expanded');
+        }
+      }
+    }
+  }
+
+  (function () {
+    // 处理不是从#一级标题开始目录
+    if (tocContent.children.length === 1 && tocContent.children[0].__proto__ === HTMLLIElement.prototype) {
+      let con = tocContent.children[0].children[0];
+      tocContent.innerHTML = con.innerHTML;
+    }
+    let markdownItTOC = document.querySelector('.markdownIt-TOC');
+    let innerHeight = window.innerHeight;
+    markdownItTOC.style = `max-height: ${innerHeight - 80 > 0 ? innerHeight - 80 : innerHeight}px`
+    addTocNumber(tocContent, '');
+  })();
+
+  document.addEventListener('scroll', function (e) {
+    if (lList.length <= 0) {
+      return;
+    }
+    let scrollTop = document.scrollingElement.scrollTop + 10;
+    let dir;
+
+    if (lastTop - scrollTop > 0) {
+      dir = 'up';
+    } else {
+      dir = 'down';
+    }
+
+    lastTop = scrollTop;
+    if (scrollTop <= 0) {
+      if (lastIndex >= 0 && lastIndex < hList.length) {
+        lList[lastIndex].classList.remove(activeClass);
+      }
+      return;
+    }
+
+    let current = 0, hasFind = false;
+    for (let i = 0; i < hList.length; i++) {
+      if (hList[i].offsetTop > scrollTop) {
+        current = i;
+        hasFind = true;
+        break;
+      }
+    }
+    if (!hasFind && scrollTop > lList[lList.length - 1].offsetTop) {
+      current = hList.length - 1;
+    } else {
+      current--;
+    }
+    if (dir === 'down') {
+      if (current > lastIndex) {
+        addActiveClass(current);
+        removeActiveClass(lastIndex)
+        lastIndex = current;
+        removeParentActiveClass();
+        lList[current] && addActiveLiElemment(lList[current].parentElement, tocContent);
+      }
+    } else {
+      if (current < lastIndex) {
+        addActiveClass(current);
+        removeActiveClass(lastIndex);
+        lastIndex = current;
+        removeParentActiveClass();
+        lList[current] && addActiveLiElemment(lList[current].parentElement, tocContent);
+      }
+    }
+  });
+
+
+  window.addEventListener('load', function () {
+    showToc();
+    document.querySelector('#sidebar').style = 'display: block;';
+    tocWrapper.classList.add('toc-active');
+    setTimeout(function () {
+      if ("createEvent" in document) {
+        let evt = document.createEvent("HTMLEvents");
+        evt.initEvent("scroll", false, true);
+        document.dispatchEvent(evt);
+      }
+      else {
+        document.fireEvent("scroll");
+      }
+    }, 500)
+  })
+
+</script>
+            </div>
+          
+        
+      </div>
+    </div>
+  
+</div>
+<script>
+  const SIDEBAR_TITLE_ACTIVE = 'sidebar-title-active';
+  const SIDEBAR_BODY_ACTIVE = 'sidebar-body-active';
+  const SLIDE_UP_IN = 'slide-up-in';
+
+  let sidebar = document.querySelector('#sidebar'),
+  tocSideBar = document.querySelector('#tocSideBar'),
+  metaSideBar = document.querySelector('#metaSideBar'),
+  postToc = document.querySelector('#post_toc'),
+  postSiteMeta = document.querySelector('#post_side_meta'),
+  sidebarTitle = document.querySelector('.sidebar-title'),
+  sidebarBody = document.querySelector('#sidebar_body');
+
+  tocSideBar && tocSideBar.addEventListener('click', (e) => {
+    toggleSidebar(e);
+  });
+
+  metaSideBar && metaSideBar.addEventListener('click', (e) => {
+    toggleSidebar(e);
+  });
+
+  function toggleSidebar(e) {
+    let currentTitle = document.querySelector("."+SIDEBAR_TITLE_ACTIVE);
+    if (currentTitle == e.srcElement) {
+      return ;
+    }
+    let current, showElement, hideElement;
+    if (e.srcElement == metaSideBar) {
+      showElement = postSiteMeta;
+      hideElement = postToc;
+    } else if (e.srcElement == tocSideBar){
+      showElement = postToc;
+      hideElement = postSiteMeta;
+    }
+    currentTitle.classList.remove(SIDEBAR_TITLE_ACTIVE);
+    e.srcElement.classList.add(SIDEBAR_TITLE_ACTIVE);
+
+    window.Velocity(hideElement, 'stop');
+    window.Velocity(hideElement, 'transition.slideUpOut', {
+      display: 'none',
+      duration: 200,
+      complete: function () {
+        window.Velocity(showElement, 'transition.slideDownIn', {
+          duration: 200
+        });
+      }
+    })
+    hideElement.classList.remove(SIDEBAR_BODY_ACTIVE);
+    showElement.classList.add(SIDEBAR_BODY_ACTIVE);
+  }
+
+  postToc && postToc.addEventListener('transitionend', function() {
+    this.classList.remove(SLIDE_UP_IN);
+  });
+
+  if (sidebarBody) {
+    if (sidebarBody.classList.contains('pisces') || sidebarBody.classList.contains('gemini')) {
+      let hasFix = false;
+      let scrollEl = document.querySelector('.main-continer');
+      let limitTop = document.querySelector('#nav_ul').children.length * 42 + 162;
+      window.addEventListener('scroll', function(e) {
+        if (document.scrollingElement.scrollTop >= limitTop) {
+          if (!hasFix) {
+            sidebar.classList.add('sidebar-fixed');
+            hasFix = true;
+          }
+        } else {
+          if (hasFix) {
+            sidebar.classList.remove('sidebar-fixed');
+            hasFix = false;
+          }
+        }
+      });
+    }
+  }
+  
+</script>
+        <div class="section-box box-shadow-wrapper">
+          <div class="section bg-color post post-page">
+            <header class="post-header">
+  <h1 class="post-title">
+    <a class="post-title-link" href="https://github.com/post/minecraft-ji-yan-ban-cun-dang-jia-gou-jian-jie/">
+      Minecraft基岩版存档架构简介
+    </a>
+  </h1>
+  <div class="post-meta">
+    
+    <span class="meta-item pc-show">
+      <i class="fa fa-calendar-o"></i>
+      <span>发布于</span>
+      <span>2020-08-31</span>
+      <span class="post-meta-divider pc-show">|</span>
+    </span>
+    
+    <span class="meta-item">
+      <i class="fa fa-clock-o"></i>
+      <span>23分钟</span>
+    </span>
+    <span class="meta-item">
+      <span class="post-meta-divider">|</span>
+      <i class="fa fa-file-word-o"></i>
+      <span>6339<span class="pc-show">字数</span></span>
+    </span>
+    
+  </div>
+</header>
+            <div class="post-body next-md-body" id="post_body">
+              <p>花絮： 今天的bgm是什么呢？</p>
 <p>啊 是sans.（</p>
 <h1 id="写在前面">写在前面</h1>
 <p>人在家中，刚下床，谢邀。本专栏由&quot;基本&quot;不会编程的up🐖书写，许多专业术语知识还欠缺，可能会有错误，还请大佬们见谅。</p>
@@ -129,7 +531,7 @@
 <p>【本节涉及到小字节序和大字节序，然后up不会讲,,,大家可以去看https://zhuanlan.zhihu.com/p/21388517的&quot;2.2 字节序&quot;一节】</p>
 <p>Minecraft在java版和基岩版的数据存储都或多或少的使用了NBT格式。在这里简单的说明一下NBT格式是个什么东西。首先得先说明一下，这种格式是可以嵌入的，不仅仅是在一个文件里面，还可以存在于一个文件的一部分。上面提到过，NBT全名Named Binary  Tag，学过编程的小伙伴可以理解为一个Json数据的结构，没有学过的可以理解成一个数学中的函数——即给出一串文字，有且仅有唯一一个对象与之对应（之类的东西）。在这里我们会来探讨这些数据是如何存储的。（notch提供的nbt.txt说明文档国内好像上不去，能得到这个文件的好心人可以把原文或者网盘地址放在评论区嘛，蟹蟹！~，地址：web.archive.org/web/20110723210920/http://www.minecraft.net/docs/NBT.txt）</p>
 <p>既然叫Named Binary Tag，咱们肯定先得看看一个Tag怎么存储。一个Tag的第一个字节代表这个Tag的类型，第二个字节和第三个字节在一起以大字节序组成一个数字，是这个Tag名字的长度。接下来跟着的就是这个Tag的内容，在百度百科叫做辅助信息。</p>
-<p><img src="..%5Cimages%5Cbedrock-save%5Cd2e81a8aff8ca3015224f1c5fcdb0bdf204292ed.png" alt="img" loading="lazy"><br>
+<p><img src="https://github.com/post-images/bedrock-save/d2e81a8aff8ca3015224f1c5fcdb0bdf204292ed.png" alt="img" loading="lazy"><br>
 来自百度百科 - NBT （二进制命名标签）</p>
 <h1 id="存档其它信息"><strong>存档其它信息</strong></h1>
 <p>其它的信息包括地形信息，方块内部特有的信息，实体信息等等（或许概括全了）都<strong>存在&quot;db&quot;文件夹里面</strong>。这个文件夹里面存储的是一个LevelDB数据库（以下简称数据库）。与NBT类似，也是给出一个值，会返回另外一个唯一的值（程序员: 不就是key-value数据库嘛）。</p>
@@ -137,7 +539,7 @@
 <p>既然给出一个值(key)就返回另外一个唯一的值(value)，那么我们肯定得先从给出的这个值开始入手。咱们从简单的开始。</p>
 <p><strong>计分板</strong></p>
 <p>计分板肯定得算比较简单的。直接向这个数据库里面传入&quot;scoreboard&quot;中每个字母的ascii码组成的数组就可以（Java: &quot;scoreboard&quot;.getBytes() 后 遗 症)，获取到一个未经压缩的小字节序NBT数据。这个数据中会存储着5个数据:</p>
-<p><img src="..%5Cimages%5Cbedrock-save%5C1feac2b904272561f7b536bf597f8978c5f40672.png" alt="img" loading="lazy">五个数据哦~</p>
+<p><img src="https://github.com/post-images/bedrock-save/1feac2b904272561f7b536bf597f8978c5f40672.png" alt="img" loading="lazy">五个数据哦~</p>
 <p><strong>玩家</strong></p>
 <p>游戏中，玩家肯定也是不可少的一部分（废话）。修改玩家的信息也足够简单，不过获取一个玩家的信息是一件难事。目前还未发现比较轻便的查找对应玩家信息的方法。</p>
 <p>在数据库中，得到本地玩家的玩家信息要传的参数为&quot;~local_player&quot;；</p>
@@ -148,12 +550,11 @@
 <p>​    MsaId和SelfSignedId： 这两个标签似乎都有可能与ta所在标签的名称相同，目前未找到用途；</p>
 <p>​    ServerId： 可以直接将这个数据传进数据库，会得到上面提到的第三种情况的数据.</p>
 <p>得到的玩家的NBT数据可以直接根据其名称来判断这个属性控制的是游戏中的什么功能（学英文的重要性（ε=┏(゜ロ゜;)┛）） 其它看不懂的，大部分都有可能是一修改就出问题 或是无实际功能或修改价值 抑或是没修炼够/doge：</p>
-<figure data-type="image" tabindex="2"><img src="..%5Cimages%5Cbedrock-save%5Cb3d378d421926dd8ab4bc85223a1fa9dde00e10e.png" alt="img" loading="lazy"></figure>
+<figure data-type="image" tabindex="2"><img src="https://github.com/post-images/bedrock-save/b3d378d421926dd8ab4bc85223a1fa9dde00e10e.png" alt="img" loading="lazy"></figure>
 <p>（当然可能也可以通过修改这个来达到使玩家pregnant的臆想效果（</p>
-<p>**地图<br>
-**</p>
+<p><strong>地图</strong></p>
 <p>像素画大师们最钟情（可能）的东西。在数据库中，要想找到一个指定的地图并非容易。得到一个地图数据需要传的参数的格式: &quot;map_&quot;+一串数字。如果单纯看这串十进制的数据，是比较难发现规律的。我们将其变成16进制康康：</p>
-<figure data-type="image" tabindex="3"><img src="..%5Cimages%5Cbedrock-save%5Ca5e271909e7e54bb652b642a1108a8548ca6cdf6.png" alt="img" loading="lazy"></figure>
+<figure data-type="image" tabindex="3"><img src="https://github.com/post-images/bedrock-save/a5e271909e7e54bb652b642a1108a8548ca6cdf6.png" alt="img" loading="lazy"></figure>
 <p>不难发现（），这串数字的前四位与FF FF FF FF代表的数字相差加上1，即为在创建这个地图的时候进游戏的次数。不过这串数字后四个字节就非常非常神奇，观测是离关游戏的时间越近，这四个字节在大端序下代表的数字就会越小。</p>
 <p>并且有时候总会有5个地图的id是连续的。呐是因为呀，当玩家在游戏中创建了一个地图后，游戏内部会新增5个这样连续的id代表5个不同的地图数据。这5个不同的数据代表了该地图的5个级别，就算玩家没有主动去合成其它四个不同级别的地图。</p>
 <p>【似乎只能通过玩家手里拿的物品来找到指定的地图了】</p>
@@ -167,25 +568,25 @@
 <p><strong>【本节内容可能会有不对的地方 也请大佬们在评论底下修正 非常感谢！】</strong></p>
 <p>终于到我们的重头戏了——游戏的地形存储。今天小编就来带大家看看。</p>
 <p>首先还是我们的惯例，灵魂疑问：该怎么得到区块的信息呢？真的很简单，人人都可以学得会：首先将这个区块的x坐标以小字节序变成四个字节（即一个int类型）然后将这个区块的z坐标也以小字节序变成四个字节紧随其后，如果这个区块不是主世界区块那就再将其维度对应的id以小字节序还是变成四个字节跟在后面（1是地狱，2是末地），然后后面跟上一个特定的数字以一个字节存储的字节。这个特定的数字可以是下面的任意一个，取决于要申请的数据的类型：</p>
-<figure data-type="image" tabindex="4"><img src="..%5Cimages%5Cbedrock-save%5C77932686035b7324f5ba68f63e5db2352359bb6f.png" alt="img" loading="lazy"></figure>
+<figure data-type="image" tabindex="4"><img src="https://github.com/post-images/bedrock-save/77932686035b7324f5ba68f63e5db2352359bb6f.png" alt="img" loading="lazy"></figure>
 <p>例： 如果想要申请x坐标是114514，z坐标是1919180的区块的高度图（臭味图（逃）和生物群系:</p>
-<figure data-type="image" tabindex="5"><img src="..%5Cimages%5Cbedrock-save%5Cd43f4f78deb235cffff4e47725952c59ba7402c8.gif" alt="img" loading="lazy"></figure>
+<figure data-type="image" tabindex="5"><img src="https://github.com/post-images/bedrock-save/d43f4f78deb235cffff4e47725952c59ba7402c8.gif" alt="img" loading="lazy"></figure>
 <p><strong>高度图和生物群系</strong></p>
 <p>​    申请得到的高度图和生物群系中，前512个字节存储的是高度图。高度图存储了俯视这个区块得到的平面图中，每一格存储一个short类型（一个占两个字节的整数）代表这一格最高的方块处在的y坐标。紧接着是生物群系，以同样的方式，但是是以每一格一个byte类型存储生物群系id。</p>
-<p><img src="..%5Cimages%5Cbedrock-save%5C381545dcdfdacb447b46b2b1a65825984c7e65f8.png" alt="img" loading="lazy"><br>
+<p><img src="https://github.com/post-images/bedrock-save/381545dcdfdacb447b46b2b1a65825984c7e65f8.png" alt="img" loading="lazy"><br>
 左图:mcc tool chest pe截图 横坐标是x 纵坐标是z   右图:从数据库中取出的数据在十六进制编辑器中的模样</p>
 <p><strong>方块实体数据</strong></p>
 <p>申请得到的方块实体数据是一个小字节序的NBT数据。</p>
-<figure data-type="image" tabindex="6"><img src="..%5Cimages%5Cbedrock-save%5C46b06817a8eb2f0db31b1c982eb1306f0d174a4c.png" alt="img" loading="lazy"></figure>
+<figure data-type="image" tabindex="6"><img src="https://github.com/post-images/bedrock-save/46b06817a8eb2f0db31b1c982eb1306f0d174a4c.png" alt="img" loading="lazy"></figure>
 <p>由于未在minecraft维基上面找到每个方块实体存储的信息（抑或是我没找到），于是沃自己整理了一下：</p>
-<p>（以下来自wiki内容按照CC BY-NC-SA 3.0协议分享）</p>
+<p>（以下内容按照CC BY-NC-SA 3.0协议分享）</p>
 <ol>
 <li>
 <p>旗帜</p>
 <ul>
 <li>
 <p>Base: (Integer) 旗帜的背景颜色</p>
-<figure data-type="image" tabindex="7"><img src="..%5Cimages%5Cbedrock-save%5Cimage-20200831160640985.png" alt="image-20200831160640985" loading="lazy"></figure>
+<figure data-type="image" tabindex="7"><img src="https://github.com/post-images/bedrock-save/image-20200831160640985.png" alt="image-20200831160640985" loading="lazy"></figure>
 </li>
 <li>
 <p>id: (String) 应该都是banner</p>
@@ -221,7 +622,7 @@
 </li>
 <li>
 <p>SaveData: (Compound) 当&quot;ActorIdentifier&quot;是”minecraft:bee&lt;&gt;“时，这里直接存储了这个蜜蜂的实体NBT，如下图:</p>
-<figure data-type="image" tabindex="8"><img src="..%5Cimages%5Cbedrock-save%5CQQ%E5%9B%BE%E7%89%8720200831171900.png" alt="So_Long~" loading="lazy"></figure>
+<figure data-type="image" tabindex="8"><img src="https://github.com/post-images/bedrock-save/QQ%E5%9B%BE%E7%89%8720200831171900.png" alt="So_Long~" loading="lazy"></figure>
 </li>
 </ul>
 </li>
@@ -283,62 +684,1672 @@
 </li>
 </ul>
 <p>例： 一个箱子的NBT:</p>
-<figure data-type="image" tabindex="9"><img src="D:%5Cblog%5Cimages%5Cbedrock-save%5Cimage-202008311830.PNG" alt="一个箱子的NBT" loading="lazy"></figure>
+<figure data-type="image" tabindex="9"><img src="https://github.com/post-images/bedrock-save/image-202008311830.PNG" alt="一个箱子的方块实体NBT" loading="lazy"></figure>
 </li>
 <li>
 <p>篝火，灵魂篝火</p>
 <ul>
 <li>id: (String) &quot;Campfire&quot;没得洗</li>
-<li>isMovable: (Byte) 不清楚是干嘛用的，默认是1</li>
-<li>Items1, Items2, Items3, Items4: (Compound) 是篝火的四个槽位。当这上面没有物品时，游戏就不会存储这个Tag。并且与箱子不同的是，这里并不会增加Slot标签。</li>
-<li></li>
+<li>isMovable: (Byte) 不清楚是干嘛用的，观测是1</li>
+<li>Items1, Items2, Items3, Items4: (Compound) 是篝火的四个槽位。当这上面没有物品时，游戏就不会存储这个Tag。并且与箱子不同的是，这里并不会增加Slot标签。玩家向篝火上面沿着逆时针放物品。</li>
+<li>ItemTime1, ItemTime2, ItemTime3, ItemTime4: (Integer) 对应的篝火的四个槽位的已经进行烧烤（）的游戏tick数。</li>
 </ul>
+<p>例： 一个篝火的方块实体NBT:</p>
+<figure data-type="image" tabindex="10"><img src="https://github.com/post-images/bedrock-save/image-202008311848.PNG" alt="一个篝火的方块实体NBT" loading="lazy"></figure>
+</li>
+<li>
+<p>酿造台</p>
+<ul>
+<li>
+<p>id: (String) &quot;BrewingStand&quot;没得洗</p>
+</li>
+<li>
+<p>isMovable: (Byte) 不清楚是干嘛用的，观测是1</p>
+</li>
+<li>
+<p>CookTime: (Short) 烹饪时间（才怪）是离炼完这次药还有多少的游戏tick。</p>
+</li>
+<li>
+<p>FuelAmount: (Short) 燃料的数量。装入一个烈焰粉，会让这个数变成20。炼一次药，会让这个数减去一。当这个数为0时，就代表燃料耗尽，能不能再炼药了。</p>
+</li>
+<li>
+<p>FuelTotal: (Short) 观测一直是20，大概是开发者忘了删掉这个吧。</p>
+</li>
+<li>
+<p>Items: (List) 跟箱子的Items存储类似，但是在里面炼出来的药水会多出来一个标签：</p>
+<figure data-type="image" tabindex="11"><img src="https://github.com/post-images/bedrock-save/image-202008311930.PNG" alt="我们中，出了一个叛徒" loading="lazy"></figure>
+<p>酿造台中每个槽所代表的位置放在下图:</p>
+<figure data-type="image" tabindex="12"><img src="https://github.com/post-images/bedrock-save/image-202008311917.PNG" alt="酿造台的槽位位置" loading="lazy"></figure>
+<p>例： 一个正在酿造的酿造台的方块实体NBT:</p>
+</li>
+</ul>
+<figure data-type="image" tabindex="13"><img src="https://github.com/post-images/bedrock-save/image-202008311924.PNG" alt="一个正在酿造的酿造台的方块实体NBT" loading="lazy"></figure>
+</li>
+<li>
+<p>熔炉，烟熏炉，高炉</p>
+<ul>
+<li>
+<p>id: (String)</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">熔炉</th>
+<th style="text-align:center">烟熏炉</th>
+<th style="text-align:center">高炉</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Furnace</td>
+<td style="text-align:center">Smoker</td>
+<td style="text-align:center">BlastFurnace</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>isMovable: (Byte) 不清楚是干嘛用的，观测是1</p>
+</li>
+<li>
+<p>CookTime: (Short) 当前物品离烧完成还需多少游戏tick</p>
+</li>
+<li>
+<p>BurnTime: (Short) 当前燃料还可以燃烧多少游戏tick</p>
+</li>
+<li>
+<p>StoredXPInt: (Integer) 炉子里面存储的经验数量</p>
+</li>
+<li>
+<p>Items: (List) 跟箱子的作法一样。每个槽位对应的Slot数量如下:</p>
+<figure data-type="image" tabindex="14"><img src="https://github.com/post-images/bedrock-save/image-202008311944.PNG" alt="梅开二度" loading="lazy"></figure>
+</li>
+</ul>
+<p>例： 一个熔炉的方块实体NBT:</p>
 </li>
 </ol>
+<figure data-type="image" tabindex="15"><img src="https://github.com/post-images/bedrock-save/image-202008311948.PNG" alt="一个熔炉的方块实体NBT" loading="lazy"></figure>
+<ol start="7">
+<li>
+<p>讲台</p>
+<ul>
+<li>id: (String) &quot;Lectern”跑不掉</li>
+<li>isMovable: (Byte) 不清楚是干嘛用的，观测是1</li>
+<li>page: (Integer) 目前该讲台展示的书本所在的页数。本标签仅在讲台有书的时候才会被保存。</li>
+<li>totalPages: (Integer) 该讲台展示的书本总页数本标签仅在讲台有书的时候才会被保存。</li>
+<li>hasBook: (Byte) 这个讲台是否有书在上面，有就是1。本标签仅在讲台有书的时候才会被保存。</li>
+<li>book: (Compound) 这里保存了展示的书的物品NBT。</li>
+</ul>
+<p>例： 一个放置了书的讲台（上）和一个没有放书的讲台（下）:</p>
+</li>
+</ol>
+<figure data-type="image" tabindex="16"><img src="https://github.com/post-images/bedrock-save/image-202008311959.PNG" alt="一个放置了书的讲台（上）和一个没有放书的讲台（下）" loading="lazy"></figure>
+<ol start="8">
+<li>
+<p>信标</p>
+<ul>
+<li>id: (String) &quot;Beacon”</li>
+<li>isMovable: (Byte) 不清楚是干嘛用的，观测是1</li>
+<li>primary: (Integer) 信标的第一级效果应用的药水效果id【跟java版的作用一样~省了我好多实验的时间】</li>
+<li>Secondary: (Integer) 信标的第二级效果应用的药水效果id</li>
+</ul>
+<p>注：如果&quot;primary&quot;和&quot;Secondary&quot;的值相同，那么效果就会变成二级的。</p>
+<p>附赠一张基岩版的药水效果对应id表~:</p>
+</li>
+</ol>
+<p>​     <img src="https://github.com/post-images/bedrock-save/image-202008312013.PNG" alt="基岩版的药水效果对应id表" loading="lazy"></p>
+<p>​	许许多多的信标，猜猜ta们的对应效果叭~:</p>
+<figure data-type="image" tabindex="17"><img src="https://github.com/post-images/bedrock-save/image-202008312018.PNG" alt="许许多多的信标" loading="lazy"></figure>
+<ol start="9">
+<li>
+<p>刷怪笼</p>
+<ul>
+<li>id: (String) &quot;MobSpawner”</li>
+<li>isMovable: (Byte) 不清楚是干嘛用的，观测是1</li>
+<li>EntityIdentifier: (String) 该刷怪笼生成的怪物id, 例: &quot;minecraft:polar_bear&quot;。当该刷怪笼是空时，这个值为空。</li>
+<li>MinSpawnDelay, MaxSpawnDelay: (Short) 该刷怪笼的最小和最大的刷怪间隔</li>
+<li>RequiredPlayerRange: (Short) 当玩家在刷怪笼几格内时，刷怪笼才会尝试去生成生物（即冒烟（</li>
+<li>SpawnRange: (Short) 【自己讲不清楚...找维基, 然后改一改】刷怪笼可以随机生成实体的范围。生成区域为正方体，含刷怪笼所在的方块。生物将会随机生成在以刷怪笼的 X、Z 坐标和以刷怪笼底部的Y坐标为中心的2格高的区域。</li>
+<li>MaxNearbyEntities: (Short) 刷怪笼尝试生成生物时，刷怪笼周围的最大实体数量。</li>
+<li>SpawnCount: (Short) 刷怪笼每次尝试生成生物的尝试数量（因为在游戏体验中，有时候刷怪笼并不会每次都会生成4个怪物）</li>
+<li>Delay: (Short) 下一次生成生物的时间离现在有多少游戏tick。当玩家距离刷怪笼的长度满足刷怪笼的生成条件且刷怪笼内部有刷怪蛋时，这个值才会刷新。刷新这个值，即取在最小刷怪间隔和最大刷怪间隔之间取一个随机数。</li>
+<li>DisplayEntityHeight, DisplayEntityScale, DisplayEntityWidth: (Float) 需要证实： 游戏每次尝试生成生物时，会以DisplayEntityWidth为长和宽，DisplayEntityHeight为高的矩形去测试某个地方是否会生成生物。</li>
+</ul>
+<p>例: 一个被修改过的空的刷怪箱:</p>
+<figure data-type="image" tabindex="18"><img src="https://github.com/post-images/bedrock-save/image-202008312103.PNG" alt="整篇文章怎么洋溢着一股臭味呢" loading="lazy"></figure>
+</li>
+<li>
+<p>音符盒</p>
+<ul>
+<li>id: (String) &quot;Music” 第一个与对应的方块的英文名字不一样的id!</li>
+<li>isMovable: (Byte) 第10次不清楚是干嘛用的，观测是1</li>
+<li>note: (Byte) 该音符的音高。通俗来讲就是玩家敲击了几次音符盒。如图:</li>
+</ul>
+<figure data-type="image" tabindex="19"><img src="https://static.wikia.nocookie.net/minecraft_zh_gamepedia/images/b/bd/Noteblock_reference.png/revision/latest/scale-to-width-down/720?cb=20190129093637" alt="Noteblock reference.png" loading="lazy"></figure>
+<p>例：一个被敲击了一次的音符盒的方块实体NBT标签:</p>
+</li>
+</ol>
+<figure data-type="image" tabindex="20"><img src="https://github.com/post-images/bedrock-save/image-202008312055.PNG" alt="一个被敲击了一次的音符盒的方块实体NBT标签" loading="lazy"></figure>
+<ol start="11">
+<li>
+<p>唱片机</p>
+<ul>
+<li>
+<p>id: (String) &quot;Jukebox”</p>
+</li>
+<li>
+<p>isMovable: (Byte) 不清楚是干嘛用的，观测是1</p>
+</li>
+<li>
+<p>RecordItem: (Compound) 是该唱片内部存储的唱片物品的NBT。当这个唱片机里面没有唱片时，则没有这一项。</p>
+</li>
+</ul>
+<p>例：上方是内部存有游戏里没有的唱片的唱片机，下方是没有唱片的:</p>
+<figure data-type="image" tabindex="21"><img src="https://github.com/post-images/bedrock-save/image-202008312101.PNG" alt="上方是内部存有游戏里没有的唱片的唱片机，下方是没有唱片的" loading="lazy"></figure>
+</li>
+</ol>
+<blockquote>
+<p><code>【雪莉：现在时间是8月31号晚上9点18分，似乎...算了，抓紧吧，以后来作业了又...】</code></p>
+</blockquote>
+<ol start="12">
+<li>
+<p>伸出的活塞臂</p>
+<ul>
+<li>id: (String) &quot;PistonArm”</li>
+<li>Sticky: (Byte) 活塞臂是否是黏糊糊的（粘性活塞）</li>
+</ul>
+<p>研究这个比较困难，因为活塞伸出的时间就只有那么长，想要踩点对我来说还是很困难的。于是下面就直接展示自己的研究过程吧。</p>
+<p>​	首先我摆放了四个活塞，一个不伸出，一个伸出来，还有一个伸到一半，最后一个缩回来一半(怎么说起来那么奇怪呢)。并对比两者中有何变化。以下是有变化的项(在我的测试时):</p>
+<p>​	【呜呜呜┭┮﹏┭┮获得这些数据花了我好久因为我是手残QwQ 所以那个按钮之类的...Awq】</p>
+<p>​	【部分数据是猜测 不过大概率肯定是对的 【啊...手残党...】】</p>
+<p>​	【我的测试是将粘性活塞放在[ 4, 8, 11 ]的地方，将[ 4, 8, 10 ]的方块来回推，下表从左到右展示了这个过程】</p>
+</li>
+</ol>
+<table>
+            <tr>
+                <td><b>项的名称</b></td>
+                <td><b>活塞臂未伸出时的值</b></td>
+                <td colspan="2"><b>活塞臂正在伸出时的值</b></td>
+                <td><b>活塞臂伸出时的值</b></td>
+                <td colspan="2"><b>活塞臂正在缩回时的值</b></td>
+            </tr>
+            <tr>
+                <td>isMovable</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td>LastProgress</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0.5</td>
+                <td>1</td>
+                <td>1</td>
+                <td>0.5</td>
+            </tr>
+            <tr>
+                <td>Progress</td>
+                <td>0</td>
+                <td>0.5</td>
+                <td>1</td>
+                <td>1</td>
+                <td>0.5</td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td>State</td>
+                <td>0</td>
+                <td>1</td>
+                <td>1</td>
+                <td>2</td>
+                <td>3</td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td>NewState</td>
+                <td>0</td>
+                <td>1</td>
+                <td>1</td>
+                <td>2</td>
+                <td>3</td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td>AttachedBlocks</td>
+                <td>[]</td>
+                <td>[ 4, 8, 10 ]</td>
+                <td>[ 4, 8, 10 ]</td>
+                <td>[]</td>
+                <td>[ 4, 8, 9 ]</td>
+                <td>[ 4, 8, 9 ]</td>
+            </tr>
+</table>
+<blockquote>
+<p><code>【22点21了...】</code></p>
+</blockquote>
+<p>​			其实还有一个项，&quot;BreakBlocks&quot;。猜测是由于我的测试一直都是推方块，所以这个值一直都没用到【要那样测试的话...我已经在233层高楼上面准备把空气当床了】。估计这个BreakBlocks如果使用到了的话，相同的情况对应的跟上面的movingBlocks的值是相同的。</p>
+<p>​			研究发现，当粘性的活塞臂正在伸出时，其AttachedBlocks会的值为其活塞臂粘着的方块还未被推动时的原坐标；当粘性的活塞臂正在缩回时，其AttachedBlocks会的值为其活塞臂粘着的方块还未被拉回时的原坐标。</p>
+<p>​			由于测试太过繁琐，所以我们来直接推测一下如果不是粘性活塞而是普通的活塞，那么这些值会怎么变化。推测：其它值都随着上面的走，但AttachedBlocks只在活塞推动了一个方块时才会有值。</p>
+<p>​			【幸亏测试的是粘性活塞呀，不然...233层高楼我来了】</p>
+<p>​			排除了这些项之后，,,,，好像就没有其ta项了嘻嘻(●'◡'●) 直接进入下一个。</p>
+<ol start="13">
+<li>
+<p>正在被活塞移动的方块</p>
+<ul>
+<li>id: (String) &quot;MovingBlock”</li>
+<li>isMovable: (Byte) 不清楚是干嘛用的。</li>
+</ul>
+<p>既然跟活塞运动有关【不要想歪真的没有那种意思】，我们就使用跟研究活塞一样的列表思路。</p>
+<p>​	【部分数据是猜测 不过大概率肯定是对的 【啊...手残党... *2】】</p>
+<p>​	【我的测试是将粘性活塞放在[ 4, 8, 11 ]的地方，将[ 4, 8, 10 ]的红石块来回推，下表从左到右展示了这个过程】</p>
+<p>​	【什么？宁认为我又会去做一遍实验? Oh no~ 我在做实验时发现了这个MovingBlock，在做上面的实验的时候顺便也记下来惹~~~~】</p>
+</li>
+</ol>
+<table>
+	<tr>
+        <td><b>项的名称</b></td>
+		<td><b>活塞臂未伸出时的值</b></td>
+		<td colspan="2"><b>活塞臂正在伸出时的值</b></td>
+		<td><b>活塞臂伸出时的值</b></td>
+		<td colspan="2"><b>活塞臂正在缩回时的值</b></td>
+	</tr>
+    <tr>
+		<td>AttachedBlocks</td>
+        <td>[]</td>
+        <td>[ 4, 8, 10 ]</td>
+        <td>[ 4, 8, 10 ]</td>
+        <td>[]</td>
+        <td>[ 4, 8, 9 ]</td>
+        <td>[ 4, 8, 9 ]</td>
+	</tr>
+</table>
 
-                </div>
-            </article>
-        </div>
-
-        
-
-        
-
-        
-
-        
-
-        <div class="site-footer gt-c-content-color-first">
-    <div class="slogan gt-c-content-color-first"></div>
-    <div class="social-container">
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
+            </div>
+            <div class="post-footer">
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      XueLi
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://github.com/post/minecraft-ji-yan-ban-cun-dang-jia-gou-jian-jie/" title="Minecraft基岩版存档架构简介">https://github.com/post/minecraft-ji-yan-ban-cun-dang-jia-gou-jian-jie/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i> BY-NC-SA</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+  <div class="tags">
+    
+  </div>
+  <div class="nav">
+    <div class="nav-prev">
+      
     </div>
-    <div class="footer-info">
-        
+    <div class="nav-next">
+      
     </div>
-    <div>
-        Theme by <a href="https://imhanjie.com/" target="_blank">imhanjie</a>, Powered by <a
-                href="https://github.com/getgridea/gridea" target="_blank">Gridea | <a href="https://github.com/atom.xml" target="_blank">RSS</a></a>
-    </div>
+  </div>
 </div>
+            
+  
 
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-box">
+  <footer class="footer">
+    <div class="copyright">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | © 2019-2020 Theme By <a href="https://github.com/hsxyhao/gridea-theme-next" target="_blank">HsxyHao</a>
+    </div>
+    <div class="poweredby">
+      
+    </div>
+  </footer>
+  
+  
+    <div class="drawer-box left" id="drawer_box">
+      <span class="muse-line muse-line-first"></span>
+      <span class="muse-line muse-line-middle"></span>
+      <span class="muse-line muse-line-last"></span>
+    </div>
+  
+  <div class="mist back-to-top" id="back_to_top">
+    <i class="fa fa-arrow-up"></i>
+    
+  </div>
+  
+  
+    
+<link rel="stylesheet" href="/media/live2d/css/live2d.css" />
+<div class="box-scale">
+  <div id="landlord" style="left: 5px;bottom: px;"
+    data-key="">
+    <canvas id="live2d" width="500" height="560" class="live2d"></canvas>
+    
+
+      <div class="message" style="opacity:0"></div>
+      <div class="live_talk_input_body">
+        <div class="live_talk_input_name_body">
+          <input name="name" type="text" class="live_talk_name white_input" id="AIuserName" autocomplete="off"
+            placeholder="你的名字" />
+        </div>
+        <div class="live_talk_input_text_body">
+          <input name="talk" type="text" class="live_talk_talk white_input" id="AIuserText" autocomplete="off"
+            placeholder="要和我聊什么呀？" />
+          <button type="button" class="live_talk_send_btn" id="talk_send">发送</button>
+        </div>
+      </div>
+      <input name="live_talk" id="live_talk" value="1" type="hidden" />
+      <div class="live_ico_box">
+        <div class="live_ico_item type_info" id="showInfoBtn"></div>
+        <div class="live_ico_item type_talk" id="showTalkBtn"></div>
+        
+        <div class="live_ico_item type_music" id="musicButton"></div>
+        
+        <div class="live_ico_item type_youdu" id="youduButton"></div>
+        <div class="live_ico_item type_quit" id="hideButton"></div>
+        <input name="live_statu_val" id="live_statu_val" value="0" type="hidden" />
+        <audio src="" style="display:none;" id="live2d_bgm" data-bgm="0" preload="none"></audio>
+        <input id="duType" value="douqilai" type="hidden">
+        
+        <input name="live2dBGM" value="" type="hidden">
+        
+      </div>
+    
+  </div>
+</div>
+<div id="open_live2d">召唤看板娘</div>
+<script src="https://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
 <script>
-  hljs.initHighlightingOnLoad()
+  var message_Path = 'https://cdn.jsdelivr.net/gh/hsxyhao/live2d.github.io@master/';
+  let landlord = document.querySelector('#landlord');
+  var apiKey = landlord.dataset.key;
+</script>
+<script type="text/javascript" src="/media/live2d/js/live2d.js"></script>
+<script>
+	var home_Path = document.location.protocol + '//' + window.document.location.hostname + ":" + window.document.location.port + '/';
+	var userAgent = window.navigator.userAgent.toLowerCase();
+	var norunAI = ["android", "iphone", "ipod", "ipad", "windows phone", "mqqbrowser", "msie", "trident/7.0"];
+	var norunFlag = false;
+
+	for (var i = 0; i < norunAI.length; i++) {
+		if (userAgent.indexOf(norunAI[i]) > -1) {
+			norunFlag = true;
+			break;
+		}
+	}
+
+	if (!window.WebGLRenderingContext) {
+		norunFlag = true;
+	}
+
+	if (!norunFlag) {
+		var hitFlag = false;
+		var AIFadeFlag = false;
+		var liveTlakTimer = null;
+		var sleepTimer_ = null;
+		var AITalkFlag = false;
+		var talkNum = 0;
+		(function () {
+			function renderTip(template, context) {
+				var tokenReg = /(\\)?\{([^\{\}\\]+)(\\)?\}/g;
+				return template.replace(tokenReg, function (word, slash1, token, slash2) {
+					if (slash1 || slash2) {
+						return word.replace('\\', '');
+					}
+					var variables = token.replace(/\s/g, '').split('.');
+					var currentObject = context;
+					var i, length, variable;
+					for (i = 0, length = variables.length; i < length; ++i) {
+						variable = variables[i];
+						currentObject = currentObject[variable];
+						if (currentObject === undefined || currentObject === null) return '';
+					}
+					return currentObject;
+				});
+			}
+
+			String.prototype.renderTip = function (context) {
+				return renderTip(this, context);
+			};
+
+			var re = /x/;
+			re.toString = function () {
+				showMessage('哈哈，你打开了控制台，是想要看看我的秘密吗？', 5000);
+				return '';
+			};
+
+			$(document).on('copy', function () {
+				showMessage('你都复制了些什么呀，转载要记得加上出处哦~~', 5000);
+			});
+
+			function initTips() {
+				$.ajax({
+					cache: true,
+					url: message_Path + 'message.json',
+					dataType: "json",
+					success: function (result) {
+						$.each(result.mouseover, function (index, tips) {
+							$(tips.selector).mouseover(function () {
+								var text = tips.text;
+								if (Array.isArray(tips.text)) text = tips.text[Math.floor(Math.random() * tips.text.length + 1) - 1];
+								text = text.renderTip({ text: $(this).text() });
+								showMessage(text, 3000);
+								talkValTimer();
+								clearInterval(liveTlakTimer);
+								liveTlakTimer = null;
+							});
+							$(tips.selector).mouseout(function () {
+								showHitokoto();
+								if (liveTlakTimer == null) {
+									liveTlakTimer = window.setInterval(function () {
+										showHitokoto();
+									}, 15000);
+								};
+							});
+						});
+						$.each(result.click, function (index, tips) {
+							$(tips.selector).click(function () {
+								if (hitFlag) {
+									return false
+								}
+								hitFlag = true;
+								setTimeout(function () {
+									hitFlag = false;
+								}, 8000);
+								var text = tips.text;
+								if (Array.isArray(tips.text)) text = tips.text[Math.floor(Math.random() * tips.text.length + 1) - 1];
+								text = text.renderTip({ text: $(this).text() });
+								showMessage(text, 3000);
+							});
+							clearInterval(liveTlakTimer);
+							liveTlakTimer = null;
+							if (liveTlakTimer == null) {
+								liveTlakTimer = window.setInterval(function () {
+									showHitokoto();
+								}, 15000);
+							};
+						});
+					}
+				});
+			}
+			initTips();
+
+			var text;
+			if (document.referrer !== '') {
+				var referrer = document.createElement('a');
+				referrer.href = document.referrer;
+				text = '嗨！来自 <span style="color:#0099cc;">' + referrer.hostname + '</span> 的朋友！';
+				var domain = referrer.hostname.split('.')[1];
+				if (domain == 'baidu') {
+					text = '嗨！ 来自 百度搜索 的朋友！<br>欢迎访问<span style="color:#0099cc;">「 ' + document.title.split(' - ')[0] + ' 」</span>';
+				} else if (domain == 'so') {
+					text = '嗨！ 来自 360搜索 的朋友！<br>欢迎访问<span style="color:#0099cc;">「 ' + document.title.split(' - ')[0] + ' 」</span>';
+				} else if (domain == 'google') {
+					text = '嗨！ 来自 谷歌搜索 的朋友！<br>欢迎访问<span style="color:#0099cc;">「 ' + document.title.split(' - ')[0] + ' 」</span>';
+				}
+			} else {
+				if (window.location.href == home_Path) { //主页URL判断，需要斜杠结尾
+					var now = (new Date()).getHours();
+					if (now > 23 || now <= 5) {
+						text = '你是夜猫子呀？这么晚还不睡觉，明天起的来嘛？';
+					} else if (now > 5 && now <= 7) {
+						text = '早上好！一日之计在于晨，美好的一天就要开始了！';
+					} else if (now > 7 && now <= 11) {
+						text = '上午好！工作顺利嘛，不要久坐，多起来走动走动哦！';
+					} else if (now > 11 && now <= 14) {
+						text = '中午了，工作了一个上午，现在是午餐时间！';
+					} else if (now > 14 && now <= 17) {
+						text = '午后很容易犯困呢，今天的运动目标完成了吗？';
+					} else if (now > 17 && now <= 19) {
+						text = '傍晚了！窗外夕阳的景色很美丽呢，最美不过夕阳红~~';
+					} else if (now > 19 && now <= 21) {
+						text = '晚上好，今天过得怎么样？';
+					} else if (now > 21 && now <= 23) {
+						text = '已经这么晚了呀，早点休息吧，晚安~~';
+					} else {
+						text = '嗨~ 快来逗我玩吧！';
+					}
+				} else {
+					text = '欢迎阅读<span style="color:#0099cc;">「 ' + document.title.split(' - ')[0] + ' 」</span>';
+				}
+			}
+			showMessage(text, 12000);
+		})();
+
+		liveTlakTimer = setInterval(function () {
+			showHitokoto();
+		}, 15000);
+
+		function showHitokoto() {
+			if (sessionStorage.getItem("Sleepy") !== "1") {
+				if (!AITalkFlag) {
+					$.getJSON('https://v1.hitokoto.cn/', function (result) {
+						talkValTimer();
+						showMessage(result.hitokoto, 0);
+					});
+				}
+			} else {
+				hideMessage(0);
+				if (sleepTimer_ == null) {
+					sleepTimer_ = setInterval(function () {
+						checkSleep();
+					}, 200);
+				}
+			}
+		}
+
+		function checkSleep() {
+			var sleepStatu = sessionStorage.getItem("Sleepy");
+			if (sleepStatu !== '1') {
+				talkValTimer();
+				showMessage('你回来啦~', 0);
+				clearInterval(sleepTimer_);
+				sleepTimer_ = null;
+			}
+		}
+
+		function showMessage(text, timeout) {
+			if (Array.isArray(text)) text = text[Math.floor(Math.random() * text.length + 1) - 1];
+			$('.message').stop();
+			$('.message').html(text);
+			$('.message').fadeTo(200, 1);
+			//if (timeout === null) timeout = 5000;
+			//hideMessage(timeout);
+		}
+		function talkValTimer() {
+			$('#live_talk').val('1');
+		}
+
+		function hideMessage(timeout) {
+			//$('.message').stop().css('opacity',1);
+			if (timeout === null) timeout = 5000;
+			$('.message').delay(timeout).fadeTo(200, 0);
+		}
+
+		function initLive2d() {
+			$('#hideButton').on('click', function () {
+				if (AIFadeFlag) {
+					return false;
+				} else {
+					AIFadeFlag = true;
+					localStorage.setItem("live2dhidden", "0");
+					$('#landlord').fadeOut(200);
+					$('#open_live2d').delay(200).fadeIn(200);
+					setTimeout(function () {
+						AIFadeFlag = false;
+					}, 300);
+				}
+			});
+			$('#open_live2d').on('click', function () {
+				if (AIFadeFlag) {
+					return false;
+				} else {
+					AIFadeFlag = true;
+					localStorage.setItem("live2dhidden", "1");
+					$('#open_live2d').fadeOut(200);
+					$('#landlord').delay(200).fadeIn(200);
+					setTimeout(function () {
+						AIFadeFlag = false;
+					}, 300);
+				}
+			});
+			$('#youduButton').on('click', function () {
+				if ($('#youduButton').hasClass('doudong')) {
+					var typeIs = $('#youduButton').attr('data-type');
+					$('#youduButton').removeClass('doudong');
+					$('body').removeClass(typeIs);
+					$('#youduButton').attr('data-type', '');
+				} else {
+					var duType = $('#duType').val();
+					var duArr = duType.split(",");
+					var dataType = duArr[Math.floor(Math.random() * duArr.length)];
+
+					$('#youduButton').addClass('doudong');
+					$('#youduButton').attr('data-type', dataType);
+					$('body').addClass(dataType);
+				}
+			});
+			if (apiKey) {
+				$('#showInfoBtn').on('click', function () {
+					var live_statu = $('#live_statu_val').val();
+					if (live_statu == "0") {
+						return
+					} else {
+						$('#live_statu_val').val("0");
+						$('.live_talk_input_body').fadeOut(500);
+						AITalkFlag = false;
+						showHitokoto();
+						$('#showTalkBtn').show();
+						$('#showInfoBtn').hide();
+					}
+				});
+				$('#showTalkBtn').on('click', function () {
+					var live_statu = $('#live_statu_val').val();
+					if (live_statu == "1") {
+						return
+					} else {
+						$('#live_statu_val').val("1");
+						$('.live_talk_input_body').fadeIn(500);
+						AITalkFlag = true;
+						$('#showTalkBtn').hide();
+						$('#showInfoBtn').show();
+
+					}
+				});
+				$('#talk_send').on('click', function () {
+					var info_ = $('#AIuserText').val();
+					var userid_ = $('#AIuserName').val();
+					if (info_ == "") {
+						showMessage('写点什么吧！', 0);
+						return;
+					}
+					if (userid_ == "") {
+						showMessage('聊之前请告诉我你的名字吧！', 0);
+						return;
+					}
+					showMessage('思考中~', 0);
+					let protocol = window.location.protocol.indexOf("s") > 0 ? "https" : "http";
+					$.ajax({
+						type: "get",
+						url: `${protocol}://www.tuling123.com/openapi/api?key=${apiKey}&info=${info_}`,
+						dataType: "json",
+						success: function (res) {
+							talkValTimer();
+							showMessage(res.text, 0);
+							$('#AIuserText').val("");
+							sessionStorage.setItem("live2duser", userid_);
+						},
+						error: function (e) {
+							talkValTimer();
+							showMessage('似乎有什么错误，请和站长联系！', 0);
+						}
+					});
+				});
+			} else {
+				$('#showInfoBtn').hide();
+				$('#showTalkBtn').hide();
+			}
+			//获取音乐信息初始化
+			var bgmListInfo = $('input[name=live2dBGM]');
+			if (bgmListInfo.length == 0) {
+				$('#musicButton').hide();
+			} else {
+				var bgmPlayNow = parseInt($('#live2d_bgm').attr('data-bgm'));
+				var bgmPlayTime = 0;
+				var live2dBGM_Num = sessionStorage.getItem("live2dBGM_Num");
+				var live2dBGM_PlayTime = sessionStorage.getItem("live2dBGM_PlayTime");
+				if (live2dBGM_Num) {
+					if (live2dBGM_Num <= $('input[name=live2dBGM]').length - 1) {
+						bgmPlayNow = parseInt(live2dBGM_Num);
+					}
+				}
+				if (live2dBGM_PlayTime) {
+					bgmPlayTime = parseInt(live2dBGM_PlayTime);
+				}
+				var live2dBGMSrc = bgmListInfo.eq(bgmPlayNow).val();
+				$('#live2d_bgm').attr('data-bgm', bgmPlayNow);
+				$('#live2d_bgm').attr('src', live2dBGMSrc);
+				$('#live2d_bgm')[0].currentTime = bgmPlayTime;
+				$('#live2d_bgm')[0].volume = 0.5;
+				var live2dBGM_IsPlay = sessionStorage.getItem("live2dBGM_IsPlay");
+				var live2dBGM_WindowClose = sessionStorage.getItem("live2dBGM_WindowClose");
+				if (live2dBGM_IsPlay == '0' && live2dBGM_WindowClose == '0') {
+					$('#live2d_bgm')[0].play();
+					$('#musicButton').addClass('play');
+				}
+				sessionStorage.setItem("live2dBGM_WindowClose", '1');
+				$('#musicButton').on('click', function () {
+					if ($('#musicButton').hasClass('play')) {
+						$('#live2d_bgm')[0].pause();
+						$('#musicButton').removeClass('play');
+						sessionStorage.setItem("live2dBGM_IsPlay", '1');
+					} else {
+						$('#live2d_bgm')[0].play();
+						$('#musicButton').addClass('play');
+						sessionStorage.setItem("live2dBGM_IsPlay", '0');
+					}
+				});
+				window.onbeforeunload = function () {
+					sessionStorage.setItem("live2dBGM_WindowClose", '0');
+					if ($('#musicButton').hasClass('play')) {
+						sessionStorage.setItem("live2dBGM_IsPlay", '0');
+					}
+				}
+				document.getElementById('live2d_bgm').addEventListener("timeupdate", function () {
+					var live2dBgmPlayTimeNow = document.getElementById('live2d_bgm').currentTime;
+					sessionStorage.setItem("live2dBGM_PlayTime", live2dBgmPlayTimeNow);
+				});
+				document.getElementById('live2d_bgm').addEventListener("ended", function () {
+					var listNow = parseInt($('#live2d_bgm').attr('data-bgm'));
+					listNow++;
+					if (listNow > $('input[name=live2dBGM]').length - 1) {
+						listNow = 0;
+					}
+					var listNewSrc = $('input[name=live2dBGM]').eq(listNow).val();
+					sessionStorage.setItem("live2dBGM_Num", listNow);
+					$('#live2d_bgm').attr('src', listNewSrc);
+					$('#live2d_bgm')[0].play();
+					$('#live2d_bgm').attr('data-bgm', listNow);
+				});
+				document.getElementById('live2d_bgm').addEventListener("error", function () {
+					$('#live2d_bgm')[0].pause();
+					$('#musicButton').removeClass('play');
+					showMessage('音乐似乎加载不出来了呢！', 0);
+				});
+			}
+			//获取用户名
+			var live2dUser = sessionStorage.getItem("live2duser");
+			if (live2dUser !== null) {
+				$('#AIuserName').val(live2dUser);
+			}
+			//获取位置
+			var landL = sessionStorage.getItem("historywidth");
+			var landB = sessionStorage.getItem("historyheight");
+			if (landL == null || landB == null) {
+				landL = '5px'
+				landB = '0px'
+			}
+			$('#landlord').css('left', landL + 'px');
+			$('#landlord').css('bottom', landB + 'px');
+			//移动
+			function getEvent() {
+				return window.event || arguments.callee.caller.arguments[0];
+			}
+			var smcc = document.getElementById("landlord");
+			var moveX = 0;
+			var moveY = 0;
+			var moveBottom = 0;
+			var moveLeft = 0;
+			var moveable = false;
+			var docMouseMoveEvent = document.onmousemove;
+			var docMouseUpEvent = document.onmouseup;
+			smcc.onmousedown = function () {
+				var ent = getEvent();
+				moveable = true;
+				moveX = ent.clientX;
+				moveY = ent.clientY;
+				var obj = smcc;
+				moveBottom = parseInt(obj.style.bottom);
+				moveLeft = parseInt(obj.style.left);
+				if (isFirefox = navigator.userAgent.indexOf("Firefox") > 0) {
+					window.getSelection().removeAllRanges();
+				}
+				document.onmousemove = function () {
+					if (moveable) {
+						var ent = getEvent();
+						var x = moveLeft + ent.clientX - moveX;
+						var y = moveBottom + (moveY - ent.clientY);
+						obj.style.left = x + "px";
+						obj.style.bottom = y + "px";
+					}
+				};
+				document.onmouseup = function () {
+					if (moveable) {
+						var historywidth = obj.style.left;
+						var historyheight = obj.style.bottom;
+						historywidth = historywidth.replace('px', '');
+						historyheight = historyheight.replace('px', '');
+						sessionStorage.setItem("historywidth", historywidth);
+						sessionStorage.setItem("historyheight", historyheight);
+						document.onmousemove = docMouseMoveEvent;
+						document.onmouseup = docMouseUpEvent;
+						moveable = false;
+						moveX = 0;
+						moveY = 0;
+						moveBottom = 0;
+						moveLeft = 0;
+					}
+				};
+			};
+		}
+		$(document).ready(function () {
+			var AIimgSrc = [];
+			let chooseLive2d = 'Aoba'
+			if (chooseLive2d === 'histoire') {
+				AIimgSrc.push(message_Path + "model/histoire/histoire.1024/texture_00.png");
+				AIimgSrc.push(message_Path + "model/histoire/histoire.1024/texture_01.png");
+				AIimgSrc.push(message_Path + "model/histoire/histoire.1024/texture_02.png");
+				AIimgSrc.push(message_Path + "model/histoire/histoire.1024/texture_03.png");
+			} else if (chooseLive2d === 'rem') {
+				AIimgSrc.push(message_Path + "model/rem/remu2048/texture_00.png");
+			} else if (chooseLive2d === 'Aoba') {
+				AIimgSrc.push(message_Path + "model/Aoba/textures/texture_00.png");
+			} else if (chooseLive2d === 'hijiki') {
+				AIimgSrc.push(message_Path + "model/hijiki/moc/hijiki.2048/texture_00.png");
+			} else if (chooseLive2d === 'tororo') {
+				AIimgSrc.push(message_Path + "model/tororo/moc/tororo.2048/texture_00.png");
+			}
+			var images = [];
+			var imgLength = AIimgSrc.length;
+			var loadingNum = 0;
+			for (var i = 0; i < imgLength; i++) {
+				images[i] = new Image();
+				images[i].src = AIimgSrc[i];
+				images[i].onload = function () {
+					loadingNum++;
+					if (loadingNum === imgLength) {
+						var live2dhidden = localStorage.getItem("live2dhidden");
+						if (live2dhidden === "0") {
+							setTimeout(function () {
+								$('#open_live2d').fadeIn(200);
+							}, 1300);
+						} else {
+							setTimeout(function () {
+								$('#landlord').fadeIn(200);
+							}, 1300);
+						}
+						let model = '';
+						if (chooseLive2d === 'histoire') {
+							model = message_Path + "model/histoire/model.json";
+						} else if (chooseLive2d === 'rem') {
+							model = message_Path + "model/rem/model.json";
+						} else if (chooseLive2d === 'Aoba') {
+							model = message_Path + "model/Aoba/model.json";
+						} else if (chooseLive2d === 'hijiki') {
+							model = message_Path + "model/hijiki/hijiki.model.json";
+						} else if (chooseLive2d === 'tororo') {
+							model = message_Path + "model/tororo/tororo.model.json";
+						}
+						setTimeout(function () {
+							loadlive2d("live2d", model);
+						}, 1000);
+						initLive2d();
+						images = null;
+					}
+				}
+			}
+		});
+	}
+</script>
+  
+  
+</div>
+<script>
+
+  let sideBarOpen = 'sidebar-open';
+  let body = document.body;
+  let back2Top = document.querySelector('#back_to_top'),
+  back2TopText = document.querySelector('#back_to_top_text'),
+  drawerBox = document.querySelector('#drawer_box'),
+  rightSideBar = document.querySelector('.sidebar'),
+  viewport = document.querySelector('body');
+
+  function scrollAnimation(currentY, targetY) {
+   
+    let needScrollTop = targetY - currentY
+    let _currentY = currentY
+    setTimeout(() => {
+      const dist = Math.ceil(needScrollTop / 10)
+      _currentY += dist
+      window.scrollTo(_currentY, currentY)
+      if (needScrollTop > 10 || needScrollTop < -10) {
+        scrollAnimation(_currentY, targetY)
+      } else {
+        window.scrollTo(_currentY, targetY)
+      }
+    }, 1)
+  }
+
+  back2Top.addEventListener("click", function(e) {
+    scrollAnimation(document.scrollingElement.scrollTop, 0);
+    e.stopPropagation();
+    return false;
+  });
+  
+  window.addEventListener('scroll', function(e) {
+    let percent = document.scrollingElement.scrollTop / (document.scrollingElement.scrollHeight - document.scrollingElement.clientHeight) * 100;
+    if (percent > 1 && !back2Top.classList.contains('back-top-active')) {
+      back2Top.classList.add('back-top-active');
+    }
+    if (percent == 0) {
+      back2Top.classList.remove('back-top-active');
+    }
+    if (back2TopText) {
+      back2TopText.textContent = Math.floor(percent);
+    }
+  });
+
+  
+  let hasCacu = false;
+  window.onresize = function() {
+    if (window.width > 991) {
+      calcuHeight();
+    } else {
+      hasCacu = false;
+    }
+  }
+
+  function calcuHeight() {
+    // 动态调整站点概览高度
+    if (!hasCacu && back2Top.classList.contains('pisces') || back2Top.classList.contains('gemini')) {
+      let sideBar = document.querySelector('.sidebar');
+      let navUl = document.querySelector('#site_nav');
+      sideBar.style = 'margin-top:' + (navUl.offsetHeight + navUl.offsetTop + 15) + 'px;';
+      hasCacu = true;
+    }
+  }
+  calcuHeight();
+  
+  let open = false, MOTION_TIME = 300, RIGHT_MOVE_DIS = '320px';
+
+  if (drawerBox) {
+    let rightMotions = document.querySelectorAll('.right-motion');
+    let right = drawerBox.classList.contains('right');
+
+    let transitionDir = right ? "transition.slideRightIn" : "transition.slideLeftIn";
+
+    let openProp, closeProp;
+    if (right) {
+      openProp = {
+        paddingRight: RIGHT_MOVE_DIS 
+      };
+      closeProp = {
+        paddingRight: '0px'
+      };
+    } else {
+      openProp = {
+        paddingLeft: RIGHT_MOVE_DIS 
+      };
+      closeProp = {
+        paddingLeft: '0px'
+      };
+    }
+
+    drawerBox.onclick = function() {
+      open = !open;
+      window.Velocity(rightSideBar, 'stop');
+      window.Velocity(viewport, 'stop');
+      window.Velocity(rightMotions, 'stop');
+      if (open) {
+        window.Velocity(rightSideBar, {
+          width: RIGHT_MOVE_DIS
+        }, {
+          duration: MOTION_TIME,
+          begin: function() {
+            window.Velocity(rightMotions, transitionDir,{ });
+          }
+        })
+        window.Velocity(viewport, openProp,{
+          duration: MOTION_TIME
+        });
+      } else {
+        window.Velocity(rightSideBar, {
+          width: '0px'
+        }, {
+          duration: MOTION_TIME,
+          begin: function() {
+            window.Velocity(rightMotions, {
+              opacity: 0
+            });
+          }
+        })
+        window.Velocity(viewport, closeProp ,{
+          duration: MOTION_TIME
+        });
+      }
+      for (let i = 0; i < drawerBox.children.length; i++) {
+        drawerBox.children[i].classList.toggle('muse-line');
+      }
+      drawerBox.classList.toggle(sideBarOpen);
+    }
+  }
+
+  // 链接跳转
+  let newWindow = 'false'
+  if (newWindow === 'true') {
+    let links = document.querySelectorAll('.post-body a')
+    links.forEach(item => {
+      if (!item.classList.contains('btn')) {
+        item.setAttribute("target","_blank");
+      }
+    })
+  }
+  // 代码高亮
+  hljs.initHighlightingOnLoad();
+
+</script>
+    <div class="light-box" id="light_box"></div>
+<script>
+  let imgs = document.querySelectorAll('.post-body img');
+  let lightBox = document.querySelector('#light_box');
+  lightBox.addEventListener('mousedown', (e) => {
+    e.preventDefault()
+  })
+  lightBox.addEventListener('mousewheel', (e) => {
+    e.preventDefault()
+  })
+  let width = window.innerWidth * 0.8;
+  lightBox.onclick = () => {
+    let img = lightBox.querySelector('img');
+    lightBox.style = '';
+    img && img.remove();
+  }
+  imgs.forEach(item => {
+    item.onclick = function (e) {
+      let lightImg = document.createElement('img');
+      lightImg.src = this.src;
+      lightBox.style = `height: 100%; opacity: 1; background-color: rgba(0, 0, 0, 0.5);cursor: zoom-out;`;
+      lightImg.style = `width: ${width}px; border: 1px solid #fff; border-radius: 2px;`;
+      lightImg.onclick = function () {
+        lightBox.style = '';
+        this.remove();
+      }
+      lightBox.append(lightImg);
+    }
+  })
+</script>
+  </div>
+</body>
+<input hidden id="copy" />
+<script>
+  //拿来主义(真香)^_^，Clipboard 实现摘自掘金 https://juejin.im/post/5aefeb6e6fb9a07aa43c20af
+  window.Clipboard = (function (window, document, navigator) {
+    var textArea,
+      copy;
+
+    // 判断是不是ios端
+    function isOS() {
+      return navigator.userAgent.match(/ipad|iphone/i);
+    }
+    //创建文本元素
+    function createTextArea(text) {
+      textArea = document.createElement('textArea');
+      textArea.value = text;
+      textArea.style.width = 0;
+      textArea.style.height = 0;
+      textArea.clientHeight = 0;
+      textArea.clientWidth = 0;
+      document.body.appendChild(textArea);
+    }
+    //选择内容
+    function selectText() {
+      var range,
+        selection;
+
+      if (isOS()) {
+        range = document.createRange();
+        range.selectNodeContents(textArea);
+        selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+        textArea.setSelectionRange(0, 999999);
+      } else {
+        textArea.select();
+      }
+    }
+
+    //复制到剪贴板
+    function copyToClipboard() {
+      try {
+        document.execCommand("Copy")
+      } catch (err) {
+        alert("复制错误！请手动复制！")
+      }
+      document.body.removeChild(textArea);
+    }
+
+    copy = function (text) {
+      createTextArea(text);
+      selectText();
+      copyToClipboard();
+    };
+
+    return {
+      copy: copy
+    };
+  })(window, document, navigator);
+
+  function copyCode(e) {
+    if (e.srcElement.tagName === 'SPAN' && e.srcElement.classList.contains('copy-code')) {
+      let code = e.currentTarget.querySelector('code');
+      var text = code.innerText;
+      if (e.srcElement.textContent === '复制成功') {
+        console.log('复制操作频率过高');
+        return;
+      }
+      e.srcElement.textContent = '复制成功';
+      (function (elem) {
+        setTimeout(() => {
+          if (elem.textContent === '复制成功') {
+            elem.textContent = '复制代码'
+          }
+        }, 1000);
+      })(e.srcElement)
+      Clipboard.copy(text);
+    }
+  }
+
+  let pres = document.querySelectorAll('pre');
+  pres.forEach(pre => {
+    let code = pre.querySelector('code');
+    let copyElem = document.createElement('span');
+    copyElem.classList.add('copy-code');
+    copyElem.textContent = '复制代码';
+    pre.appendChild(copyElem);
+    pre.onclick = copyCode
+  })
+</script>
+<script src="/media/js/motion.js"></script>
+
+<script src="https://cdn.jsdelivr.net/gh/cferdinandi/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
+<script>
+  var scroll = new SmoothScroll('a[href*="#"]', {
+    speed: 500
+  });
 </script>
 
+<!-- <div class="search-mask" id="search_mask">
+  <div class="search-box">
+    <div class="search-title">
+      <i class="fa fa-search"></i>
+      <div class="input-box">
+        <input type="text" placeholder="搜索">
+      </div>
+      <i class="fa fa-times-circle"></i>
     </div>
+    <div class="result">
+      
+      <div class="item">
+        <a class="result-title" href="https://github.com/post/minecraft-ji-yan-ban-cun-dang-jia-gou-jian-jie/"" data-c="
+          &lt;p&gt;花絮： 今天的bgm是什么呢？&lt;/p&gt;
+&lt;p&gt;啊 是sans.（&lt;/p&gt;
+&lt;h1 id=&#34;写在前面&#34;&gt;写在前面&lt;/h1&gt;
+&lt;p&gt;人在家中，刚下床，谢邀。本专栏由&amp;quot;基本&amp;quot;不会编程的up🐖书写，许多专业术语知识还欠缺，可能会有错误，还请大佬们见谅。&lt;/p&gt;
+&lt;p&gt;许多时候程序yuan并不会那么bt，许多在编程中用到数据的命名肯定都和英语有一部分关系，mc的level.dat就是一个例子。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://i0.hdslb.com/bfs/article/4adb9255ada5b97061e610b682b8636764fe50ed.png&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h1 id=&#34;目录&#34;&gt;&lt;strong&gt;目录&lt;/strong&gt;&lt;/h1&gt;
+&lt;ol&gt;
+&lt;li&gt;存档全局信息 (level.dat)&lt;/li&gt;
+&lt;li&gt;存档资源包信息&lt;/li&gt;
+&lt;li&gt;NBT格式概述&lt;/li&gt;
+&lt;li&gt;存档其它信息&lt;/li&gt;
+&lt;li&gt;地形存储&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1 id=&#34;存档全局信息&#34;&gt;&lt;strong&gt;存档全局信息&lt;/strong&gt;&lt;/h1&gt;
+&lt;p&gt;网上关于修改level.dat的教程其实害挺多的，沃这里就一笔带过一下Awawawa~&lt;/p&gt;
+&lt;p&gt;level.dat是以&lt;strong&gt;未经压缩的NBT格式&lt;/strong&gt;存储的（划重点，java版的level.dat是经过GZIP格式压缩的NBT格式）。NBT全名Named Binary  Tag，学过编程的小伙伴可以理解为一个Json数据的结构，没有学过的可以理解成一个数学中的函数——即给出一串文字，有且仅有唯一一个对象与之对应（之类的东西）。&lt;/p&gt;
+&lt;p&gt;但是捏  &lt;sub&gt;(￣▽￣)&lt;/sub&gt;*，这个文件不是一开始就是nbt数据的开头。这个文件的一开始有留出四个字节。这四个字节会被游戏视为介个level.dat文件的版本号，后续如果要对这个文件的架构进行大的修改就可以通过版本号来判断这个文件是否该升级惹。接下来才是NBT的正文数据。&lt;/p&gt;
+&lt;p&gt;用NBT修改器打开这个文件，可以根据英文和游戏中敲命令的经历判断出每一个参数的名称对应的是游戏中的什么参数或功能（许多常用的修改都可以通过这个判断）。&lt;/p&gt;
+&lt;p&gt;存档里面的levelname.txt，这个应该是mojang为了玩家方便查找存档从而创建的一个记录存档名称的文件。但是如果只修改这个文件是达不到修改存档在游戏中显示的名称的。在游戏中修改存档的名称时，游戏会同时改变level.dat内的某个数据和levelname.txt文件；但是仅修改了levelname.txt文件，在游戏中是看不到修改后的存档名称的哦。&lt;/p&gt;
+&lt;p&gt;world_icon.jpeg是存档图标，长宽分别是400和225.&lt;/p&gt;
+&lt;h1 id=&#34;存档资源包信息&#34;&gt;&lt;strong&gt;存档资源包信息&lt;/strong&gt;&lt;/h1&gt;
+&lt;p&gt;加入过资源包的存档，在该存档的文件夹会出现world_resource_packs.json和world_resource_pack_history.json以及resource_packs文件夹。加入过行为包的存档，会出现world_behavior_packs.json和world_behavior_pack_history.json以及behavior_packs文件夹。&lt;/p&gt;
+&lt;p&gt;上面提到出现的文件夹是存储这个资源包或行为包的目录，在这个目录里面会有加载过的资源包或行为包，以文件夹的形式放在这个目录下（不是压缩文件哦）。&lt;/p&gt;
+&lt;p&gt;world_****_packs.json的文件是以Json格式存储。这个Json文件存储了当前这个存档正在使用的包，里面每个包信息的pack_id和version会与包中menifest.json文件中header属性中的pack_id和version对应。&lt;/p&gt;
+&lt;p&gt;world_****_pack_history.json文件里面存储了至今这个存档使用了那些包。里面每个包的信息会与包中menifest.json文件中header属性中的pack_id和version对应。can_be_redownloaded参数是用来判断这个包是否是商店内下载的包，当这个属性是true的时候，游戏将会去自身的包下载缓存目录寻找这个包，在Windows 10上这个目录是:  &amp;quot;C:\Users\宁的用户名\AppData\Local\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\LocalState&amp;quot; 但是里面几乎所有的内容都被加密辽，，，。这个目录里面还有一个persona文件夹，应该是存储了在游戏内自定义皮肤的里面的信息。skin_packs文件夹里面存储的是皮肤包。手机root不了所以看不到在哪里，有兴趣的小伙伴可以去手机的根目录找找（大家平时打开手机自身的文件管理器打开的不是根目录**!!!**沃记得的ES文件管理器和MT管理器都可以看到手机根目录的文件)&lt;/p&gt;
+&lt;p&gt;值得注意的是，开发者可以将自己要测试的包放在com.mojang文件夹下面的development_&lt;strong&gt;&lt;strong&gt;_packs文件夹下面。放在这里的包在游戏中导入时，是不会被复制到存档自身的&lt;/strong&gt;&lt;/strong&gt;&lt;em&gt;pack文件夹里面的哦。所以，如果是边开发边测试一个包，可以直接在development&lt;/em&gt;****_packs文件夹里面创建一个文件夹作为存储这个包的地方，导出这个包时直接将这个文件夹里面的所有文件压缩就可以啦。&lt;/p&gt;
+&lt;h1 id=&#34;nbt格式概述&#34;&gt;NBT格式概述&lt;/h1&gt;
+&lt;p&gt;【本节涉及到小字节序和大字节序，然后up不会讲,,,大家可以去看https://zhuanlan.zhihu.com/p/21388517的&amp;quot;2.2 字节序&amp;quot;一节】&lt;/p&gt;
+&lt;p&gt;Minecraft在java版和基岩版的数据存储都或多或少的使用了NBT格式。在这里简单的说明一下NBT格式是个什么东西。首先得先说明一下，这种格式是可以嵌入的，不仅仅是在一个文件里面，还可以存在于一个文件的一部分。上面提到过，NBT全名Named Binary  Tag，学过编程的小伙伴可以理解为一个Json数据的结构，没有学过的可以理解成一个数学中的函数——即给出一串文字，有且仅有唯一一个对象与之对应（之类的东西）。在这里我们会来探讨这些数据是如何存储的。（notch提供的nbt.txt说明文档国内好像上不去，能得到这个文件的好心人可以把原文或者网盘地址放在评论区嘛，蟹蟹！~，地址：web.archive.org/web/20110723210920/http://www.minecraft.net/docs/NBT.txt）&lt;/p&gt;
+&lt;p&gt;既然叫Named Binary Tag，咱们肯定先得看看一个Tag怎么存储。一个Tag的第一个字节代表这个Tag的类型，第二个字节和第三个字节在一起以大字节序组成一个数字，是这个Tag名字的长度。接下来跟着的就是这个Tag的内容，在百度百科叫做辅助信息。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://github.com/post-images/bedrock-save/d2e81a8aff8ca3015224f1c5fcdb0bdf204292ed.png&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+来自百度百科 - NBT （二进制命名标签）&lt;/p&gt;
+&lt;h1 id=&#34;存档其它信息&#34;&gt;&lt;strong&gt;存档其它信息&lt;/strong&gt;&lt;/h1&gt;
+&lt;p&gt;其它的信息包括地形信息，方块内部特有的信息，实体信息等等（或许概括全了）都&lt;strong&gt;存在&amp;quot;db&amp;quot;文件夹里面&lt;/strong&gt;。这个文件夹里面存储的是一个LevelDB数据库（以下简称数据库）。与NBT类似，也是给出一个值，会返回另外一个唯一的值（程序员: 不就是key-value数据库嘛）。&lt;/p&gt;
+&lt;p&gt;（偷个懒 技术玩家可以通过直接写代码的方式来访问这个数据库 其ta的玩家捏可以通过MCC ToolChest打开这个存档 不过后者可能可见的信息要少一些）&lt;/p&gt;
+&lt;p&gt;既然给出一个值(key)就返回另外一个唯一的值(value)，那么我们肯定得先从给出的这个值开始入手。咱们从简单的开始。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;计分板&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;计分板肯定得算比较简单的。直接向这个数据库里面传入&amp;quot;scoreboard&amp;quot;中每个字母的ascii码组成的数组就可以（Java: &amp;quot;scoreboard&amp;quot;.getBytes() 后 遗 症)，获取到一个未经压缩的小字节序NBT数据。这个数据中会存储着5个数据:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://github.com/post-images/bedrock-save/1feac2b904272561f7b536bf597f8978c5f40672.png&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;五个数据哦~&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;玩家&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;游戏中，玩家肯定也是不可少的一部分（废话）。修改玩家的信息也足够简单，不过获取一个玩家的信息是一件难事。目前还未发现比较轻便的查找对应玩家信息的方法。&lt;/p&gt;
+&lt;p&gt;在数据库中，得到本地玩家的玩家信息要传的参数为&amp;quot;~local_player&amp;quot;；&lt;/p&gt;
+&lt;p&gt;得到真正的玩家信息要传的参数为&amp;quot;player_&lt;strong&gt;&lt;strong&gt;&lt;strong&gt;&lt;strong&gt;-&lt;strong&gt;&lt;strong&gt;-&lt;/strong&gt;&lt;/strong&gt;-&lt;strong&gt;&lt;strong&gt;-&lt;/strong&gt;&lt;/strong&gt;&lt;/strong&gt;&lt;/strong&gt;&lt;/strong&gt;&lt;/strong&gt;&amp;quot;；&lt;/p&gt;
+&lt;p&gt;当然也会有一种玩家信息是带server的，这种应该是基岩版官方服务器的存档内存储的玩家信息，要传的参数为&amp;quot;player_server_&lt;strong&gt;&lt;strong&gt;&lt;strong&gt;&lt;strong&gt;-&lt;strong&gt;&lt;strong&gt;-&lt;/strong&gt;&lt;/strong&gt;-&lt;strong&gt;&lt;strong&gt;-&lt;/strong&gt;&lt;/strong&gt;&lt;/strong&gt;&lt;/strong&gt;&lt;/strong&gt;&lt;/strong&gt;&amp;quot;（下划线和横杠杠不要看错了沃）。（星号组成一个uuid 大概是游戏随机分配的）&lt;/p&gt;
+&lt;p&gt;（老爹：还有一件事：要传的是这些文字的ASCII码组成的数组!）&lt;/p&gt;
+&lt;p&gt;三种情况得到的都是一个小字节序的NBT数据。第一种情况和第三种情况得到的NBT数据大致上都应该相同（常用的参数应该都拥有）。第二种情况可能会得到只含三个参数的NBT标签：&lt;/p&gt;
+&lt;p&gt;​    MsaId和SelfSignedId： 这两个标签似乎都有可能与ta所在标签的名称相同，目前未找到用途；&lt;/p&gt;
+&lt;p&gt;​    ServerId： 可以直接将这个数据传进数据库，会得到上面提到的第三种情况的数据.&lt;/p&gt;
+&lt;p&gt;得到的玩家的NBT数据可以直接根据其名称来判断这个属性控制的是游戏中的什么功能（学英文的重要性（ε=┏(゜ロ゜;)┛）） 其它看不懂的，大部分都有可能是一修改就出问题 或是无实际功能或修改价值 抑或是没修炼够/doge：&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://github.com/post-images/bedrock-save/b3d378d421926dd8ab4bc85223a1fa9dde00e10e.png&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;（当然可能也可以通过修改这个来达到使玩家pregnant的臆想效果（&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;地图&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;像素画大师们最钟情（可能）的东西。在数据库中，要想找到一个指定的地图并非容易。得到一个地图数据需要传的参数的格式: &amp;quot;map_&amp;quot;+一串数字。如果单纯看这串十进制的数据，是比较难发现规律的。我们将其变成16进制康康：&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://github.com/post-images/bedrock-save/a5e271909e7e54bb652b642a1108a8548ca6cdf6.png&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;不难发现（），这串数字的前四位与FF FF FF FF代表的数字相差加上1，即为在创建这个地图的时候进游戏的次数。不过这串数字后四个字节就非常非常神奇，观测是离关游戏的时间越近，这四个字节在大端序下代表的数字就会越小。&lt;/p&gt;
+&lt;p&gt;并且有时候总会有5个地图的id是连续的。呐是因为呀，当玩家在游戏中创建了一个地图后，游戏内部会新增5个这样连续的id代表5个不同的地图数据。这5个不同的数据代表了该地图的5个级别，就算玩家没有主动去合成其它四个不同级别的地图。&lt;/p&gt;
+&lt;p&gt;【似乎只能通过玩家手里拿的物品来找到指定的地图了】&lt;/p&gt;
+&lt;p&gt;我们通过键得到的仍然是一个小字节序的未经压缩的NBT数据。里面可以进行大肆（雾）修改的就是colors数据。这个colors记录了地图128*128图片大小的数据，先从左到右存储图片的第一行像素，依次向图片下方存储。其中每四个字节分别对应r,g,b,a的值，代表一个像素。&lt;/p&gt;
+&lt;p&gt;地图里面还存储了decorations数据，类型是Compound Tag，这里存储的是地图上面的有些装饰，这个数据里面还存储了2个Compound  Tag叫data和key。key里面存储的是这个装饰的世界位置和类型，data里面存储了这个装饰的方向(rot)，类型(type)和相对于地图的位置（？x, y)。&lt;/p&gt;
+&lt;p&gt;修改完成地图后，不要忘了把dimension调成-1噢~ 调成-1后，游戏内就对这个地图的修改撒手了。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;还有一些其ta的&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;可以在这里找到: https://minecraft.gamepedia.co/Bedrock_Edition_level_format#Other_keys&lt;/p&gt;
+&lt;p&gt;（是英文的 Awa）&lt;/p&gt;
+&lt;h1 id=&#34;地形存储&#34;&gt;地形存储&lt;/h1&gt;
+&lt;p&gt;&lt;strong&gt;【本节内容可能会有不对的地方 也请大佬们在评论底下修正 非常感谢！】&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;终于到我们的重头戏了——游戏的地形存储。今天小编就来带大家看看。&lt;/p&gt;
+&lt;p&gt;首先还是我们的惯例，灵魂疑问：该怎么得到区块的信息呢？真的很简单，人人都可以学得会：首先将这个区块的x坐标以小字节序变成四个字节（即一个int类型）然后将这个区块的z坐标也以小字节序变成四个字节紧随其后，如果这个区块不是主世界区块那就再将其维度对应的id以小字节序还是变成四个字节跟在后面（1是地狱，2是末地），然后后面跟上一个特定的数字以一个字节存储的字节。这个特定的数字可以是下面的任意一个，取决于要申请的数据的类型：&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;4&#34;&gt;&lt;img src=&#34;https://github.com/post-images/bedrock-save/77932686035b7324f5ba68f63e5db2352359bb6f.png&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;例： 如果想要申请x坐标是114514，z坐标是1919180的区块的高度图（臭味图（逃）和生物群系:&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;5&#34;&gt;&lt;img src=&#34;https://github.com/post-images/bedrock-save/d43f4f78deb235cffff4e47725952c59ba7402c8.gif&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;strong&gt;高度图和生物群系&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;​    申请得到的高度图和生物群系中，前512个字节存储的是高度图。高度图存储了俯视这个区块得到的平面图中，每一格存储一个short类型（一个占两个字节的整数）代表这一格最高的方块处在的y坐标。紧接着是生物群系，以同样的方式，但是是以每一格一个byte类型存储生物群系id。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://github.com/post-images/bedrock-save/381545dcdfdacb447b46b2b1a65825984c7e65f8.png&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;br&gt;
+左图:mcc tool chest pe截图 横坐标是x 纵坐标是z   右图:从数据库中取出的数据在十六进制编辑器中的模样&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;方块实体数据&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;申请得到的方块实体数据是一个小字节序的NBT数据。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;6&#34;&gt;&lt;img src=&#34;https://github.com/post-images/bedrock-save/46b06817a8eb2f0db31b1c982eb1306f0d174a4c.png&#34; alt=&#34;img&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;由于未在minecraft维基上面找到每个方块实体存储的信息（抑或是我没找到），于是沃自己整理了一下：&lt;/p&gt;
+&lt;p&gt;（以下内容按照CC BY-NC-SA 3.0协议分享）&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;旗帜&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Base: (Integer) 旗帜的背景颜色&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;7&#34;&gt;&lt;img src=&#34;https://github.com/post-images/bedrock-save/image-20200831160640985.png&#34; alt=&#34;image-20200831160640985&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;id: (String) 应该都是banner&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;x, y, z: (Integer) 旗帜所占用的方块所在坐标 &lt;strong&gt;【这个参数是每个方块实体数据都有的哦 下面就不写啦】&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;isMovable: (Byte) 还未发现其用处，默认是1&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Type: (Integer) 还未发现其用处&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;蜂巢，蜂箱 （沃用summon指令创建多只蜜蜂然后游戏就卡死辽？？）&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;id: (String) 应该都是Beehive&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;isMovable: (Byte) 也是不清楚是干嘛用的（或许每个方块实体存储都有这个参数），默认是1&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Occupants: (List) 指的是这个beehive里面存储了什么东西。里面存储的都是Json对象。每个Json对象包括:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;ActorIdentifier: (String) 当这个值为&amp;quot;minecraft:bee&amp;lt;&amp;gt;&amp;quot;时，代表这是一只可爱的小蜜蜂~ （也没发现可以存什么其它的值呀/xk 不过保持严谨就对(个鬼)）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;TicksLeftToStay: (Integer) 表示从此刻开始多少个游戏刻之后蜜蜂就会跑粗来&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;SaveData: (Compound) 当&amp;quot;ActorIdentifier&amp;quot;是”minecraft:bee&amp;lt;&amp;gt;“时，这里直接存储了这个蜜蜂的实体NBT，如下图:&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;8&#34;&gt;&lt;img src=&#34;https://github.com/post-images/bedrock-save/QQ%E5%9B%BE%E7%89%8720200831171900.png&#34; alt=&#34;So_Long~&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;牌子&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;id: (String) 一直都是&amp;quot;Sign&amp;quot;的说~&lt;/li&gt;
+&lt;li&gt;isMovable: (Byte) 还是不清楚是干嘛用的（果然是常驻居民），默认是1&lt;/li&gt;
+&lt;li&gt;Text: (String) 牌子上面写的字 换行使用&amp;quot;\n&amp;quot;&lt;/li&gt;
+&lt;li&gt;TextOwner: (String) 这个值似乎跟编辑这个牌子的玩家有关，但是好像又在玩家的nbt里面找不到与这段文字相同的内容,,,（或许是由于今天是开学前一天沃写的比较急就没有认真找的缘故吧）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;箱子，陷阱箱，漏斗，投掷器，发射器，潜影盒&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;id: (String) 一直都是&amp;quot;Chest&amp;quot;的&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;isMovable: (Byte) 还是不清楚是干嘛用的（被怀疑凑字数），默认是1&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Items: (List) 存储了箱子里面的东西。这跟玩家物品栏的存储类似，就是只有当这一格有物品时，游戏才会将其存储到存档里面。当没有存放物品的时候，游戏会将这个存储成一个长度为0的空列表。当向里面存放物品的时候，游戏回家原封不动地将物品的NBT复制到这里面来，并加上一个Byte类型的Slot标签。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;（仅漏斗） TransferCooldown: (Integer) 猜测是当漏斗传输完一个物品，这个值就会变成漏斗传输物品的冷却tick数，每个tick对这个数递减，当这个数变成0之后就传输下一个物品。还未得到证实（因为太难证实了啊啊啊）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;（仅箱子，陷阱箱，潜影盒） Findable: (Byte) 似乎没什么用的亚子，默认是0&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;（仅潜影盒） facing: (Byte) 潜影盒的朝向，如下表:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;方向&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;上&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;下&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;东&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;西&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;南&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;北&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&amp;quot;facing&amp;quot;值&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;1&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;0&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;5&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;4&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;3&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;2&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;例： 一个箱子的NBT:&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;9&#34;&gt;&lt;img src=&#34;https://github.com/post-images/bedrock-save/image-202008311830.PNG&#34; alt=&#34;一个箱子的方块实体NBT&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;篝火，灵魂篝火&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;id: (String) &amp;quot;Campfire&amp;quot;没得洗&lt;/li&gt;
+&lt;li&gt;isMovable: (Byte) 不清楚是干嘛用的，观测是1&lt;/li&gt;
+&lt;li&gt;Items1, Items2, Items3, Items4: (Compound) 是篝火的四个槽位。当这上面没有物品时，游戏就不会存储这个Tag。并且与箱子不同的是，这里并不会增加Slot标签。玩家向篝火上面沿着逆时针放物品。&lt;/li&gt;
+&lt;li&gt;ItemTime1, ItemTime2, ItemTime3, ItemTime4: (Integer) 对应的篝火的四个槽位的已经进行烧烤（）的游戏tick数。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;例： 一个篝火的方块实体NBT:&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;10&#34;&gt;&lt;img src=&#34;https://github.com/post-images/bedrock-save/image-202008311848.PNG&#34; alt=&#34;一个篝火的方块实体NBT&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;酿造台&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;id: (String) &amp;quot;BrewingStand&amp;quot;没得洗&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;isMovable: (Byte) 不清楚是干嘛用的，观测是1&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;CookTime: (Short) 烹饪时间（才怪）是离炼完这次药还有多少的游戏tick。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;FuelAmount: (Short) 燃料的数量。装入一个烈焰粉，会让这个数变成20。炼一次药，会让这个数减去一。当这个数为0时，就代表燃料耗尽，能不能再炼药了。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;FuelTotal: (Short) 观测一直是20，大概是开发者忘了删掉这个吧。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Items: (List) 跟箱子的Items存储类似，但是在里面炼出来的药水会多出来一个标签：&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;11&#34;&gt;&lt;img src=&#34;https://github.com/post-images/bedrock-save/image-202008311930.PNG&#34; alt=&#34;我们中，出了一个叛徒&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;酿造台中每个槽所代表的位置放在下图:&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;12&#34;&gt;&lt;img src=&#34;https://github.com/post-images/bedrock-save/image-202008311917.PNG&#34; alt=&#34;酿造台的槽位位置&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;例： 一个正在酿造的酿造台的方块实体NBT:&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;13&#34;&gt;&lt;img src=&#34;https://github.com/post-images/bedrock-save/image-202008311924.PNG&#34; alt=&#34;一个正在酿造的酿造台的方块实体NBT&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;熔炉，烟熏炉，高炉&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;id: (String)&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;熔炉&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;烟熏炉&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;高炉&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;Furnace&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;Smoker&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;BlastFurnace&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;isMovable: (Byte) 不清楚是干嘛用的，观测是1&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;CookTime: (Short) 当前物品离烧完成还需多少游戏tick&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;BurnTime: (Short) 当前燃料还可以燃烧多少游戏tick&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;StoredXPInt: (Integer) 炉子里面存储的经验数量&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Items: (List) 跟箱子的作法一样。每个槽位对应的Slot数量如下:&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;14&#34;&gt;&lt;img src=&#34;https://github.com/post-images/bedrock-save/image-202008311944.PNG&#34; alt=&#34;梅开二度&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;例： 一个熔炉的方块实体NBT:&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;15&#34;&gt;&lt;img src=&#34;https://github.com/post-images/bedrock-save/image-202008311948.PNG&#34; alt=&#34;一个熔炉的方块实体NBT&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;ol start=&#34;7&#34;&gt;
+&lt;li&gt;
+&lt;p&gt;讲台&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;id: (String) &amp;quot;Lectern”跑不掉&lt;/li&gt;
+&lt;li&gt;isMovable: (Byte) 不清楚是干嘛用的，观测是1&lt;/li&gt;
+&lt;li&gt;page: (Integer) 目前该讲台展示的书本所在的页数。本标签仅在讲台有书的时候才会被保存。&lt;/li&gt;
+&lt;li&gt;totalPages: (Integer) 该讲台展示的书本总页数本标签仅在讲台有书的时候才会被保存。&lt;/li&gt;
+&lt;li&gt;hasBook: (Byte) 这个讲台是否有书在上面，有就是1。本标签仅在讲台有书的时候才会被保存。&lt;/li&gt;
+&lt;li&gt;book: (Compound) 这里保存了展示的书的物品NBT。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;例： 一个放置了书的讲台（上）和一个没有放书的讲台（下）:&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;16&#34;&gt;&lt;img src=&#34;https://github.com/post-images/bedrock-save/image-202008311959.PNG&#34; alt=&#34;一个放置了书的讲台（上）和一个没有放书的讲台（下）&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;ol start=&#34;8&#34;&gt;
+&lt;li&gt;
+&lt;p&gt;信标&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;id: (String) &amp;quot;Beacon”&lt;/li&gt;
+&lt;li&gt;isMovable: (Byte) 不清楚是干嘛用的，观测是1&lt;/li&gt;
+&lt;li&gt;primary: (Integer) 信标的第一级效果应用的药水效果id【跟java版的作用一样~省了我好多实验的时间】&lt;/li&gt;
+&lt;li&gt;Secondary: (Integer) 信标的第二级效果应用的药水效果id&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;注：如果&amp;quot;primary&amp;quot;和&amp;quot;Secondary&amp;quot;的值相同，那么效果就会变成二级的。&lt;/p&gt;
+&lt;p&gt;附赠一张基岩版的药水效果对应id表~:&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;​     &lt;img src=&#34;https://github.com/post-images/bedrock-save/image-202008312013.PNG&#34; alt=&#34;基岩版的药水效果对应id表&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;p&gt;​	许许多多的信标，猜猜ta们的对应效果叭~:&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;17&#34;&gt;&lt;img src=&#34;https://github.com/post-images/bedrock-save/image-202008312018.PNG&#34; alt=&#34;许许多多的信标&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;ol start=&#34;9&#34;&gt;
+&lt;li&gt;
+&lt;p&gt;刷怪笼&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;id: (String) &amp;quot;MobSpawner”&lt;/li&gt;
+&lt;li&gt;isMovable: (Byte) 不清楚是干嘛用的，观测是1&lt;/li&gt;
+&lt;li&gt;EntityIdentifier: (String) 该刷怪笼生成的怪物id, 例: &amp;quot;minecraft:polar_bear&amp;quot;。当该刷怪笼是空时，这个值为空。&lt;/li&gt;
+&lt;li&gt;MinSpawnDelay, MaxSpawnDelay: (Short) 该刷怪笼的最小和最大的刷怪间隔&lt;/li&gt;
+&lt;li&gt;RequiredPlayerRange: (Short) 当玩家在刷怪笼几格内时，刷怪笼才会尝试去生成生物（即冒烟（&lt;/li&gt;
+&lt;li&gt;SpawnRange: (Short) 【自己讲不清楚...找维基, 然后改一改】刷怪笼可以随机生成实体的范围。生成区域为正方体，含刷怪笼所在的方块。生物将会随机生成在以刷怪笼的 X、Z 坐标和以刷怪笼底部的Y坐标为中心的2格高的区域。&lt;/li&gt;
+&lt;li&gt;MaxNearbyEntities: (Short) 刷怪笼尝试生成生物时，刷怪笼周围的最大实体数量。&lt;/li&gt;
+&lt;li&gt;SpawnCount: (Short) 刷怪笼每次尝试生成生物的尝试数量（因为在游戏体验中，有时候刷怪笼并不会每次都会生成4个怪物）&lt;/li&gt;
+&lt;li&gt;Delay: (Short) 下一次生成生物的时间离现在有多少游戏tick。当玩家距离刷怪笼的长度满足刷怪笼的生成条件且刷怪笼内部有刷怪蛋时，这个值才会刷新。刷新这个值，即取在最小刷怪间隔和最大刷怪间隔之间取一个随机数。&lt;/li&gt;
+&lt;li&gt;DisplayEntityHeight, DisplayEntityScale, DisplayEntityWidth: (Float) 需要证实： 游戏每次尝试生成生物时，会以DisplayEntityWidth为长和宽，DisplayEntityHeight为高的矩形去测试某个地方是否会生成生物。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;例: 一个被修改过的空的刷怪箱:&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;18&#34;&gt;&lt;img src=&#34;https://github.com/post-images/bedrock-save/image-202008312103.PNG&#34; alt=&#34;整篇文章怎么洋溢着一股臭味呢&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;音符盒&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;id: (String) &amp;quot;Music” 第一个与对应的方块的英文名字不一样的id!&lt;/li&gt;
+&lt;li&gt;isMovable: (Byte) 第10次不清楚是干嘛用的，观测是1&lt;/li&gt;
+&lt;li&gt;note: (Byte) 该音符的音高。通俗来讲就是玩家敲击了几次音符盒。如图:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;19&#34;&gt;&lt;img src=&#34;https://static.wikia.nocookie.net/minecraft_zh_gamepedia/images/b/bd/Noteblock_reference.png/revision/latest/scale-to-width-down/720?cb=20190129093637&#34; alt=&#34;Noteblock reference.png&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;例：一个被敲击了一次的音符盒的方块实体NBT标签:&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;20&#34;&gt;&lt;img src=&#34;https://github.com/post-images/bedrock-save/image-202008312055.PNG&#34; alt=&#34;一个被敲击了一次的音符盒的方块实体NBT标签&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;ol start=&#34;11&#34;&gt;
+&lt;li&gt;
+&lt;p&gt;唱片机&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;id: (String) &amp;quot;Jukebox”&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;isMovable: (Byte) 不清楚是干嘛用的，观测是1&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;RecordItem: (Compound) 是该唱片内部存储的唱片物品的NBT。当这个唱片机里面没有唱片时，则没有这一项。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;例：上方是内部存有游戏里没有的唱片的唱片机，下方是没有唱片的:&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;21&#34;&gt;&lt;img src=&#34;https://github.com/post-images/bedrock-save/image-202008312101.PNG&#34; alt=&#34;上方是内部存有游戏里没有的唱片的唱片机，下方是没有唱片的&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;【雪莉：现在时间是8月31号晚上9点18分，似乎...算了，抓紧吧，以后来作业了又...】&lt;/code&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ol start=&#34;12&#34;&gt;
+&lt;li&gt;
+&lt;p&gt;伸出的活塞臂&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;id: (String) &amp;quot;PistonArm”&lt;/li&gt;
+&lt;li&gt;Sticky: (Byte) 活塞臂是否是黏糊糊的（粘性活塞）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;研究这个比较困难，因为活塞伸出的时间就只有那么长，想要踩点对我来说还是很困难的。于是下面就直接展示自己的研究过程吧。&lt;/p&gt;
+&lt;p&gt;​	首先我摆放了四个活塞，一个不伸出，一个伸出来，还有一个伸到一半，最后一个缩回来一半(怎么说起来那么奇怪呢)。并对比两者中有何变化。以下是有变化的项(在我的测试时):&lt;/p&gt;
+&lt;p&gt;​	【呜呜呜┭┮﹏┭┮获得这些数据花了我好久因为我是手残QwQ 所以那个按钮之类的...Awq】&lt;/p&gt;
+&lt;p&gt;​	【部分数据是猜测 不过大概率肯定是对的 【啊...手残党...】】&lt;/p&gt;
+&lt;p&gt;​	【我的测试是将粘性活塞放在[ 4, 8, 11 ]的地方，将[ 4, 8, 10 ]的方块来回推，下表从左到右展示了这个过程】&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;table&gt;
+            &lt;tr&gt;
+                &lt;td&gt;&lt;b&gt;项的名称&lt;/b&gt;&lt;/td&gt;
+                &lt;td&gt;&lt;b&gt;活塞臂未伸出时的值&lt;/b&gt;&lt;/td&gt;
+                &lt;td colspan=&#34;2&#34;&gt;&lt;b&gt;活塞臂正在伸出时的值&lt;/b&gt;&lt;/td&gt;
+                &lt;td&gt;&lt;b&gt;活塞臂伸出时的值&lt;/b&gt;&lt;/td&gt;
+                &lt;td colspan=&#34;2&#34;&gt;&lt;b&gt;活塞臂正在缩回时的值&lt;/b&gt;&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;td&gt;isMovable&lt;/td&gt;
+                &lt;td&gt;1&lt;/td&gt;
+                &lt;td&gt;1&lt;/td&gt;
+                &lt;td&gt;1&lt;/td&gt;
+                &lt;td&gt;0&lt;/td&gt;
+                &lt;td&gt;0&lt;/td&gt;
+                &lt;td&gt;0&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;td&gt;LastProgress&lt;/td&gt;
+                &lt;td&gt;0&lt;/td&gt;
+                &lt;td&gt;0&lt;/td&gt;
+                &lt;td&gt;0.5&lt;/td&gt;
+                &lt;td&gt;1&lt;/td&gt;
+                &lt;td&gt;1&lt;/td&gt;
+                &lt;td&gt;0.5&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;td&gt;Progress&lt;/td&gt;
+                &lt;td&gt;0&lt;/td&gt;
+                &lt;td&gt;0.5&lt;/td&gt;
+                &lt;td&gt;1&lt;/td&gt;
+                &lt;td&gt;1&lt;/td&gt;
+                &lt;td&gt;0.5&lt;/td&gt;
+                &lt;td&gt;0&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;td&gt;State&lt;/td&gt;
+                &lt;td&gt;0&lt;/td&gt;
+                &lt;td&gt;1&lt;/td&gt;
+                &lt;td&gt;1&lt;/td&gt;
+                &lt;td&gt;2&lt;/td&gt;
+                &lt;td&gt;3&lt;/td&gt;
+                &lt;td&gt;3&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;td&gt;NewState&lt;/td&gt;
+                &lt;td&gt;0&lt;/td&gt;
+                &lt;td&gt;1&lt;/td&gt;
+                &lt;td&gt;1&lt;/td&gt;
+                &lt;td&gt;2&lt;/td&gt;
+                &lt;td&gt;3&lt;/td&gt;
+                &lt;td&gt;3&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;td&gt;AttachedBlocks&lt;/td&gt;
+                &lt;td&gt;[]&lt;/td&gt;
+                &lt;td&gt;[ 4, 8, 10 ]&lt;/td&gt;
+                &lt;td&gt;[ 4, 8, 10 ]&lt;/td&gt;
+                &lt;td&gt;[]&lt;/td&gt;
+                &lt;td&gt;[ 4, 8, 9 ]&lt;/td&gt;
+                &lt;td&gt;[ 4, 8, 9 ]&lt;/td&gt;
+            &lt;/tr&gt;
+&lt;/table&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;【22点21了...】&lt;/code&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;​			其实还有一个项，&amp;quot;BreakBlocks&amp;quot;。猜测是由于我的测试一直都是推方块，所以这个值一直都没用到【要那样测试的话...我已经在233层高楼上面准备把空气当床了】。估计这个BreakBlocks如果使用到了的话，相同的情况对应的跟上面的movingBlocks的值是相同的。&lt;/p&gt;
+&lt;p&gt;​			研究发现，当粘性的活塞臂正在伸出时，其AttachedBlocks会的值为其活塞臂粘着的方块还未被推动时的原坐标；当粘性的活塞臂正在缩回时，其AttachedBlocks会的值为其活塞臂粘着的方块还未被拉回时的原坐标。&lt;/p&gt;
+&lt;p&gt;​			由于测试太过繁琐，所以我们来直接推测一下如果不是粘性活塞而是普通的活塞，那么这些值会怎么变化。推测：其它值都随着上面的走，但AttachedBlocks只在活塞推动了一个方块时才会有值。&lt;/p&gt;
+&lt;p&gt;​			【幸亏测试的是粘性活塞呀，不然...233层高楼我来了】&lt;/p&gt;
+&lt;p&gt;​			排除了这些项之后，,,,，好像就没有其ta项了嘻嘻(●&#39;◡&#39;●) 直接进入下一个。&lt;/p&gt;
+&lt;ol start=&#34;13&#34;&gt;
+&lt;li&gt;
+&lt;p&gt;正在被活塞移动的方块&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;id: (String) &amp;quot;MovingBlock”&lt;/li&gt;
+&lt;li&gt;isMovable: (Byte) 不清楚是干嘛用的。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;既然跟活塞运动有关【不要想歪真的没有那种意思】，我们就使用跟研究活塞一样的列表思路。&lt;/p&gt;
+&lt;p&gt;​	【部分数据是猜测 不过大概率肯定是对的 【啊...手残党... *2】】&lt;/p&gt;
+&lt;p&gt;​	【我的测试是将粘性活塞放在[ 4, 8, 11 ]的地方，将[ 4, 8, 10 ]的红石块来回推，下表从左到右展示了这个过程】&lt;/p&gt;
+&lt;p&gt;​	【什么？宁认为我又会去做一遍实验? Oh no~ 我在做实验时发现了这个MovingBlock，在做上面的实验的时候顺便也记下来惹~~~~】&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;table&gt;
+	&lt;tr&gt;
+        &lt;td&gt;&lt;b&gt;项的名称&lt;/b&gt;&lt;/td&gt;
+		&lt;td&gt;&lt;b&gt;活塞臂未伸出时的值&lt;/b&gt;&lt;/td&gt;
+		&lt;td colspan=&#34;2&#34;&gt;&lt;b&gt;活塞臂正在伸出时的值&lt;/b&gt;&lt;/td&gt;
+		&lt;td&gt;&lt;b&gt;活塞臂伸出时的值&lt;/b&gt;&lt;/td&gt;
+		&lt;td colspan=&#34;2&#34;&gt;&lt;b&gt;活塞臂正在缩回时的值&lt;/b&gt;&lt;/td&gt;
+	&lt;/tr&gt;
+    &lt;tr&gt;
+		&lt;td&gt;AttachedBlocks&lt;/td&gt;
+        &lt;td&gt;[]&lt;/td&gt;
+        &lt;td&gt;[ 4, 8, 10 ]&lt;/td&gt;
+        &lt;td&gt;[ 4, 8, 10 ]&lt;/td&gt;
+        &lt;td&gt;[]&lt;/td&gt;
+        &lt;td&gt;[ 4, 8, 9 ]&lt;/td&gt;
+        &lt;td&gt;[ 4, 8, 9 ]&lt;/td&gt;
+	&lt;/tr&gt;
+&lt;/table&gt;
+">Minecraft基岩版存档架构简介</a>
+      </div>
+      
+    </div>
+  </div>
 </div>
-</body>
+<script>
+  // var escape = "[{&#34;content&#34;:&#34;&lt;p&gt;花絮： 今天的bgm是什么呢？&lt;/p&gt;\n&lt;p&gt;啊 是sans.（&lt;/p&gt;\n&lt;h1 id=\&#34;写在前面\&#34;&gt;写在前面&lt;/h1&gt;\n&lt;p&gt;人在家中，刚下床，谢邀。本专栏由&amp;quot;基本&amp;quot;不会编程的up🐖书写，许多专业术语知识还欠缺，可能会有错误，还请大佬们见谅。&lt;/p&gt;\n&lt;p&gt;许多时候程序yuan并不会那么bt，许多在编程中用到数据的命名肯定都和英语有一部分关系，mc的level.dat就是一个例子。&lt;/p&gt;\n&lt;figure data-type=\&#34;image\&#34; tabindex=\&#34;1\&#34;&gt;&lt;img src=\&#34;https://i0.hdslb.com/bfs/article/4adb9255ada5b97061e610b682b8636764fe50ed.png\&#34; alt=\&#34;img\&#34; loading=\&#34;lazy\&#34;&gt;&lt;/figure&gt;\n&lt;h1 id=\&#34;目录\&#34;&gt;&lt;strong&gt;目录&lt;/strong&gt;&lt;/h1&gt;\n&lt;ol&gt;\n&lt;li&gt;存档全局信息 (level.dat)&lt;/li&gt;\n&lt;li&gt;存档资源包信息&lt;/li&gt;\n&lt;li&gt;NBT格式概述&lt;/li&gt;\n&lt;li&gt;存档其它信息&lt;/li&gt;\n&lt;li&gt;地形存储&lt;/li&gt;\n&lt;/ol&gt;\n&lt;h1 id=\&#34;存档全局信息\&#34;&gt;&lt;strong&gt;存档全局信息&lt;/strong&gt;&lt;/h1&gt;\n&lt;p&gt;网上关于修改level.dat的教程其实害挺多的，沃这里就一笔带过一下Awawawa~&lt;/p&gt;\n&lt;p&gt;level.dat是以&lt;strong&gt;未经压缩的NBT格式&lt;/strong&gt;存储的（划重点，java版的level.dat是经过GZIP格式压缩的NBT格式）。NBT全名Named Binary  Tag，学过编程的小伙伴可以理解为一个Json数据的结构，没有学过的可以理解成一个数学中的函数——即给出一串文字，有且仅有唯一一个对象与之对应（之类的东西）。&lt;/p&gt;\n&lt;p&gt;但是捏  &lt;sub&gt;(￣▽￣)&lt;/sub&gt;*，这个文件不是一开始就是nbt数据的开头。这个文件的一开始有留出四个字节。这四个字节会被游戏视为介个level.dat文件的版本号，后续如果要对这个文件的架构进行大的修改就可以通过版本号来判断这个文件是否该升级惹。接下来才是NBT的正文数据。&lt;/p&gt;\n&lt;p&gt;用NBT修改器打开这个文件，可以根据英文和游戏中敲命令的经历判断出每一个参数的名称对应的是游戏中的什么参数或功能（许多常用的修改都可以通过这个判断）。&lt;/p&gt;\n&lt;p&gt;存档里面的levelname.txt，这个应该是mojang为了玩家方便查找存档从而创建的一个记录存档名称的文件。但是如果只修改这个文件是达不到修改存档在游戏中显示的名称的。在游戏中修改存档的名称时，游戏会同时改变level.dat内的某个数据和levelname.txt文件；但是仅修改了levelname.txt文件，在游戏中是看不到修改后的存档名称的哦。&lt;/p&gt;\n&lt;p&gt;world_icon.jpeg是存档图标，长宽分别是400和225.&lt;/p&gt;\n&lt;h1 id=\&#34;存档资源包信息\&#34;&gt;&lt;strong&gt;存档资源包信息&lt;/strong&gt;&lt;/h1&gt;\n&lt;p&gt;加入过资源包的存档，在该存档的文件夹会出现world_resource_packs.json和world_resource_pack_history.json以及resource_packs文件夹。加入过行为包的存档，会出现world_behavior_packs.json和world_behavior_pack_history.json以及behavior_packs文件夹。&lt;/p&gt;\n&lt;p&gt;上面提到出现的文件夹是存储这个资源包或行为包的目录，在这个目录里面会有加载过的资源包或行为包，以文件夹的形式放在这个目录下（不是压缩文件哦）。&lt;/p&gt;\n&lt;p&gt;world_****_packs.json的文件是以Json格式存储。这个Json文件存储了当前这个存档正在使用的包，里面每个包信息的pack_id和version会与包中menifest.json文件中header属性中的pack_id和version对应。&lt;/p&gt;\n&lt;p&gt;world_****_pack_history.json文件里面存储了至今这个存档使用了那些包。里面每个包的信息会与包中menifest.json文件中header属性中的pack_id和version对应。can_be_redownloaded参数是用来判断这个包是否是商店内下载的包，当这个属性是true的时候，游戏将会去自身的包下载缓存目录寻找这个包，在Windows 10上这个目录是:  &amp;quot;C:\\Users\\宁的用户名\\AppData\\Local\\Packages\\Microsoft.MinecraftUWP_8wekyb3d8bbwe\\LocalState&amp;quot; 但是里面几乎所有的内容都被加密辽，，，。这个目录里面还有一个persona文件夹，应该是存储了在游戏内自定义皮肤的里面的信息。skin_packs文件夹里面存储的是皮肤包。手机root不了所以看不到在哪里，有兴趣的小伙伴可以去手机的根目录找找（大家平时打开手机自身的文件管理器打开的不是根目录**!!!**沃记得的ES文件管理器和MT管理器都可以看到手机根目录的文件)&lt;/p&gt;\n&lt;p&gt;值得注意的是，开发者可以将自己要测试的包放在com.mojang文件夹下面的development_&lt;strong&gt;&lt;strong&gt;_packs文件夹下面。放在这里的包在游戏中导入时，是不会被复制到存档自身的&lt;/strong&gt;&lt;/strong&gt;&lt;em&gt;pack文件夹里面的哦。所以，如果是边开发边测试一个包，可以直接在development&lt;/em&gt;****_packs文件夹里面创建一个文件夹作为存储这个包的地方，导出这个包时直接将这个文件夹里面的所有文件压缩就可以啦。&lt;/p&gt;\n&lt;h1 id=\&#34;nbt格式概述\&#34;&gt;NBT格式概述&lt;/h1&gt;\n&lt;p&gt;【本节涉及到小字节序和大字节序，然后up不会讲,,,大家可以去看https://zhuanlan.zhihu.com/p/21388517的&amp;quot;2.2 字节序&amp;quot;一节】&lt;/p&gt;\n&lt;p&gt;Minecraft在java版和基岩版的数据存储都或多或少的使用了NBT格式。在这里简单的说明一下NBT格式是个什么东西。首先得先说明一下，这种格式是可以嵌入的，不仅仅是在一个文件里面，还可以存在于一个文件的一部分。上面提到过，NBT全名Named Binary  Tag，学过编程的小伙伴可以理解为一个Json数据的结构，没有学过的可以理解成一个数学中的函数——即给出一串文字，有且仅有唯一一个对象与之对应（之类的东西）。在这里我们会来探讨这些数据是如何存储的。（notch提供的nbt.txt说明文档国内好像上不去，能得到这个文件的好心人可以把原文或者网盘地址放在评论区嘛，蟹蟹！~，地址：web.archive.org/web/20110723210920/http://www.minecraft.net/docs/NBT.txt）&lt;/p&gt;\n&lt;p&gt;既然叫Named Binary Tag，咱们肯定先得看看一个Tag怎么存储。一个Tag的第一个字节代表这个Tag的类型，第二个字节和第三个字节在一起以大字节序组成一个数字，是这个Tag名字的长度。接下来跟着的就是这个Tag的内容，在百度百科叫做辅助信息。&lt;/p&gt;\n&lt;p&gt;&lt;img src=\&#34;https://github.com/post-images/bedrock-save/d2e81a8aff8ca3015224f1c5fcdb0bdf204292ed.png\&#34; alt=\&#34;img\&#34; loading=\&#34;lazy\&#34;&gt;&lt;br&gt;\n来自百度百科 - NBT （二进制命名标签）&lt;/p&gt;\n&lt;h1 id=\&#34;存档其它信息\&#34;&gt;&lt;strong&gt;存档其它信息&lt;/strong&gt;&lt;/h1&gt;\n&lt;p&gt;其它的信息包括地形信息，方块内部特有的信息，实体信息等等（或许概括全了）都&lt;strong&gt;存在&amp;quot;db&amp;quot;文件夹里面&lt;/strong&gt;。这个文件夹里面存储的是一个LevelDB数据库（以下简称数据库）。与NBT类似，也是给出一个值，会返回另外一个唯一的值（程序员: 不就是key-value数据库嘛）。&lt;/p&gt;\n&lt;p&gt;（偷个懒 技术玩家可以通过直接写代码的方式来访问这个数据库 其ta的玩家捏可以通过MCC ToolChest打开这个存档 不过后者可能可见的信息要少一些）&lt;/p&gt;\n&lt;p&gt;既然给出一个值(key)就返回另外一个唯一的值(value)，那么我们肯定得先从给出的这个值开始入手。咱们从简单的开始。&lt;/p&gt;\n&lt;p&gt;&lt;strong&gt;计分板&lt;/strong&gt;&lt;/p&gt;\n&lt;p&gt;计分板肯定得算比较简单的。直接向这个数据库里面传入&amp;quot;scoreboard&amp;quot;中每个字母的ascii码组成的数组就可以（Java: &amp;quot;scoreboard&amp;quot;.getBytes() 后 遗 症)，获取到一个未经压缩的小字节序NBT数据。这个数据中会存储着5个数据:&lt;/p&gt;\n&lt;p&gt;&lt;img src=\&#34;https://github.com/post-images/bedrock-save/1feac2b904272561f7b536bf597f8978c5f40672.png\&#34; alt=\&#34;img\&#34; loading=\&#34;lazy\&#34;&gt;五个数据哦~&lt;/p&gt;\n&lt;p&gt;&lt;strong&gt;玩家&lt;/strong&gt;&lt;/p&gt;\n&lt;p&gt;游戏中，玩家肯定也是不可少的一部分（废话）。修改玩家的信息也足够简单，不过获取一个玩家的信息是一件难事。目前还未发现比较轻便的查找对应玩家信息的方法。&lt;/p&gt;\n&lt;p&gt;在数据库中，得到本地玩家的玩家信息要传的参数为&amp;quot;~local_player&amp;quot;；&lt;/p&gt;\n&lt;p&gt;得到真正的玩家信息要传的参数为&amp;quot;player_&lt;strong&gt;&lt;strong&gt;&lt;strong&gt;&lt;strong&gt;-&lt;strong&gt;&lt;strong&gt;-&lt;/strong&gt;&lt;/strong&gt;-&lt;strong&gt;&lt;strong&gt;-&lt;/strong&gt;&lt;/strong&gt;&lt;/strong&gt;&lt;/strong&gt;&lt;/strong&gt;&lt;/strong&gt;&amp;quot;；&lt;/p&gt;\n&lt;p&gt;当然也会有一种玩家信息是带server的，这种应该是基岩版官方服务器的存档内存储的玩家信息，要传的参数为&amp;quot;player_server_&lt;strong&gt;&lt;strong&gt;&lt;strong&gt;&lt;strong&gt;-&lt;strong&gt;&lt;strong&gt;-&lt;/strong&gt;&lt;/strong&gt;-&lt;strong&gt;&lt;strong&gt;-&lt;/strong&gt;&lt;/strong&gt;&lt;/strong&gt;&lt;/strong&gt;&lt;/strong&gt;&lt;/strong&gt;&amp;quot;（下划线和横杠杠不要看错了沃）。（星号组成一个uuid 大概是游戏随机分配的）&lt;/p&gt;\n&lt;p&gt;（老爹：还有一件事：要传的是这些文字的ASCII码组成的数组!）&lt;/p&gt;\n&lt;p&gt;三种情况得到的都是一个小字节序的NBT数据。第一种情况和第三种情况得到的NBT数据大致上都应该相同（常用的参数应该都拥有）。第二种情况可能会得到只含三个参数的NBT标签：&lt;/p&gt;\n&lt;p&gt;​    MsaId和SelfSignedId： 这两个标签似乎都有可能与ta所在标签的名称相同，目前未找到用途；&lt;/p&gt;\n&lt;p&gt;​    ServerId： 可以直接将这个数据传进数据库，会得到上面提到的第三种情况的数据.&lt;/p&gt;\n&lt;p&gt;得到的玩家的NBT数据可以直接根据其名称来判断这个属性控制的是游戏中的什么功能（学英文的重要性（ε=┏(゜ロ゜;)┛）） 其它看不懂的，大部分都有可能是一修改就出问题 或是无实际功能或修改价值 抑或是没修炼够/doge：&lt;/p&gt;\n&lt;figure data-type=\&#34;image\&#34; tabindex=\&#34;2\&#34;&gt;&lt;img src=\&#34;https://github.com/post-images/bedrock-save/b3d378d421926dd8ab4bc85223a1fa9dde00e10e.png\&#34; alt=\&#34;img\&#34; loading=\&#34;lazy\&#34;&gt;&lt;/figure&gt;\n&lt;p&gt;（当然可能也可以通过修改这个来达到使玩家pregnant的臆想效果（&lt;/p&gt;\n&lt;p&gt;&lt;strong&gt;地图&lt;/strong&gt;&lt;/p&gt;\n&lt;p&gt;像素画大师们最钟情（可能）的东西。在数据库中，要想找到一个指定的地图并非容易。得到一个地图数据需要传的参数的格式: &amp;quot;map_&amp;quot;+一串数字。如果单纯看这串十进制的数据，是比较难发现规律的。我们将其变成16进制康康：&lt;/p&gt;\n&lt;figure data-type=\&#34;image\&#34; tabindex=\&#34;3\&#34;&gt;&lt;img src=\&#34;https://github.com/post-images/bedrock-save/a5e271909e7e54bb652b642a1108a8548ca6cdf6.png\&#34; alt=\&#34;img\&#34; loading=\&#34;lazy\&#34;&gt;&lt;/figure&gt;\n&lt;p&gt;不难发现（），这串数字的前四位与FF FF FF FF代表的数字相差加上1，即为在创建这个地图的时候进游戏的次数。不过这串数字后四个字节就非常非常神奇，观测是离关游戏的时间越近，这四个字节在大端序下代表的数字就会越小。&lt;/p&gt;\n&lt;p&gt;并且有时候总会有5个地图的id是连续的。呐是因为呀，当玩家在游戏中创建了一个地图后，游戏内部会新增5个这样连续的id代表5个不同的地图数据。这5个不同的数据代表了该地图的5个级别，就算玩家没有主动去合成其它四个不同级别的地图。&lt;/p&gt;\n&lt;p&gt;【似乎只能通过玩家手里拿的物品来找到指定的地图了】&lt;/p&gt;\n&lt;p&gt;我们通过键得到的仍然是一个小字节序的未经压缩的NBT数据。里面可以进行大肆（雾）修改的就是colors数据。这个colors记录了地图128*128图片大小的数据，先从左到右存储图片的第一行像素，依次向图片下方存储。其中每四个字节分别对应r,g,b,a的值，代表一个像素。&lt;/p&gt;\n&lt;p&gt;地图里面还存储了decorations数据，类型是Compound Tag，这里存储的是地图上面的有些装饰，这个数据里面还存储了2个Compound  Tag叫data和key。key里面存储的是这个装饰的世界位置和类型，data里面存储了这个装饰的方向(rot)，类型(type)和相对于地图的位置（？x, y)。&lt;/p&gt;\n&lt;p&gt;修改完成地图后，不要忘了把dimension调成-1噢~ 调成-1后，游戏内就对这个地图的修改撒手了。&lt;/p&gt;\n&lt;p&gt;&lt;strong&gt;还有一些其ta的&lt;/strong&gt;&lt;/p&gt;\n&lt;p&gt;可以在这里找到: https://minecraft.gamepedia.co/Bedrock_Edition_level_format#Other_keys&lt;/p&gt;\n&lt;p&gt;（是英文的 Awa）&lt;/p&gt;\n&lt;h1 id=\&#34;地形存储\&#34;&gt;地形存储&lt;/h1&gt;\n&lt;p&gt;&lt;strong&gt;【本节内容可能会有不对的地方 也请大佬们在评论底下修正 非常感谢！】&lt;/strong&gt;&lt;/p&gt;\n&lt;p&gt;终于到我们的重头戏了——游戏的地形存储。今天小编就来带大家看看。&lt;/p&gt;\n&lt;p&gt;首先还是我们的惯例，灵魂疑问：该怎么得到区块的信息呢？真的很简单，人人都可以学得会：首先将这个区块的x坐标以小字节序变成四个字节（即一个int类型）然后将这个区块的z坐标也以小字节序变成四个字节紧随其后，如果这个区块不是主世界区块那就再将其维度对应的id以小字节序还是变成四个字节跟在后面（1是地狱，2是末地），然后后面跟上一个特定的数字以一个字节存储的字节。这个特定的数字可以是下面的任意一个，取决于要申请的数据的类型：&lt;/p&gt;\n&lt;figure data-type=\&#34;image\&#34; tabindex=\&#34;4\&#34;&gt;&lt;img src=\&#34;https://github.com/post-images/bedrock-save/77932686035b7324f5ba68f63e5db2352359bb6f.png\&#34; alt=\&#34;img\&#34; loading=\&#34;lazy\&#34;&gt;&lt;/figure&gt;\n&lt;p&gt;例： 如果想要申请x坐标是114514，z坐标是1919180的区块的高度图（臭味图（逃）和生物群系:&lt;/p&gt;\n&lt;figure data-type=\&#34;image\&#34; tabindex=\&#34;5\&#34;&gt;&lt;img src=\&#34;https://github.com/post-images/bedrock-save/d43f4f78deb235cffff4e47725952c59ba7402c8.gif\&#34; alt=\&#34;img\&#34; loading=\&#34;lazy\&#34;&gt;&lt;/figure&gt;\n&lt;p&gt;&lt;strong&gt;高度图和生物群系&lt;/strong&gt;&lt;/p&gt;\n&lt;p&gt;​    申请得到的高度图和生物群系中，前512个字节存储的是高度图。高度图存储了俯视这个区块得到的平面图中，每一格存储一个short类型（一个占两个字节的整数）代表这一格最高的方块处在的y坐标。紧接着是生物群系，以同样的方式，但是是以每一格一个byte类型存储生物群系id。&lt;/p&gt;\n&lt;p&gt;&lt;img src=\&#34;https://github.com/post-images/bedrock-save/381545dcdfdacb447b46b2b1a65825984c7e65f8.png\&#34; alt=\&#34;img\&#34; loading=\&#34;lazy\&#34;&gt;&lt;br&gt;\n左图:mcc tool chest pe截图 横坐标是x 纵坐标是z   右图:从数据库中取出的数据在十六进制编辑器中的模样&lt;/p&gt;\n&lt;p&gt;&lt;strong&gt;方块实体数据&lt;/strong&gt;&lt;/p&gt;\n&lt;p&gt;申请得到的方块实体数据是一个小字节序的NBT数据。&lt;/p&gt;\n&lt;figure data-type=\&#34;image\&#34; tabindex=\&#34;6\&#34;&gt;&lt;img src=\&#34;https://github.com/post-images/bedrock-save/46b06817a8eb2f0db31b1c982eb1306f0d174a4c.png\&#34; alt=\&#34;img\&#34; loading=\&#34;lazy\&#34;&gt;&lt;/figure&gt;\n&lt;p&gt;由于未在minecraft维基上面找到每个方块实体存储的信息（抑或是我没找到），于是沃自己整理了一下：&lt;/p&gt;\n&lt;p&gt;（以下内容按照CC BY-NC-SA 3.0协议分享）&lt;/p&gt;\n&lt;ol&gt;\n&lt;li&gt;\n&lt;p&gt;旗帜&lt;/p&gt;\n&lt;ul&gt;\n&lt;li&gt;\n&lt;p&gt;Base: (Integer) 旗帜的背景颜色&lt;/p&gt;\n&lt;figure data-type=\&#34;image\&#34; tabindex=\&#34;7\&#34;&gt;&lt;img src=\&#34;https://github.com/post-images/bedrock-save/image-20200831160640985.png\&#34; alt=\&#34;image-20200831160640985\&#34; loading=\&#34;lazy\&#34;&gt;&lt;/figure&gt;\n&lt;/li&gt;\n&lt;li&gt;\n&lt;p&gt;id: (String) 应该都是banner&lt;/p&gt;\n&lt;/li&gt;\n&lt;li&gt;\n&lt;p&gt;x, y, z: (Integer) 旗帜所占用的方块所在坐标 &lt;strong&gt;【这个参数是每个方块实体数据都有的哦 下面就不写啦】&lt;/strong&gt;&lt;/p&gt;\n&lt;/li&gt;\n&lt;li&gt;\n&lt;p&gt;isMovable: (Byte) 还未发现其用处，默认是1&lt;/p&gt;\n&lt;/li&gt;\n&lt;li&gt;\n&lt;p&gt;Type: (Integer) 还未发现其用处&lt;/p&gt;\n&lt;/li&gt;\n&lt;/ul&gt;\n&lt;/li&gt;\n&lt;li&gt;\n&lt;p&gt;蜂巢，蜂箱 （沃用summon指令创建多只蜜蜂然后游戏就卡死辽？？）&lt;/p&gt;\n&lt;ul&gt;\n&lt;li&gt;\n&lt;p&gt;id: (String) 应该都是Beehive&lt;/p&gt;\n&lt;/li&gt;\n&lt;li&gt;\n&lt;p&gt;isMovable: (Byte) 也是不清楚是干嘛用的（或许每个方块实体存储都有这个参数），默认是1&lt;/p&gt;\n&lt;/li&gt;\n&lt;li&gt;\n&lt;p&gt;Occupants: (List) 指的是这个beehive里面存储了什么东西。里面存储的都是Json对象。每个Json对象包括:&lt;/p&gt;\n&lt;ul&gt;\n&lt;li&gt;\n&lt;p&gt;ActorIdentifier: (String) 当这个值为&amp;quot;minecraft:bee&amp;lt;&amp;gt;&amp;quot;时，代表这是一只可爱的小蜜蜂~ （也没发现可以存什么其它的值呀/xk 不过保持严谨就对(个鬼)）&lt;/p&gt;\n&lt;/li&gt;\n&lt;li&gt;\n&lt;p&gt;TicksLeftToStay: (Integer) 表示从此刻开始多少个游戏刻之后蜜蜂就会跑粗来&lt;/p&gt;\n&lt;/li&gt;\n&lt;li&gt;\n&lt;p&gt;SaveData: (Compound) 当&amp;quot;ActorIdentifier&amp;quot;是”minecraft:bee&amp;lt;&amp;gt;“时，这里直接存储了这个蜜蜂的实体NBT，如下图:&lt;/p&gt;\n&lt;figure data-type=\&#34;image\&#34; tabindex=\&#34;8\&#34;&gt;&lt;img src=\&#34;https://github.com/post-images/bedrock-save/QQ%E5%9B%BE%E7%89%8720200831171900.png\&#34; alt=\&#34;So_Long~\&#34; loading=\&#34;lazy\&#34;&gt;&lt;/figure&gt;\n&lt;/li&gt;\n&lt;/ul&gt;\n&lt;/li&gt;\n&lt;/ul&gt;\n&lt;/li&gt;\n&lt;li&gt;\n&lt;p&gt;牌子&lt;/p&gt;\n&lt;ul&gt;\n&lt;li&gt;id: (String) 一直都是&amp;quot;Sign&amp;quot;的说~&lt;/li&gt;\n&lt;li&gt;isMovable: (Byte) 还是不清楚是干嘛用的（果然是常驻居民），默认是1&lt;/li&gt;\n&lt;li&gt;Text: (String) 牌子上面写的字 换行使用&amp;quot;\\n&amp;quot;&lt;/li&gt;\n&lt;li&gt;TextOwner: (String) 这个值似乎跟编辑这个牌子的玩家有关，但是好像又在玩家的nbt里面找不到与这段文字相同的内容,,,（或许是由于今天是开学前一天沃写的比较急就没有认真找的缘故吧）&lt;/li&gt;\n&lt;/ul&gt;\n&lt;/li&gt;\n&lt;li&gt;\n&lt;p&gt;箱子，陷阱箱，漏斗，投掷器，发射器，潜影盒&lt;/p&gt;\n&lt;ul&gt;\n&lt;li&gt;\n&lt;p&gt;id: (String) 一直都是&amp;quot;Chest&amp;quot;的&lt;/p&gt;\n&lt;/li&gt;\n&lt;li&gt;\n&lt;p&gt;isMovable: (Byte) 还是不清楚是干嘛用的（被怀疑凑字数），默认是1&lt;/p&gt;\n&lt;/li&gt;\n&lt;li&gt;\n&lt;p&gt;Items: (List) 存储了箱子里面的东西。这跟玩家物品栏的存储类似，就是只有当这一格有物品时，游戏才会将其存储到存档里面。当没有存放物品的时候，游戏会将这个存储成一个长度为0的空列表。当向里面存放物品的时候，游戏回家原封不动地将物品的NBT复制到这里面来，并加上一个Byte类型的Slot标签。&lt;/p&gt;\n&lt;/li&gt;\n&lt;li&gt;\n&lt;p&gt;（仅漏斗） TransferCooldown: (Integer) 猜测是当漏斗传输完一个物品，这个值就会变成漏斗传输物品的冷却tick数，每个tick对这个数递减，当这个数变成0之后就传输下一个物品。还未得到证实（因为太难证实了啊啊啊）&lt;/p&gt;\n&lt;/li&gt;\n&lt;li&gt;\n&lt;p&gt;（仅箱子，陷阱箱，潜影盒） Findable: (Byte) 似乎没什么用的亚子，默认是0&lt;/p&gt;\n&lt;/li&gt;\n&lt;li&gt;\n&lt;p&gt;（仅潜影盒） facing: (Byte) 潜影盒的朝向，如下表:&lt;/p&gt;\n&lt;table&gt;\n&lt;thead&gt;\n&lt;tr&gt;\n&lt;th style=\&#34;text-align:center\&#34;&gt;方向&lt;/th&gt;\n&lt;th style=\&#34;text-align:center\&#34;&gt;上&lt;/th&gt;\n&lt;th style=\&#34;text-align:center\&#34;&gt;下&lt;/th&gt;\n&lt;th style=\&#34;text-align:center\&#34;&gt;东&lt;/th&gt;\n&lt;th style=\&#34;text-align:center\&#34;&gt;西&lt;/th&gt;\n&lt;th style=\&#34;text-align:center\&#34;&gt;南&lt;/th&gt;\n&lt;th style=\&#34;text-align:center\&#34;&gt;北&lt;/th&gt;\n&lt;/tr&gt;\n&lt;/thead&gt;\n&lt;tbody&gt;\n&lt;tr&gt;\n&lt;td style=\&#34;text-align:center\&#34;&gt;&amp;quot;facing&amp;quot;值&lt;/td&gt;\n&lt;td style=\&#34;text-align:center\&#34;&gt;1&lt;/td&gt;\n&lt;td style=\&#34;text-align:center\&#34;&gt;0&lt;/td&gt;\n&lt;td style=\&#34;text-align:center\&#34;&gt;5&lt;/td&gt;\n&lt;td style=\&#34;text-align:center\&#34;&gt;4&lt;/td&gt;\n&lt;td style=\&#34;text-align:center\&#34;&gt;3&lt;/td&gt;\n&lt;td style=\&#34;text-align:center\&#34;&gt;2&lt;/td&gt;\n&lt;/tr&gt;\n&lt;/tbody&gt;\n&lt;/table&gt;\n&lt;/li&gt;\n&lt;/ul&gt;\n&lt;p&gt;例： 一个箱子的NBT:&lt;/p&gt;\n&lt;figure data-type=\&#34;image\&#34; tabindex=\&#34;9\&#34;&gt;&lt;img src=\&#34;https://github.com/post-images/bedrock-save/image-202008311830.PNG\&#34; alt=\&#34;一个箱子的方块实体NBT\&#34; loading=\&#34;lazy\&#34;&gt;&lt;/figure&gt;\n&lt;/li&gt;\n&lt;li&gt;\n&lt;p&gt;篝火，灵魂篝火&lt;/p&gt;\n&lt;ul&gt;\n&lt;li&gt;id: (String) &amp;quot;Campfire&amp;quot;没得洗&lt;/li&gt;\n&lt;li&gt;isMovable: (Byte) 不清楚是干嘛用的，观测是1&lt;/li&gt;\n&lt;li&gt;Items1, Items2, Items3, Items4: (Compound) 是篝火的四个槽位。当这上面没有物品时，游戏就不会存储这个Tag。并且与箱子不同的是，这里并不会增加Slot标签。玩家向篝火上面沿着逆时针放物品。&lt;/li&gt;\n&lt;li&gt;ItemTime1, ItemTime2, ItemTime3, ItemTime4: (Integer) 对应的篝火的四个槽位的已经进行烧烤（）的游戏tick数。&lt;/li&gt;\n&lt;/ul&gt;\n&lt;p&gt;例： 一个篝火的方块实体NBT:&lt;/p&gt;\n&lt;figure data-type=\&#34;image\&#34; tabindex=\&#34;10\&#34;&gt;&lt;img src=\&#34;https://github.com/post-images/bedrock-save/image-202008311848.PNG\&#34; alt=\&#34;一个篝火的方块实体NBT\&#34; loading=\&#34;lazy\&#34;&gt;&lt;/figure&gt;\n&lt;/li&gt;\n&lt;li&gt;\n&lt;p&gt;酿造台&lt;/p&gt;\n&lt;ul&gt;\n&lt;li&gt;\n&lt;p&gt;id: (String) &amp;quot;BrewingStand&amp;quot;没得洗&lt;/p&gt;\n&lt;/li&gt;\n&lt;li&gt;\n&lt;p&gt;isMovable: (Byte) 不清楚是干嘛用的，观测是1&lt;/p&gt;\n&lt;/li&gt;\n&lt;li&gt;\n&lt;p&gt;CookTime: (Short) 烹饪时间（才怪）是离炼完这次药还有多少的游戏tick。&lt;/p&gt;\n&lt;/li&gt;\n&lt;li&gt;\n&lt;p&gt;FuelAmount: (Short) 燃料的数量。装入一个烈焰粉，会让这个数变成20。炼一次药，会让这个数减去一。当这个数为0时，就代表燃料耗尽，能不能再炼药了。&lt;/p&gt;\n&lt;/li&gt;\n&lt;li&gt;\n&lt;p&gt;FuelTotal: (Short) 观测一直是20，大概是开发者忘了删掉这个吧。&lt;/p&gt;\n&lt;/li&gt;\n&lt;li&gt;\n&lt;p&gt;Items: (List) 跟箱子的Items存储类似，但是在里面炼出来的药水会多出来一个标签：&lt;/p&gt;\n&lt;figure data-type=\&#34;image\&#34; tabindex=\&#34;11\&#34;&gt;&lt;img src=\&#34;https://github.com/post-images/bedrock-save/image-202008311930.PNG\&#34; alt=\&#34;我们中，出了一个叛徒\&#34; loading=\&#34;lazy\&#34;&gt;&lt;/figure&gt;\n&lt;p&gt;酿造台中每个槽所代表的位置放在下图:&lt;/p&gt;\n&lt;figure data-type=\&#34;image\&#34; tabindex=\&#34;12\&#34;&gt;&lt;img src=\&#34;https://github.com/post-images/bedrock-save/image-202008311917.PNG\&#34; alt=\&#34;酿造台的槽位位置\&#34; loading=\&#34;lazy\&#34;&gt;&lt;/figure&gt;\n&lt;p&gt;例： 一个正在酿造的酿造台的方块实体NBT:&lt;/p&gt;\n&lt;/li&gt;\n&lt;/ul&gt;\n&lt;figure data-type=\&#34;image\&#34; tabindex=\&#34;13\&#34;&gt;&lt;img src=\&#34;https://github.com/post-images/bedrock-save/image-202008311924.PNG\&#34; alt=\&#34;一个正在酿造的酿造台的方块实体NBT\&#34; loading=\&#34;lazy\&#34;&gt;&lt;/figure&gt;\n&lt;/li&gt;\n&lt;li&gt;\n&lt;p&gt;熔炉，烟熏炉，高炉&lt;/p&gt;\n&lt;ul&gt;\n&lt;li&gt;\n&lt;p&gt;id: (String)&lt;/p&gt;\n&lt;table&gt;\n&lt;thead&gt;\n&lt;tr&gt;\n&lt;th style=\&#34;text-align:center\&#34;&gt;熔炉&lt;/th&gt;\n&lt;th style=\&#34;text-align:center\&#34;&gt;烟熏炉&lt;/th&gt;\n&lt;th style=\&#34;text-align:center\&#34;&gt;高炉&lt;/th&gt;\n&lt;/tr&gt;\n&lt;/thead&gt;\n&lt;tbody&gt;\n&lt;tr&gt;\n&lt;td style=\&#34;text-align:center\&#34;&gt;Furnace&lt;/td&gt;\n&lt;td style=\&#34;text-align:center\&#34;&gt;Smoker&lt;/td&gt;\n&lt;td style=\&#34;text-align:center\&#34;&gt;BlastFurnace&lt;/td&gt;\n&lt;/tr&gt;\n&lt;/tbody&gt;\n&lt;/table&gt;\n&lt;/li&gt;\n&lt;li&gt;\n&lt;p&gt;isMovable: (Byte) 不清楚是干嘛用的，观测是1&lt;/p&gt;\n&lt;/li&gt;\n&lt;li&gt;\n&lt;p&gt;CookTime: (Short) 当前物品离烧完成还需多少游戏tick&lt;/p&gt;\n&lt;/li&gt;\n&lt;li&gt;\n&lt;p&gt;BurnTime: (Short) 当前燃料还可以燃烧多少游戏tick&lt;/p&gt;\n&lt;/li&gt;\n&lt;li&gt;\n&lt;p&gt;StoredXPInt: (Integer) 炉子里面存储的经验数量&lt;/p&gt;\n&lt;/li&gt;\n&lt;li&gt;\n&lt;p&gt;Items: (List) 跟箱子的作法一样。每个槽位对应的Slot数量如下:&lt;/p&gt;\n&lt;figure data-type=\&#34;image\&#34; tabindex=\&#34;14\&#34;&gt;&lt;img src=\&#34;https://github.com/post-images/bedrock-save/image-202008311944.PNG\&#34; alt=\&#34;梅开二度\&#34; loading=\&#34;lazy\&#34;&gt;&lt;/figure&gt;\n&lt;/li&gt;\n&lt;/ul&gt;\n&lt;p&gt;例： 一个熔炉的方块实体NBT:&lt;/p&gt;\n&lt;/li&gt;\n&lt;/ol&gt;\n&lt;figure data-type=\&#34;image\&#34; tabindex=\&#34;15\&#34;&gt;&lt;img src=\&#34;https://github.com/post-images/bedrock-save/image-202008311948.PNG\&#34; alt=\&#34;一个熔炉的方块实体NBT\&#34; loading=\&#34;lazy\&#34;&gt;&lt;/figure&gt;\n&lt;ol start=\&#34;7\&#34;&gt;\n&lt;li&gt;\n&lt;p&gt;讲台&lt;/p&gt;\n&lt;ul&gt;\n&lt;li&gt;id: (String) &amp;quot;Lectern”跑不掉&lt;/li&gt;\n&lt;li&gt;isMovable: (Byte) 不清楚是干嘛用的，观测是1&lt;/li&gt;\n&lt;li&gt;page: (Integer) 目前该讲台展示的书本所在的页数。本标签仅在讲台有书的时候才会被保存。&lt;/li&gt;\n&lt;li&gt;totalPages: (Integer) 该讲台展示的书本总页数本标签仅在讲台有书的时候才会被保存。&lt;/li&gt;\n&lt;li&gt;hasBook: (Byte) 这个讲台是否有书在上面，有就是1。本标签仅在讲台有书的时候才会被保存。&lt;/li&gt;\n&lt;li&gt;book: (Compound) 这里保存了展示的书的物品NBT。&lt;/li&gt;\n&lt;/ul&gt;\n&lt;p&gt;例： 一个放置了书的讲台（上）和一个没有放书的讲台（下）:&lt;/p&gt;\n&lt;/li&gt;\n&lt;/ol&gt;\n&lt;figure data-type=\&#34;image\&#34; tabindex=\&#34;16\&#34;&gt;&lt;img src=\&#34;https://github.com/post-images/bedrock-save/image-202008311959.PNG\&#34; alt=\&#34;一个放置了书的讲台（上）和一个没有放书的讲台（下）\&#34; loading=\&#34;lazy\&#34;&gt;&lt;/figure&gt;\n&lt;ol start=\&#34;8\&#34;&gt;\n&lt;li&gt;\n&lt;p&gt;信标&lt;/p&gt;\n&lt;ul&gt;\n&lt;li&gt;id: (String) &amp;quot;Beacon”&lt;/li&gt;\n&lt;li&gt;isMovable: (Byte) 不清楚是干嘛用的，观测是1&lt;/li&gt;\n&lt;li&gt;primary: (Integer) 信标的第一级效果应用的药水效果id【跟java版的作用一样~省了我好多实验的时间】&lt;/li&gt;\n&lt;li&gt;Secondary: (Integer) 信标的第二级效果应用的药水效果id&lt;/li&gt;\n&lt;/ul&gt;\n&lt;p&gt;注：如果&amp;quot;primary&amp;quot;和&amp;quot;Secondary&amp;quot;的值相同，那么效果就会变成二级的。&lt;/p&gt;\n&lt;p&gt;附赠一张基岩版的药水效果对应id表~:&lt;/p&gt;\n&lt;/li&gt;\n&lt;/ol&gt;\n&lt;p&gt;​     &lt;img src=\&#34;https://github.com/post-images/bedrock-save/image-202008312013.PNG\&#34; alt=\&#34;基岩版的药水效果对应id表\&#34; loading=\&#34;lazy\&#34;&gt;&lt;/p&gt;\n&lt;p&gt;​\t许许多多的信标，猜猜ta们的对应效果叭~:&lt;/p&gt;\n&lt;figure data-type=\&#34;image\&#34; tabindex=\&#34;17\&#34;&gt;&lt;img src=\&#34;https://github.com/post-images/bedrock-save/image-202008312018.PNG\&#34; alt=\&#34;许许多多的信标\&#34; loading=\&#34;lazy\&#34;&gt;&lt;/figure&gt;\n&lt;ol start=\&#34;9\&#34;&gt;\n&lt;li&gt;\n&lt;p&gt;刷怪笼&lt;/p&gt;\n&lt;ul&gt;\n&lt;li&gt;id: (String) &amp;quot;MobSpawner”&lt;/li&gt;\n&lt;li&gt;isMovable: (Byte) 不清楚是干嘛用的，观测是1&lt;/li&gt;\n&lt;li&gt;EntityIdentifier: (String) 该刷怪笼生成的怪物id, 例: &amp;quot;minecraft:polar_bear&amp;quot;。当该刷怪笼是空时，这个值为空。&lt;/li&gt;\n&lt;li&gt;MinSpawnDelay, MaxSpawnDelay: (Short) 该刷怪笼的最小和最大的刷怪间隔&lt;/li&gt;\n&lt;li&gt;RequiredPlayerRange: (Short) 当玩家在刷怪笼几格内时，刷怪笼才会尝试去生成生物（即冒烟（&lt;/li&gt;\n&lt;li&gt;SpawnRange: (Short) 【自己讲不清楚...找维基, 然后改一改】刷怪笼可以随机生成实体的范围。生成区域为正方体，含刷怪笼所在的方块。生物将会随机生成在以刷怪笼的 X、Z 坐标和以刷怪笼底部的Y坐标为中心的2格高的区域。&lt;/li&gt;\n&lt;li&gt;MaxNearbyEntities: (Short) 刷怪笼尝试生成生物时，刷怪笼周围的最大实体数量。&lt;/li&gt;\n&lt;li&gt;SpawnCount: (Short) 刷怪笼每次尝试生成生物的尝试数量（因为在游戏体验中，有时候刷怪笼并不会每次都会生成4个怪物）&lt;/li&gt;\n&lt;li&gt;Delay: (Short) 下一次生成生物的时间离现在有多少游戏tick。当玩家距离刷怪笼的长度满足刷怪笼的生成条件且刷怪笼内部有刷怪蛋时，这个值才会刷新。刷新这个值，即取在最小刷怪间隔和最大刷怪间隔之间取一个随机数。&lt;/li&gt;\n&lt;li&gt;DisplayEntityHeight, DisplayEntityScale, DisplayEntityWidth: (Float) 需要证实： 游戏每次尝试生成生物时，会以DisplayEntityWidth为长和宽，DisplayEntityHeight为高的矩形去测试某个地方是否会生成生物。&lt;/li&gt;\n&lt;/ul&gt;\n&lt;p&gt;例: 一个被修改过的空的刷怪箱:&lt;/p&gt;\n&lt;figure data-type=\&#34;image\&#34; tabindex=\&#34;18\&#34;&gt;&lt;img src=\&#34;https://github.com/post-images/bedrock-save/image-202008312103.PNG\&#34; alt=\&#34;整篇文章怎么洋溢着一股臭味呢\&#34; loading=\&#34;lazy\&#34;&gt;&lt;/figure&gt;\n&lt;/li&gt;\n&lt;li&gt;\n&lt;p&gt;音符盒&lt;/p&gt;\n&lt;ul&gt;\n&lt;li&gt;id: (String) &amp;quot;Music” 第一个与对应的方块的英文名字不一样的id!&lt;/li&gt;\n&lt;li&gt;isMovable: (Byte) 第10次不清楚是干嘛用的，观测是1&lt;/li&gt;\n&lt;li&gt;note: (Byte) 该音符的音高。通俗来讲就是玩家敲击了几次音符盒。如图:&lt;/li&gt;\n&lt;/ul&gt;\n&lt;figure data-type=\&#34;image\&#34; tabindex=\&#34;19\&#34;&gt;&lt;img src=\&#34;https://static.wikia.nocookie.net/minecraft_zh_gamepedia/images/b/bd/Noteblock_reference.png/revision/latest/scale-to-width-down/720?cb=20190129093637\&#34; alt=\&#34;Noteblock reference.png\&#34; loading=\&#34;lazy\&#34;&gt;&lt;/figure&gt;\n&lt;p&gt;例：一个被敲击了一次的音符盒的方块实体NBT标签:&lt;/p&gt;\n&lt;/li&gt;\n&lt;/ol&gt;\n&lt;figure data-type=\&#34;image\&#34; tabindex=\&#34;20\&#34;&gt;&lt;img src=\&#34;https://github.com/post-images/bedrock-save/image-202008312055.PNG\&#34; alt=\&#34;一个被敲击了一次的音符盒的方块实体NBT标签\&#34; loading=\&#34;lazy\&#34;&gt;&lt;/figure&gt;\n&lt;ol start=\&#34;11\&#34;&gt;\n&lt;li&gt;\n&lt;p&gt;唱片机&lt;/p&gt;\n&lt;ul&gt;\n&lt;li&gt;\n&lt;p&gt;id: (String) &amp;quot;Jukebox”&lt;/p&gt;\n&lt;/li&gt;\n&lt;li&gt;\n&lt;p&gt;isMovable: (Byte) 不清楚是干嘛用的，观测是1&lt;/p&gt;\n&lt;/li&gt;\n&lt;li&gt;\n&lt;p&gt;RecordItem: (Compound) 是该唱片内部存储的唱片物品的NBT。当这个唱片机里面没有唱片时，则没有这一项。&lt;/p&gt;\n&lt;/li&gt;\n&lt;/ul&gt;\n&lt;p&gt;例：上方是内部存有游戏里没有的唱片的唱片机，下方是没有唱片的:&lt;/p&gt;\n&lt;figure data-type=\&#34;image\&#34; tabindex=\&#34;21\&#34;&gt;&lt;img src=\&#34;https://github.com/post-images/bedrock-save/image-202008312101.PNG\&#34; alt=\&#34;上方是内部存有游戏里没有的唱片的唱片机，下方是没有唱片的\&#34; loading=\&#34;lazy\&#34;&gt;&lt;/figure&gt;\n&lt;/li&gt;\n&lt;/ol&gt;\n&lt;blockquote&gt;\n&lt;p&gt;&lt;code&gt;【雪莉：现在时间是8月31号晚上9点18分，似乎...算了，抓紧吧，以后来作业了又...】&lt;/code&gt;&lt;/p&gt;\n&lt;/blockquote&gt;\n&lt;ol start=\&#34;12\&#34;&gt;\n&lt;li&gt;\n&lt;p&gt;伸出的活塞臂&lt;/p&gt;\n&lt;ul&gt;\n&lt;li&gt;id: (String) &amp;quot;PistonArm”&lt;/li&gt;\n&lt;li&gt;Sticky: (Byte) 活塞臂是否是黏糊糊的（粘性活塞）&lt;/li&gt;\n&lt;/ul&gt;\n&lt;p&gt;研究这个比较困难，因为活塞伸出的时间就只有那么长，想要踩点对我来说还是很困难的。于是下面就直接展示自己的研究过程吧。&lt;/p&gt;\n&lt;p&gt;​\t首先我摆放了四个活塞，一个不伸出，一个伸出来，还有一个伸到一半，最后一个缩回来一半(怎么说起来那么奇怪呢)。并对比两者中有何变化。以下是有变化的项(在我的测试时):&lt;/p&gt;\n&lt;p&gt;​\t【呜呜呜┭┮﹏┭┮获得这些数据花了我好久因为我是手残QwQ 所以那个按钮之类的...Awq】&lt;/p&gt;\n&lt;p&gt;​\t【部分数据是猜测 不过大概率肯定是对的 【啊...手残党...】】&lt;/p&gt;\n&lt;p&gt;​\t【我的测试是将粘性活塞放在[ 4, 8, 11 ]的地方，将[ 4, 8, 10 ]的方块来回推，下表从左到右展示了这个过程】&lt;/p&gt;\n&lt;/li&gt;\n&lt;/ol&gt;\n&lt;table&gt;\n            &lt;tr&gt;\n                &lt;td&gt;&lt;b&gt;项的名称&lt;/b&gt;&lt;/td&gt;\n                &lt;td&gt;&lt;b&gt;活塞臂未伸出时的值&lt;/b&gt;&lt;/td&gt;\n                &lt;td colspan=\&#34;2\&#34;&gt;&lt;b&gt;活塞臂正在伸出时的值&lt;/b&gt;&lt;/td&gt;\n                &lt;td&gt;&lt;b&gt;活塞臂伸出时的值&lt;/b&gt;&lt;/td&gt;\n                &lt;td colspan=\&#34;2\&#34;&gt;&lt;b&gt;活塞臂正在缩回时的值&lt;/b&gt;&lt;/td&gt;\n            &lt;/tr&gt;\n            &lt;tr&gt;\n                &lt;td&gt;isMovable&lt;/td&gt;\n                &lt;td&gt;1&lt;/td&gt;\n                &lt;td&gt;1&lt;/td&gt;\n                &lt;td&gt;1&lt;/td&gt;\n                &lt;td&gt;0&lt;/td&gt;\n                &lt;td&gt;0&lt;/td&gt;\n                &lt;td&gt;0&lt;/td&gt;\n            &lt;/tr&gt;\n            &lt;tr&gt;\n                &lt;td&gt;LastProgress&lt;/td&gt;\n                &lt;td&gt;0&lt;/td&gt;\n                &lt;td&gt;0&lt;/td&gt;\n                &lt;td&gt;0.5&lt;/td&gt;\n                &lt;td&gt;1&lt;/td&gt;\n                &lt;td&gt;1&lt;/td&gt;\n                &lt;td&gt;0.5&lt;/td&gt;\n            &lt;/tr&gt;\n            &lt;tr&gt;\n                &lt;td&gt;Progress&lt;/td&gt;\n                &lt;td&gt;0&lt;/td&gt;\n                &lt;td&gt;0.5&lt;/td&gt;\n                &lt;td&gt;1&lt;/td&gt;\n                &lt;td&gt;1&lt;/td&gt;\n                &lt;td&gt;0.5&lt;/td&gt;\n                &lt;td&gt;0&lt;/td&gt;\n            &lt;/tr&gt;\n            &lt;tr&gt;\n                &lt;td&gt;State&lt;/td&gt;\n                &lt;td&gt;0&lt;/td&gt;\n                &lt;td&gt;1&lt;/td&gt;\n                &lt;td&gt;1&lt;/td&gt;\n                &lt;td&gt;2&lt;/td&gt;\n                &lt;td&gt;3&lt;/td&gt;\n                &lt;td&gt;3&lt;/td&gt;\n            &lt;/tr&gt;\n            &lt;tr&gt;\n                &lt;td&gt;NewState&lt;/td&gt;\n                &lt;td&gt;0&lt;/td&gt;\n                &lt;td&gt;1&lt;/td&gt;\n                &lt;td&gt;1&lt;/td&gt;\n                &lt;td&gt;2&lt;/td&gt;\n                &lt;td&gt;3&lt;/td&gt;\n                &lt;td&gt;3&lt;/td&gt;\n            &lt;/tr&gt;\n            &lt;tr&gt;\n                &lt;td&gt;AttachedBlocks&lt;/td&gt;\n                &lt;td&gt;[]&lt;/td&gt;\n                &lt;td&gt;[ 4, 8, 10 ]&lt;/td&gt;\n                &lt;td&gt;[ 4, 8, 10 ]&lt;/td&gt;\n                &lt;td&gt;[]&lt;/td&gt;\n                &lt;td&gt;[ 4, 8, 9 ]&lt;/td&gt;\n                &lt;td&gt;[ 4, 8, 9 ]&lt;/td&gt;\n            &lt;/tr&gt;\n&lt;/table&gt;\n&lt;blockquote&gt;\n&lt;p&gt;&lt;code&gt;【22点21了...】&lt;/code&gt;&lt;/p&gt;\n&lt;/blockquote&gt;\n&lt;p&gt;​\t\t\t其实还有一个项，&amp;quot;BreakBlocks&amp;quot;。猜测是由于我的测试一直都是推方块，所以这个值一直都没用到【要那样测试的话...我已经在233层高楼上面准备把空气当床了】。估计这个BreakBlocks如果使用到了的话，相同的情况对应的跟上面的movingBlocks的值是相同的。&lt;/p&gt;\n&lt;p&gt;​\t\t\t研究发现，当粘性的活塞臂正在伸出时，其AttachedBlocks会的值为其活塞臂粘着的方块还未被推动时的原坐标；当粘性的活塞臂正在缩回时，其AttachedBlocks会的值为其活塞臂粘着的方块还未被拉回时的原坐标。&lt;/p&gt;\n&lt;p&gt;​\t\t\t由于测试太过繁琐，所以我们来直接推测一下如果不是粘性活塞而是普通的活塞，那么这些值会怎么变化。推测：其它值都随着上面的走，但AttachedBlocks只在活塞推动了一个方块时才会有值。&lt;/p&gt;\n&lt;p&gt;​\t\t\t【幸亏测试的是粘性活塞呀，不然...233层高楼我来了】&lt;/p&gt;\n&lt;p&gt;​\t\t\t排除了这些项之后，,,,，好像就没有其ta项了嘻嘻(●&#39;◡&#39;●) 直接进入下一个。&lt;/p&gt;\n&lt;ol start=\&#34;13\&#34;&gt;\n&lt;li&gt;\n&lt;p&gt;正在被活塞移动的方块&lt;/p&gt;\n&lt;ul&gt;\n&lt;li&gt;id: (String) &amp;quot;MovingBlock”&lt;/li&gt;\n&lt;li&gt;isMovable: (Byte) 不清楚是干嘛用的。&lt;/li&gt;\n&lt;/ul&gt;\n&lt;p&gt;既然跟活塞运动有关【不要想歪真的没有那种意思】，我们就使用跟研究活塞一样的列表思路。&lt;/p&gt;\n&lt;p&gt;​\t【部分数据是猜测 不过大概率肯定是对的 【啊...手残党... *2】】&lt;/p&gt;\n&lt;p&gt;​\t【我的测试是将粘性活塞放在[ 4, 8, 11 ]的地方，将[ 4, 8, 10 ]的红石块来回推，下表从左到右展示了这个过程】&lt;/p&gt;\n&lt;p&gt;​\t【什么？宁认为我又会去做一遍实验? Oh no~ 我在做实验时发现了这个MovingBlock，在做上面的实验的时候顺便也记下来惹~~~~】&lt;/p&gt;\n&lt;/li&gt;\n&lt;/ol&gt;\n&lt;table&gt;\n\t&lt;tr&gt;\n        &lt;td&gt;&lt;b&gt;项的名称&lt;/b&gt;&lt;/td&gt;\n\t\t&lt;td&gt;&lt;b&gt;活塞臂未伸出时的值&lt;/b&gt;&lt;/td&gt;\n\t\t&lt;td colspan=\&#34;2\&#34;&gt;&lt;b&gt;活塞臂正在伸出时的值&lt;/b&gt;&lt;/td&gt;\n\t\t&lt;td&gt;&lt;b&gt;活塞臂伸出时的值&lt;/b&gt;&lt;/td&gt;\n\t\t&lt;td colspan=\&#34;2\&#34;&gt;&lt;b&gt;活塞臂正在缩回时的值&lt;/b&gt;&lt;/td&gt;\n\t&lt;/tr&gt;\n    &lt;tr&gt;\n\t\t&lt;td&gt;AttachedBlocks&lt;/td&gt;\n        &lt;td&gt;[]&lt;/td&gt;\n        &lt;td&gt;[ 4, 8, 10 ]&lt;/td&gt;\n        &lt;td&gt;[ 4, 8, 10 ]&lt;/td&gt;\n        &lt;td&gt;[]&lt;/td&gt;\n        &lt;td&gt;[ 4, 8, 9 ]&lt;/td&gt;\n        &lt;td&gt;[ 4, 8, 9 ]&lt;/td&gt;\n\t&lt;/tr&gt;\n&lt;/table&gt;\n&#34;,&#34;fileName&#34;:&#34;minecraft-ji-yan-ban-cun-dang-jia-gou-jian-jie&#34;,&#34;abstract&#34;:&#34;&#34;,&#34;title&#34;:&#34;Minecraft基岩版存档架构简介&#34;,&#34;tags&#34;:[],&#34;date&#34;:&#34;2020-08-31 15:37:52&#34;,&#34;dateFormat&#34;:&#34;2020-08-31&#34;,&#34;feature&#34;:&#34;&#34;,&#34;link&#34;:&#34;https://github.com/post/minecraft-ji-yan-ban-cun-dang-jia-gou-jian-jie/&#34;,&#34;hideInList&#34;:false,&#34;isTop&#34;:false,&#34;stats&#34;:{&#34;text&#34;:&#34;23 min read&#34;,&#34;time&#34;:1372000,&#34;words&#34;:6339,&#34;minutes&#34;:23},&#34;description&#34;:&#34;花絮： 今天的bgm是什么呢？\n啊 是sans.（\n写在前面\n人在家中，刚下床，谢邀。本专栏由&amp;quot;基本&amp;quot;不会编程的up🐖书写，许多专业术语知识还欠缺，可能会有错误，还请大佬们见谅。\n许多时候程序yuan并不会那么bt，许...&#34;,&#34;toc&#34;:&#34;&lt;ul class=\&#34;markdownIt-TOC\&#34;&gt;\n&lt;li&gt;&lt;a href=\&#34;#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2\&#34;&gt;写在前面&lt;/a&gt;&lt;/li&gt;\n&lt;li&gt;&lt;a href=\&#34;#%E7%9B%AE%E5%BD%95\&#34;&gt;&lt;strong&gt;目录&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;\n&lt;li&gt;&lt;a href=\&#34;#%E5%AD%98%E6%A1%A3%E5%85%A8%E5%B1%80%E4%BF%A1%E6%81%AF\&#34;&gt;&lt;strong&gt;存档全局信息&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;\n&lt;li&gt;&lt;a href=\&#34;#%E5%AD%98%E6%A1%A3%E8%B5%84%E6%BA%90%E5%8C%85%E4%BF%A1%E6%81%AF\&#34;&gt;&lt;strong&gt;存档资源包信息&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;\n&lt;li&gt;&lt;a href=\&#34;#nbt%E6%A0%BC%E5%BC%8F%E6%A6%82%E8%BF%B0\&#34;&gt;NBT格式概述&lt;/a&gt;&lt;/li&gt;\n&lt;li&gt;&lt;a href=\&#34;#%E5%AD%98%E6%A1%A3%E5%85%B6%E5%AE%83%E4%BF%A1%E6%81%AF\&#34;&gt;&lt;strong&gt;存档其它信息&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;\n&lt;li&gt;&lt;a href=\&#34;#%E5%9C%B0%E5%BD%A2%E5%AD%98%E5%82%A8\&#34;&gt;地形存储&lt;/a&gt;&lt;/li&gt;\n&lt;/ul&gt;\n&#34;}]";
+  // var json = escape.substr(1, escape.length - 2);
+  // var datas = json.split(',');
+  // for (let i=0; i < datas.length; i++) {
+  //   let item = datas[i];
+  //   let attrs = item.split('34;:&#34')
+  //   debugger
+  //   console.log(datas[i])
+  // }
+  let escapeMap = new Map();
+  escapeMap.set('&#34;', '"');
+  escapeMap.set('&gt;', '>');
+  escapeMap.set('&#39;', "'");
+  escapeMap.set('&lt;', '<');
+  escapeMap.set('&quot;', '"');
+  escapeMap.set('&amp;', '&');
+</script> -->
+
+<script src="/media/js/mouse/peace.js"></script>
+
+
 </html>
