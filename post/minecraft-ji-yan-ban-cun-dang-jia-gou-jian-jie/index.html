@@ -6,7 +6,7 @@
 
 <title>Minecraft基岩版存档架构简介（未完成） | Xueli的小博客</title>
 
-<link rel="shortcut icon" href="https://lovelyzeeiam.github.io/favicon.ico?v=1599052424808">
+<link rel="shortcut icon" href="https://lovelyzeeiam.github.io/favicon.ico?v=1599053620964">
 
 <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://lovelyzeeiam.github.io/styles/main.css">
@@ -77,7 +77,7 @@
             
         </div>
         <div style="text-align: center">
-            <form id="gridea-search-form" style="position: relative" data-update="1599052424808" action="/search/index.html">
+            <form id="gridea-search-form" style="position: relative" data-update="1599053620964" action="/search/index.html">
                 <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
                 <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
             </form>
@@ -124,7 +124,7 @@
 <p>上面提到出现的文件夹是存储这个资源包或行为包的目录，在这个目录里面会有加载过的资源包或行为包，以文件夹的形式放在这个目录下（不是压缩文件哦）。</p>
 <p>world_****_packs.json的文件是以Json格式存储。这个Json文件存储了当前这个存档正在使用的包，里面每个包信息的pack_id和version会与包中menifest.json文件中header属性中的pack_id和version对应。</p>
 <p>world_****_pack_history.json文件里面存储了至今这个存档使用了那些包。里面每个包的信息会与包中menifest.json文件中header属性中的pack_id和version对应。can_be_redownloaded参数是用来判断这个包是否是商店内下载的包，当这个属性是true的时候，游戏将会去自身的包下载缓存目录寻找这个包，在Windows 10上这个目录是:  &quot;C:\Users\宁的用户名\AppData\Local\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\LocalState&quot; 但是里面几乎所有的内容都被加密辽，，，。这个目录里面还有一个persona文件夹，应该是存储了在游戏内自定义皮肤的里面的信息。skin_packs文件夹里面存储的是皮肤包。手机root不了所以看不到在哪里，有兴趣的小伙伴可以去手机的根目录找找（大家平时打开手机自身的文件管理器打开的不是根目录**!!!**沃记得的ES文件管理器和MT管理器都可以看到手机根目录的文件)</p>
-<p>值得注意的是，开发者可以将自己要测试的包放在com.mojang文件夹下面的development_<strong><strong>_packs文件夹下面。放在这里的包在游戏中导入时，是不会被复制到存档自身的</strong></strong><em>pack文件夹里面的哦。所以，如果是边开发边测试一个包，可以直接在development</em>****_packs文件夹里面创建一个文件夹作为存储这个包的地方，导出这个包时直接将这个文件夹里面的所有文件压缩就可以啦。</p>
+<p>值得注意的是，开发者可以将自己要测试的包放在com.mojang文件夹下面的development_****_packs文件夹下面。放在这里的包在游戏中导入时，是不会被复制到存档自身的****_pack文件夹里面的哦。所以，如果是边开发边测试一个包，可以直接在development_****_packs文件夹里面创建一个文件夹作为存储这个包的地方，导出这个包时直接将这个文件夹里面的所有文件压缩就可以啦。</p>
 <h1 id="nbt格式概述">NBT格式概述</h1>
 <p>【本节涉及到小字节序和大字节序，然后up不会讲,,,大家可以去看https://zhuanlan.zhihu.com/p/21388517的&quot;2.2 字节序&quot;一节】</p>
 <p>Minecraft在java版和基岩版的数据存储都或多或少的使用了NBT格式。在这里简单的说明一下NBT格式是个什么东西。首先得先说明一下，这种格式是可以嵌入的，不仅仅是在一个文件里面，还可以存在于一个文件的一部分。上面提到过，NBT全名Named Binary  Tag，学过编程的小伙伴可以理解为一个Json数据的结构，没有学过的可以理解成一个数学中的函数——即给出一串文字，有且仅有唯一一个对象与之对应（之类的东西）。在这里我们会来探讨这些数据是如何存储的。（notch提供的nbt.txt说明文档国内好像上不去，能得到这个文件的好心人可以把原文或者网盘地址放在评论区嘛，蟹蟹！~，地址：web.archive.org/web/20110723210920/http://www.minecraft.net/docs/NBT.txt）</p>
@@ -141,8 +141,8 @@
 <p><strong>玩家</strong></p>
 <p>游戏中，玩家肯定也是不可少的一部分（废话）。修改玩家的信息也足够简单，不过获取一个玩家的信息是一件难事。目前还未发现比较轻便的查找对应玩家信息的方法。</p>
 <p>在数据库中，得到本地玩家的玩家信息要传的参数为&quot;~local_player&quot;；</p>
-<p>得到真正的玩家信息要传的参数为&quot;player_<strong><strong><strong><strong>-<strong><strong>-</strong></strong>-<strong><strong>-</strong></strong></strong></strong></strong></strong>&quot;；</p>
-<p>当然也会有一种玩家信息是带server的，这种应该是基岩版官方服务器的存档内存储的玩家信息，要传的参数为&quot;player_server_<strong><strong><strong><strong>-<strong><strong>-</strong></strong>-<strong><strong>-</strong></strong></strong></strong></strong></strong>&quot;（下划线和横杠杠不要看错了沃）。（星号组成一个uuid 大概是游戏随机分配的）</p>
+<p>得到真正的玩家信息要传的参数为&quot;player_********-****-****-****-************&quot;；</p>
+<p>当然也会有一种玩家信息是带server的，这种应该是基岩版官方服务器的存档内存储的玩家信息，要传的参数为&quot;player_server_********-****-****-****-************&quot;（下划线和横杠杠不要看错了沃）。（星号组成一个uuid 大概是游戏随机分配的）</p>
 <p>（老爹：还有一件事：要传的是这些文字的ASCII码组成的数组!）</p>
 <p>三种情况得到的都是一个小字节序的NBT数据。第一种情况和第三种情况得到的NBT数据大致上都应该相同（常用的参数应该都拥有）。第二种情况可能会得到只含三个参数的NBT标签：</p>
 <p>​    MsaId和SelfSignedId： 这两个标签似乎都有可能与ta所在标签的名称相同，目前未找到用途；</p>
