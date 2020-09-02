@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://lovelyzeeiam.github.io</id>
     <title>Xueli的小博客</title>
-    <updated>2020-09-02T13:34:19.060Z</updated>
+    <updated>2020-09-02T13:37:07.900Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://lovelyzeeiam.github.io"/>
     <link rel="self" href="https://lovelyzeeiam.github.io/atom.xml"/>
@@ -40,7 +40,7 @@
 <p>加入过资源包的存档，在该存档的文件夹会出现world_resource_packs.json和world_resource_pack_history.json以及resource_packs文件夹。加入过行为包的存档，会出现world_behavior_packs.json和world_behavior_pack_history.json以及behavior_packs文件夹。</p>
 <p>上面提到出现的文件夹是存储这个资源包或行为包的目录，在这个目录里面会有加载过的资源包或行为包，以文件夹的形式放在这个目录下（不是压缩文件哦）。</p>
 <p>world_****_packs.json的文件是以Json格式存储。这个Json文件存储了当前这个存档正在使用的包，里面每个包信息的pack_id和version会与包中menifest.json文件中header属性中的pack_id和version对应。</p>
-<p>world_****_pack_history.json文件里面存储了至今这个存档使用了那些包。里面每个包的信息会与包中menifest.json文件中header属性中的pack_id和version对应。can_be_redownloaded参数是用来判断这个包是否是商店内下载的包，当这个属性是true的时候，游戏将会去自身的包下载缓存目录寻找这个包，在Windows 10上这个目录是:  &quot;C:\Users\宁的用户名\AppData\Local\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\LocalState&quot; 但是里面几乎所有的内容都被加密辽，，，。这个目录里面还有一个persona文件夹，应该是存储了在游戏内自定义皮肤的里面的信息。skin_packs文件夹里面存储的是皮肤包。手机root不了所以看不到在哪里，有兴趣的小伙伴可以去手机的根目录找找（大家平时打开手机自身的文件管理器打开的不是根目录**!!!**沃记得的ES文件管理器和MT管理器都可以看到手机根目录的文件)</p>
+<p>world_****_pack_history.json文件里面存储了至今这个存档使用了那些包。里面每个包的信息会与包中menifest.json文件中header属性中的pack_id和version对应。can_be_redownloaded参数是用来判断这个包是否是商店内下载的包，当这个属性是true的时候，游戏将会去自身的包下载缓存目录寻找这个包，在Windows 10上这个目录是:  &quot;C:\Users\宁的用户名\AppData\Local\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\LocalState\&quot; 但是里面几乎所有的内容都被加密辽，，，。这个目录里面还有一个persona文件夹，应该是存储了在游戏内自定义皮肤的里面的信息。skin_packs文件夹里面存储的是皮肤包。手机root不了所以看不到在哪里，有兴趣的小伙伴可以去手机的根目录找找（大家平时打开手机自身的文件管理器打开的不是根目录**!!!**沃记得的ES文件管理器和MT管理器都可以看到手机根目录的文件)</p>
 <p>值得注意的是，开发者可以将自己要测试的包放在com.mojang文件夹下面的development_****_packs文件夹下面。放在这里的包在游戏中导入时，是不会被复制到存档自身的****_pack文件夹里面的哦。所以，如果是边开发边测试一个包，可以直接在development_****_packs文件夹里面创建一个文件夹作为存储这个包的地方，导出这个包时直接将这个文件夹里面的所有文件压缩就可以啦。</p>
 <h1 id="nbt格式概述">NBT格式概述</h1>
 <p>【本节涉及到小字节序和大字节序，然后up不会讲,,,大家可以去看https://zhuanlan.zhihu.com/p/21388517的&quot;2.2 字节序&quot;一节】</p>
