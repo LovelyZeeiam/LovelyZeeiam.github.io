@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://lovelyzeeiam.github.io</id>
     <title>Xueli的小博客</title>
-    <updated>2020-09-06T10:19:58.453Z</updated>
+    <updated>2020-09-06T13:45:35.623Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://lovelyzeeiam.github.io"/>
     <link rel="self" href="https://lovelyzeeiam.github.io/atom.xml"/>
@@ -77,7 +77,7 @@
 <h1 id="地形存储">地形存储</h1>
 <p><strong>【本节内容可能会有不对的地方 也请大佬们在评论底下修正 非常感谢！】</strong></p>
 <p>终于到我们的重头戏了——游戏的地形存储。<del>今天小编就来带大家看看。</del></p>
-<p>首先还是我们的惯例，灵魂疑问：该怎么得到区块的信息呢？真的很简单，人人都可以学得会：首先将这个区块的x坐标以小字节序变成四个字节（即一个int类型）然后将这个区块的z坐标也以小字节序变成四个字节紧随其后，如果这个区块不是主世界区块那就再将其维度对应的id以小字节序还是变成四个字节跟在后面（1是地狱，2是末地），然后后面跟上一个特定的数字以一个字节存储的字节。这个特定的数字可以是下面的任意一个，取决于要申请的数据的类型：</p>
+<p>首先还是我们的惯例，灵魂疑问：该怎么得到区块的信息呢？真的很简单，人人都可以学得会：首先将这个区块的x坐标以小字节序变成四个字节（即一个int类型）然后将这个区块的z坐标也以小字节序变成四个字节紧随其后，如果这个区块不是主世界区块那就再将其维度对应的id以小字节序还是变成四个字节跟在后面（1是地狱，2是末地），然后后面跟上一个特定的数字以一个字节存储的字节。这个特定的数字可以是下面的任意一个，取决于要申请的数据的类型：【下面有一类数据，只传这个特定的数字是拿不到滴，下面会有解释】</p>
 <figure data-type="image" tabindex="4"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/77932686035b7324f5ba68f63e5db2352359bb6f.png" alt="img" loading="lazy"></figure>
 <p>例： 如果想要申请x坐标是114514，z坐标是1919180的区块的高度图（臭味图（逃）和生物群系:</p>
 <figure data-type="image" tabindex="5"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/d43f4f78deb235cffff4e47725952c59ba7402c8.gif" alt="img" loading="lazy"></figure>
@@ -800,10 +800,15 @@
 <li>id: (String) &quot;Cauldron”</li>
 <li>isMovable: (Byte) 是否能被活塞推动。默认是1，即能推动；0是不能被推动。</li>
 <li>Items: (List) 不清楚是干什么用的 [ ~- ^ -~ ]</li>
+<li>CustomColor: (Integer) 当炼药锅里面是水，且已经被染色的时候，这个标签才存在。这个标签虽然看起来是一个Integer类型的整数，但是实际使用的时候是将这个整数拆分成四个字节，分别对应RGBA四个颜色数值。</li>
+</ul>
+<p>这是一个装满粉色染料染过色之后的水的炼药锅的CustomColor值:</p>
+<figure data-type="image" tabindex="23"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-20200906190921023.png" alt="image-20200906190921023" loading="lazy"></figure>
+<ul>
 <li>PotionType: (Short) 该药水的类型。0是普通药水，1是喷溅型药水，2是滞留性药水。如果炼药锅内装的不是药水，这里会写-1.</li>
 <li>Potionid: (Short) 该药水的种类。如果炼药锅内装的不是药水，这里会是-1。其ta的药水对应如下表：</li>
 </ul>
-<figure data-type="image" tabindex="23"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-20200906170138149.png" alt="image-20200906170138149" loading="lazy"></figure>
+<figure data-type="image" tabindex="24"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-20200906170138149.png" alt="image-20200906170138149" loading="lazy"></figure>
 </li>
 <li>
 <p>潮涌核心</p>
@@ -825,7 +830,607 @@
 </ul>
 </li>
 </ol>
-<h3 id="方块实体数据-2">方块实体数据</h3>
+<h3 id="子区块的数据">子区块的数据</h3>
+<p>​	其实获取子区块不仅仅只是传一个“47”。因为在游戏中，子区块是从下到上堆积起来的，像堆积木一样。一个子区块的大小是16*16*16，所以我们需要在我们的“47”后面再接上一个byte类型（在下面就称这个数this_num辽）。这个byte类型的数字范围是[ 0, 15 ]【即0 &lt;= this_num&lt;= 15】，代表这个子区块是从最下面一个子区块向上数的第this_num个的子区块。所以这个子区块的y轴范围是[ this_num * 16, (this_num + 1) * 16 )【即 this_num * 16 &lt;= y轴范围 &lt; (this_num + 1) * 16】。</p>
+<p>​	上面买了个小关子，这回我们终于拿到想要的地形存储了。再加上Python爬虫，爬取播放量多的midi文件并解析，最后再将红石音乐的样式生成做成一个Interface，唔，美汁汁~ 接下来，宁可能会被映入眼帘的获取到的杂乱的数据昏了头脑；用MCC ToolChest PE的读者，一定也会发现，在一个区块里面，似乎没有被提及的就是Sections这个列表了。这个列表里面又有几个子对象，宁可能会马上意识到，这就是我们这一节要调教的子区块，然后就会被迷住（😂）</p>
+<p>​	我们先从MCC ToolChest开始讲起，因为ta有一个可视化的界面。没有装MCC ToolChest的同学也不要紧，我这里放上我的测试世界的某一个区块的MCC ToolChest界面：</p>
+<figure data-type="image" tabindex="25"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/UFD4W@Q8S%60NW%7DUOFDW%60ABKD.png" alt="img" loading="lazy"></figure>
+<p>​	还有这个区块代表的区块截图：</p>
+<figure data-type="image" tabindex="26"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-20200906201146132.png" alt="image-20200906201146132" loading="lazy"></figure>
+<p>​	将所有的标签都展开，我们就可以发现，这个子区块中的Palette存储的是这个子区块所有类型方块的方块NBT。那么为什么要这样存呢？脑袋转的快的同学马上就能反应出来，游戏为了压缩世界大小，将所有类型的方块状态存在一个列表里面，那么存储方块就是存储这个方块在列表里面的索引。存储的少，算法还简单，读写就更快了，两全其美。然后下面的BlockStates就是这个子区块的每一个方块对应的索引。</p>
+<p>​	这就是我们的假说，接下来我们要做的就是将上面的BlockStates导出，变成一张表，然后将这张表对着Palette中的项去对照。我们就取有熔炉的那一层，是第58层，即这个子区块的第<code>58 % 16 = 10</code>层。按照每一层<code>16 * 16 = 256</code>个方块，每个方块的索引占一个Integer即4个字节，我们就得取偏移了<code>(10 - 1) * (256 * 4) = 9216</code>字节之后的1024字节：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"><strong>0</strong></th>
+<th style="text-align:center"><strong>0</strong></th>
+<th style="text-align:center"><strong>0</strong></th>
+<th style="text-align:center"><strong>0</strong></th>
+<th style="text-align:center"><strong>0</strong></th>
+<th style="text-align:center"><strong>0</strong></th>
+<th style="text-align:center"><strong>0</strong></th>
+<th style="text-align:center"><strong>0</strong></th>
+<th style="text-align:center"><strong>0</strong></th>
+<th style="text-align:center"><strong>0</strong></th>
+<th style="text-align:center"><strong>0</strong></th>
+<th style="text-align:center"><strong>0</strong></th>
+<th style="text-align:center"><strong>0</strong></th>
+<th style="text-align:center"><strong>0</strong></th>
+<th style="text-align:center"><strong>0</strong></th>
+<th style="text-align:center"><strong>0</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>5</strong></td>
+<td style="text-align:center"><strong>2</strong></td>
+<td style="text-align:center"><strong>2</strong></td>
+<td style="text-align:center"><strong>2</strong></td>
+<td style="text-align:center"><strong>5</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>2</strong></td>
+<td style="text-align:center"><strong>12</strong></td>
+<td style="text-align:center"><strong>10</strong></td>
+<td style="text-align:center"><strong>11</strong></td>
+<td style="text-align:center"><strong>2</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>2</strong></td>
+<td style="text-align:center"><strong>14</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>6</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>2</strong></td>
+<td style="text-align:center"><strong>15</strong></td>
+<td style="text-align:center"><strong>15</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>2</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>5</strong></td>
+<td style="text-align:center"><strong>2</strong></td>
+<td style="text-align:center"><strong>2</strong></td>
+<td style="text-align:center"><strong>2</strong></td>
+<td style="text-align:center"><strong>5</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+<td style="text-align:center"><strong>0</strong></td>
+</tr>
+</tbody>
+</table>
+<p>​	不难将其根据Palette转换成图：【由于这里看不出来床的颜色 所以默认使用白色】</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"><img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/c/c5/Oak_Log_Axis_Y_JE5_BE3.png/revision/latest/scale-to-width-down/300?cb=20200317191605" width="70%"></img></td>
+<td style="text-align:center"><img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/3/37/Oak_Planks_JE6_BE3.png/revision/latest/scale-to-width-down/300?cb=20200317041641" width="70%"></img></td>
+<td style="text-align:center"><strong><img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/3/37/Oak_Planks_JE6_BE3.png/revision/latest/scale-to-width-down/300?cb=20200317041641" width="70%"></img></strong></td>
+<td style="text-align:center"><strong><img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/3/37/Oak_Planks_JE6_BE3.png/revision/latest/scale-to-width-down/300?cb=20200317041641" width="70%"></img></strong></td>
+<td style="text-align:center"><img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/c/c5/Oak_Log_Axis_Y_JE5_BE3.png/revision/latest/scale-to-width-down/300?cb=20200317191605" width="70%"></img></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"><img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/3/37/Oak_Planks_JE6_BE3.png/revision/latest/scale-to-width-down/300?cb=20200317041641" width="70%"></img></td>
+<td style="text-align:center"><img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/0/07/Crafting_Table_JE4.png/revision/latest/scale-to-width-down/300?cb=20191229083529" width="70%"></img></td>
+<td style="text-align:center"><img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/1/1a/White_Bed_JE3_BE3.png/revision/latest/scale-to-width-down/150?cb=20200317231837" width="70%"></img><font size="2px">【床尾】</font></td>
+<td style="text-align:center"><strong><img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/1/1a/White_Bed_JE3_BE3.png/revision/latest/scale-to-width-down/150?cb=20200317231837" width="70%"></img></strong><font size="2px">【床头】</font></td>
+<td style="text-align:center"><strong><img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/3/37/Oak_Planks_JE6_BE3.png/revision/latest/scale-to-width-down/300?cb=20200317041641" width="70%"></img></strong></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"><strong><img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/3/37/Oak_Planks_JE6_BE3.png/revision/latest/scale-to-width-down/300?cb=20200317041641" width="70%"></img></strong></td>
+<td style="text-align:center"><img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/4/49/Furnace_JE3_BE2.png/revision/latest/scale-to-width-down/300?cb=20200902213128" width="70%"></img></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"><img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/7/70/Oak_Door_JE5_BE2.png/revision/latest/scale-to-width-down/300?cb=20200317191541" width="70%"></img></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"><strong><img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/3/37/Oak_Planks_JE6_BE3.png/revision/latest/scale-to-width-down/300?cb=20200317041641" width="70%"></img></strong></td>
+<td style="text-align:center"><img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/4/41/Chest.gif/revision/latest/scale-to-width-down/300?cb=20191219163202" width="70%"></img></td>
+<td style="text-align:center"><strong><img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/4/41/Chest.gif/revision/latest/scale-to-width-down/300?cb=20191219163202" width="70%"></img></strong></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"><strong><img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/3/37/Oak_Planks_JE6_BE3.png/revision/latest/scale-to-width-down/300?cb=20200317041641" width="70%"></img></strong></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"><img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/c/c5/Oak_Log_Axis_Y_JE5_BE3.png/revision/latest/scale-to-width-down/300?cb=20200317191605" width="70%"></img></td>
+<td style="text-align:center"><strong><img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/3/37/Oak_Planks_JE6_BE3.png/revision/latest/scale-to-width-down/300?cb=20200317041641" width="70%"></img></strong></td>
+<td style="text-align:center"><img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/3/37/Oak_Planks_JE6_BE3.png/revision/latest/scale-to-width-down/300?cb=20200317041641" width="70%"></img></td>
+<td style="text-align:center"><img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/3/37/Oak_Planks_JE6_BE3.png/revision/latest/scale-to-width-down/300?cb=20200317041641" width="70%"></img></td>
+<td style="text-align:center"><img src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/c/c5/Oak_Log_Axis_Y_JE5_BE3.png/revision/latest/scale-to-width-down/300?cb=20200317191605" width="70%"></img></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+<p>​	接下来与原版进行对比:</p>
+<figure data-type="image" tabindex="27"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-20200906213556482.png" alt="image-20200906213556482" loading="lazy"></figure>
+<p>​	因为盔甲架是实体，不算方块，所以就可以看到，算是完全一致。那么这个假说算是可以证明成立了。【大家可以替换掉几个方块，多实验几次，毕竟只实验一次具有偶然性，这里为了节省篇幅就不多做实验了】</p>
 ]]></content>
     </entry>
 </feed>
