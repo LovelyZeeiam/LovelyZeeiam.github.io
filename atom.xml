@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://lovelyzeeiam.github.io</id>
     <title>Xueli的小博客</title>
-    <updated>2020-09-06T10:12:59.391Z</updated>
+    <updated>2020-09-06T10:19:58.453Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://lovelyzeeiam.github.io"/>
     <link rel="self" href="https://lovelyzeeiam.github.io/atom.xml"/>
@@ -47,10 +47,10 @@
 <p>其它的信息包括地形信息，方块内部特有的信息，实体信息等等（或许概括全了）都<strong>存在&quot;db&quot;文件夹里面</strong>。这个文件夹里面存储的是一个LevelDB数据库（以下简称数据库）。与NBT类似，也是给出一个值，会返回另外一个唯一的值（程序员: 不就是key-value数据库嘛）。</p>
 <p>（偷个懒 技术玩家可以通过直接写代码的方式来访问这个数据库 其ta的玩家捏可以通过MCC ToolChest打开这个存档 不过后者可能可见的信息要少一些）</p>
 <p>既然给出一个值(key)就返回另外一个唯一的值(value)，那么我们肯定得先从给出的这个值开始入手。咱们从简单的开始。</p>
-<p><strong>计分板</strong></p>
+<h3 id="计分板">计分板</h3>
 <p>计分板肯定得算比较简单的。直接向这个数据库里面传入&quot;scoreboard&quot;中每个字母的ascii码组成的数组就可以（Java: &quot;scoreboard&quot;.getBytes() 后 遗 症)，获取到一个未经压缩的小字节序NBT数据。这个数据中会存储着5个数据:</p>
 <p><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/1feac2b904272561f7b536bf597f8978c5f40672.png" alt="img" loading="lazy">五个数据哦~</p>
-<p><strong>玩家</strong></p>
+<h3 id="玩家">玩家</h3>
 <p>游戏中，玩家肯定也是不可少的一部分（废话）。修改玩家的信息也足够简单，不过获取一个玩家的信息是一件难事。目前还未发现比较轻便的查找对应玩家信息的方法。</p>
 <p>在数据库中，得到本地玩家的玩家信息要传的参数为&quot;~local_player&quot;；</p>
 <p>得到真正的玩家信息要传的参数为&quot;player_********-****-****-****-************&quot;；</p>
@@ -62,7 +62,7 @@
 <p>得到的玩家的NBT数据可以直接根据其名称来判断这个属性控制的是游戏中的什么功能（学英文的重要性（ε=┏(゜ロ゜;)┛）） 其它看不懂的，大部分都有可能是一修改就出问题 或是无实际功能或修改价值 抑或是没修炼够/doge：</p>
 <figure data-type="image" tabindex="2"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/b3d378d421926dd8ab4bc85223a1fa9dde00e10e.png" alt="img" loading="lazy"></figure>
 <p>（当然可能也可以通过修改这个来达到使玩家pregnant的臆想效果（</p>
-<p><strong>地图</strong></p>
+<h3 id="地图">地图</h3>
 <p>像素画大师们最钟情（可能）的东西。在数据库中，要想找到一个指定的地图并非容易。得到一个地图数据需要传的参数的格式: &quot;map_&quot;+一串数字。如果单纯看这串十进制的数据，是比较难发现规律的。我们将其变成16进制康康：</p>
 <figure data-type="image" tabindex="3"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/a5e271909e7e54bb652b642a1108a8548ca6cdf6.png" alt="img" loading="lazy"></figure>
 <p>不难发现（），这串数字的前四位与FF FF FF FF代表的数字相差加上1，即为在创建这个地图的时候进游戏的次数。不过这串数字后四个字节就非常非常神奇，观测是离关游戏的时间越近，这四个字节在大端序下代表的数字就会越小。</p>
@@ -81,11 +81,11 @@
 <figure data-type="image" tabindex="4"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/77932686035b7324f5ba68f63e5db2352359bb6f.png" alt="img" loading="lazy"></figure>
 <p>例： 如果想要申请x坐标是114514，z坐标是1919180的区块的高度图（臭味图（逃）和生物群系:</p>
 <figure data-type="image" tabindex="5"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/d43f4f78deb235cffff4e47725952c59ba7402c8.gif" alt="img" loading="lazy"></figure>
-<h2 id="高度图和生物群系">高度图和生物群系</h2>
+<h3 id="高度图和生物群系">高度图和生物群系</h3>
 <p>​    申请得到的高度图和生物群系中，前512个字节存储的是高度图。高度图存储了俯视这个区块得到的平面图中，每一格存储一个short类型（一个占两个字节的整数）代表这一格最高的方块处在的y坐标。紧接着是生物群系，以同样的方式，但是是以每一格一个byte类型存储生物群系id。</p>
 <p><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/381545dcdfdacb447b46b2b1a65825984c7e65f8.png" alt="img" loading="lazy"><br>
 左图:mcc tool chest pe截图 横坐标是x 纵坐标是z   右图:从数据库中取出的数据在十六进制编辑器中的模样</p>
-<h2 id="方块实体数据">方块实体数据</h2>
+<h3 id="方块实体数据">方块实体数据</h3>
 <p>申请得到的方块实体数据是一个小字节序的NBT数据。</p>
 <figure data-type="image" tabindex="6"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/46b06817a8eb2f0db31b1c982eb1306f0d174a4c.png" alt="img" loading="lazy"></figure>
 <p>有些方块为了每一个游戏刻都要刷新，所以将其归结到方块实体里面；还有一些功能方块，存储的数据比较多，所以就存在了这里，具体为什么要放在下面的地形数据再说啦~</p>
@@ -825,6 +825,7 @@
 </ul>
 </li>
 </ol>
+<h3 id="方块实体数据-2">方块实体数据</h3>
 ]]></content>
     </entry>
 </feed>
