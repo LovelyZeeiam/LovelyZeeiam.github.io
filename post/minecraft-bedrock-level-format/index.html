@@ -6,7 +6,7 @@
 
 <title>Minecraft基岩版存档格式简介（未完成） | Xueli的小博客</title>
 
-<link rel="shortcut icon" href="https://lovelyzeeiam.github.io/favicon.ico?v=1599386459069">
+<link rel="shortcut icon" href="https://lovelyzeeiam.github.io/favicon.ico?v=1599387113745">
 
 <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://lovelyzeeiam.github.io/styles/main.css">
@@ -77,7 +77,7 @@
             
         </div>
         <div style="text-align: center">
-            <form id="gridea-search-form" style="position: relative" data-update="1599386459069" action="/search/index.html">
+            <form id="gridea-search-form" style="position: relative" data-update="1599387113745" action="/search/index.html">
                 <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
                 <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
             </form>
@@ -647,7 +647,7 @@
 <li>LastOutputParams: (List) 观察这里是长度为3的列表（即这个列表里面有三项）</li>
 <li>LastOutput: (String) 这里是指向语言文件的一个索引。程序yuan为了方便做国际化，会将游戏中出现的文字都变成一段特定的字符和符号组合，在游戏的代码中就引用这个字符串，在不同语言的语言文件就去定义这个字符串的值，展示在玩家面前的就是其对应语言的文字；如果这串文字没有在语言文件里面找到对应的值，就会原模原样的呈现在玩家面前
 <ul>
-<li>在找到的对应文字里面里面，会有一些比较奇怪的东西，比如说”%1<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>s</mi><mi mathvariant="normal">”</mi><mi mathvariant="normal">“</mi></mrow><annotation encoding="application/x-tex">s”“%2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">s</span><span class="mord">”</span><span class="mord">“</span></span></span></span>d”。如果大家学过C语言，可能会意识到，里面的&quot;<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>s</mi><mi mathvariant="normal">&quot;</mi><mi mathvariant="normal">指</mi><mi mathvariant="normal">的</mi><mi mathvariant="normal">是</mi><mi mathvariant="normal">一</mi><mi mathvariant="normal">个</mi><mi mathvariant="normal">字</mi><mi mathvariant="normal">符</mi><mi mathvariant="normal">串</mi><mi mathvariant="normal">，</mi><mi mathvariant="normal">对</mi><mi mathvariant="normal">应</mi><mi>C</mi><mi mathvariant="normal">语</mi><mi mathvariant="normal">言</mi><mi mathvariant="normal">的</mi><mi mathvariant="normal">&quot;</mi></mrow><annotation encoding="application/x-tex">s&quot;指的是一个字符串，对应C语言的&quot;%s&quot;；&quot;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">s</span><span class="mord">&quot;</span><span class="mord cjk_fallback">指</span><span class="mord cjk_fallback">的</span><span class="mord cjk_fallback">是</span><span class="mord cjk_fallback">一</span><span class="mord cjk_fallback">个</span><span class="mord cjk_fallback">字</span><span class="mord cjk_fallback">符</span><span class="mord cjk_fallback">串</span><span class="mord cjk_fallback">，</span><span class="mord cjk_fallback">对</span><span class="mord cjk_fallback">应</span><span class="mord mathdefault" style="margin-right:0.07153em;">C</span><span class="mord cjk_fallback">语</span><span class="mord cjk_fallback">言</span><span class="mord cjk_fallback">的</span><span class="mord">&quot;</span></span></span></span>d&quot;是一个整数，即对应&quot;%d&quot;。的确（的猜测），这里的&quot;$&quot;之后跟的对应的就是C语言中“%”后面跟的。同理，也可以发现，里面“%”后面跟的数字就是上面的“LastOutputParams”列表的项数（这个项数不是从0开始数的！从1开始）。</li>
+<li>在找到的对应文字里面，会有一些比较奇怪的东西，比如说”%1$s”“%2$d”。如果大家学过C语言，可能会意识到，里面的&quot;$s&quot;指的是一个字符串，对应C语言的&quot;%s&quot;；&quot;$d&quot;是一个整数，即对应&quot;%d&quot;。的确（的猜测），这里的&quot;$&quot;之后跟的对应的就是C语言中“%”后面跟的。同理，也可以发现，里面“%”后面跟的数字就是上面的“LastOutputParams”列表的项数（这个项数不是从0开始数的！从1开始）。</li>
 </ul>
 </li>
 <li>SuccessCount: (Integer) 该命令方块用红石比较器输出的模拟信号强度</li>
