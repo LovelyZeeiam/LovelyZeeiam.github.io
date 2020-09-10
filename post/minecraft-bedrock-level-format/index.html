@@ -6,7 +6,7 @@
 
 <title>Minecraft基岩版存档格式简介（未完成） | Xueli的小博客</title>
 
-<link rel="shortcut icon" href="https://lovelyzeeiam.github.io/favicon.ico?v=1599663371628">
+<link rel="shortcut icon" href="https://lovelyzeeiam.github.io/favicon.ico?v=1599750594372">
 
 <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://lovelyzeeiam.github.io/styles/main.css">
@@ -77,7 +77,7 @@
             
         </div>
         <div style="text-align: center">
-            <form id="gridea-search-form" style="position: relative" data-update="1599663371628" action="/search/index.html">
+            <form id="gridea-search-form" style="position: relative" data-update="1599750594372" action="/search/index.html">
                 <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
                 <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
             </form>
@@ -1534,9 +1534,41 @@
 </ul>
 <p>​	于是有的同学就会问了：<code>雪莉雪莉，如果一个Integer装不下一个方块索引该怎么办呢？</code> 首先吖，一个Integer的最大值大于一千万，而目前游戏中不同的方块状态的种类数量加起来都不到一万（猜测）。我猜测是如果超过了的话，上面提到的需要进一步探索的数据就会变大的吧。</p>
 <p>​	个人感觉自己的表达能力不是很好，那么下面我们就来具体分析几个例子，帮助同学们理解。</p>
-<script>
-	console.log("test");
-</script>
+<img src="../post-images/bedrock-save/image-20200910223012101.png" alt="image-20200910223012101" />
+<p>​	这是从我的“焦糖星”红石音乐那个世界的一个区块的某个子区块的数据。大家可以综合上面的知识来分析一下在索引区的第一个Integer类型对应的是哪些（或哪个）索引。大家可以思考几分钟，在下面就展示答案与解析（必刷题？？）</p>
+<p>​	解析： 首先我们来看第三个字节，对应的数是10，将这个数向右移位一位，得到的数是5，我们不妨将其设为x【下面要提到】。接下来我们看索引区的第一个Integer类型，将其转换为二进制即<code>00101101 01101000 00000100 00100000</code>。因为上面的x是5，就代表我们要将这些二进制从高字节位的第一位开始分割，每五位分割一次，就得到了<code>00|10110|10110|10000|00001|00001|00000|</code>，然后我们将其变成六个数，即：22，22，16，1，1，0。【感谢MCC ToolChest PE让我非常非常方便的验证了结果是正确哒~】</p>
+<p>​	根据上面的解析过程，大家肯定会想到一个问题，这些索引都是哪一个地方的方块的索引呢？我就来解答啦。游戏在读取一个子区块的时候，首先会先读取数据区，得到所有的元素，存储为一个列表，我们就姑且叫ta数据列表吧。游戏读到了这六个索引之后会将这六个索引从后向前转进一个列表（列表的第一个元素是上面得到的六个索引的最后一个）。然后会新建一个变量a，代表读到的是第几个索引，然后用上面的x, y, z坐标计算公式来计算。由于这些索引的来源是索引区的第一个Integer类型，所以此时a的值是其初始值0。然后游戏会循环上面的列表，每得到一个元素就将此时的a的值转换成x, y ,z坐标，然后将其对应的这个子区块的方块的方块状态根据索引的值设置成其在数据列表中对应的元素，然后将a自增1。伪代码:</p>
+<pre><code class="language-java">	int position = 0;
+	// 这个子区块的所有方块的方块对象
+	Block[][][] blockGrid = new Block[16][16][16];
+
+	for(还没穷尽索引区) {
+        ...
+        // ... 得到索引列表，变量名为&quot;indices&quot;
+        
+        for(int a = 0; a &lt; indices.length; a++) {
+            int index = indices[i];
+            
+            // 得到坐标
+            int x = (position &gt;&gt; 8) &amp; 0xF;
+            int y = position &amp; 0xF;
+            int z = (position &gt;&gt; 4) &amp; 0xF;
+            
+            // 得到方块状态
+        	CompoundTag tag = datas.get(index);
+            
+            // 设置方块状态
+            // Block(CompoundTag block_state_nbt)
+            Block block = new Block(tag);
+            blockGrid[x][y][z] = block;
+            
+            position++;
+            
+        }
+        
+    }
+</code></pre>
+
                 </div>
             </article>
         </div>
