@@ -6,7 +6,7 @@
 
 <title>Minecraft基岩版存档格式简介（未完成） | Xueli的小博客</title>
 
-<link rel="shortcut icon" href="https://lovelyzeeiam.github.io/favicon.ico?v=1599837196017">
+<link rel="shortcut icon" href="https://lovelyzeeiam.github.io/favicon.ico?v=1599925358931">
 
 <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://lovelyzeeiam.github.io/styles/main.css">
@@ -77,7 +77,7 @@
             
         </div>
         <div style="text-align: center">
-            <form id="gridea-search-form" style="position: relative" data-update="1599837196017" action="/search/index.html">
+            <form id="gridea-search-form" style="position: relative" data-update="1599925358931" action="/search/index.html">
                 <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
                 <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
             </form>
@@ -157,6 +157,7 @@
 <p><strong>还有一些其ta的</strong></p>
 <p>可以在这里找到: https://minecraft.gamepedia.co/Bedrock_Edition_level_format#Other_keys</p>
 <p>（是英文的 Awa）</p>
+<h3 id="结构">结构</h3>
 <h1 id="地形存储">地形存储</h1>
 <p><strong>【本节内容可能会有不对的地方 也请大佬们在评论底下修正 非常感谢！】</strong></p>
 <p>终于到我们的重头戏了——游戏的地形存储。<del>今天小编就来带大家看看。</del></p>
@@ -1535,7 +1536,7 @@
 </ul>
 <p>​	于是有的同学就会问了：<code>雪莉雪莉，如果一个Integer装不下一个方块索引该怎么办呢？</code> 首先吖，一个Integer的最大值大于一千万，而目前游戏中不同的方块状态的种类数量加起来都不到一万（猜测）。所以目前大可不必关心这。</p>
 <p>​	个人感觉自己的表达能力不是很好，那么下面我们就来具体分析几个例子，帮助同学们理解。</p>
-<img src="../post-images/bedrock-save/image-20200910223012101.png" alt="image-20200910223012101" />
+<img src="/post-images/bedrock-save/image-20200910223012101.png" alt="image-20200910223012101" />
 <p>​	这是从我的“焦糖星”红石音乐那个世界的一个区块的某个子区块的数据。大家可以综合上面的知识来分析一下在索引区的第一个Integer类型对应的是哪些（或哪个）索引。大家可以思考几分钟，在下面就展示答案与解析（必刷题？？）</p>
 <p>​	解析： 首先我们来看第三个字节，对应的数是10，将这个数向右移位一位，得到的数是5，我们不妨将其设为x【下面要提到】。接下来我们看索引区的第一个Integer类型，将其转换为二进制即<code>00101101 01101000 00000100 00100000</code>。因为上面的x是5，就代表我们要将这些二进制从高字节位的第一位开始分割，每五位分割一次，就得到了<code>00|10110|10110|10000|00001|00001|00000|</code>，然后我们将其变成六个数，即：22，22，16，1，1，0。【感谢MCC ToolChest PE让我非常非常方便的验证了结果是正确哒~】</p>
 <p>​	根据上面的解析过程，大家肯定会想到一个问题，这些索引都是哪一个地方的方块的索引呢？我就来解答啦。游戏在读取一个子区块的时候，首先会先读取数据区，得到所有的元素，存储为一个列表，我们就姑且叫ta数据列表吧。游戏读到了这六个索引之后会将这六个索引从后向前转进一个列表（列表的第一个元素是上面得到的六个索引的最后一个）。然后会新建一个变量a，代表读到的是第几个索引，然后用上面的x, y, z坐标计算公式来计算。由于这些索引的来源是索引区的第一个Integer类型，所以此时a的值是其初始值0。然后游戏会循环上面的列表，每得到一个元素就将此时的a的值转换成x, y ,z坐标，然后将其对应的这个子区块的方块的方块状态根据索引的值设置成其在数据列表中对应的元素，然后将a自增1。伪代码:</p>
@@ -1573,7 +1574,42 @@
 <p><code>明天又是星期六~ 开森</code></p>
 </blockquote>
 <p>​	如何写入的答案就是上面那个解析过程的逆过程。我的猜测是游戏先写入标头的第一个字节（版本号），然后再新建一个列表和一个三维数组，将子区块内的所有方块循环一遍。循环的时候就判断列表中是否已经存在与这个方块相同的方块状态NBT，如果已经存在，那么就获取这个方块状态NBT对应的已经存储在的列表内的索引，否则就将这个方块状态NBT加入到这个列表里面，然后再获取这个方块状态NBT对应的已经存储在的列表内的索引。得到了所有方块的方块状态NBT和方块索引的三维数组之后，再去计算标头的第二个字节和第三个字节。</p>
-<p>​	一次意外的想法——含水方块——让我发现了第二个字节的秘密（Neh heh heh)。原来“山重水复疑无路，柳暗花明又一村”就是这个道理吖。</p>
+<p>​	一次意外的想法——含水方块——让我发现了第二个字节的秘密（Neh heh heh)。原来“山重水复疑无路，柳暗花明又一村”就是这个道理吖~</p>
+<h1 id="一些有用的东东">一些有用的东东</h1>
+<p>​	上面讲了这么多的关于理论的（枯燥）的东东，这回我们终于要开始动手搞事情了。理论的东西毕竟最终还是枯燥乏味的，就像如果只学物理但不去亲自动手做实验，只学习编程的知识却不动手敲代码一样。更多的东西与不全的东西毕竟还是得大家寻找，毕竟一个bug（特性）的发现不仅靠观看源码，还靠一定程度上的推测和实验中的偶然。</p>
+<p>​	一定程度上的帮助也是很必要的，即”君子性非异也，善假于物也“【君子的资质跟一般人没什么不同，只是善于借助外物罢了】（”性“原写作”生“，是个通假字）。所以在这里也提供一些可供查找的资料。</p>
+<h3 id="nbt格式">NBT格式</h3>
+<p>​	上面讲过的NBT格式只是一个概述，有可能存在没有概括全或者有错误的地方，可以去到：<a href="https://minecraft.gamepedia.com/NBT_format" title="NBT格式">NBT格式</a></p>
+<h3 id="方块状态nbt">方块状态NBT</h3>
+<p>​	可以去到:  <a href="https://minecraft.gamepedia.com/Block_states" title="方块状态NBT">方块状态NBT</a>。这里就介绍一下如何去阅读这个页面。</p>
+<p>​	首先在里面找到想要查看的方块，向下划到对应的位置，会有一个表格；表格上面会有该方块对应的维基界面。点去这个方块的维基界面之后向下划到”数据值（Data values），到下面找到基岩版的命名空间ID（Namespaced ID）。接下来要做的事就是在自己的脑海中创建一个NBT格式的Compound Tag，首先向里面加入一个名字叫&quot;name&quot;的字符串标签，值为上面的命名空间ID；然后再向里面加入一个Integer类型的标签叫&quot;version&quot;，在基岩版1.16.40中，这个值为17825808；接着再加入一个Compound Tag名字叫&quot;states&quot;，接下来要做的就是将表格中的每一行的数据都加入到这个表格中来：Name列对应标签的名称；标签的类型要根据&quot;Allowed values&quot;这一列的数据判断：如果只存在&quot;true&quot;和&quot;false&quot;两种情况，那么就是一个类型为Byte的标签，其中false对应的值为0，true为1；如果只存在数字的情况，那么大多数都应该是Integer类型的；如果存在的都是字符串，那么久都是字符串类型的。加入了所有的列之后，就可以将其放入子区块中的方块状态NBT列表中惹~ 这里就拿炼药锅做例子，写一段上述过程的伪代码，伪代码上面是炼药锅的方块状态NBT在维基上面的截图：</p>
+<img src="/post-images/bedrock-save/image-20200912230515894.png" alt="image-20200912230515894" />
+<pre><code class="language-java">	// 创建一个复合标签
+	CompoundTag tag = new CompoundTag();
+	
+	// 命名空间 如果不是外置Add-ons就得加入&quot;minecraft:&quot;前缀代表命名空间
+	tag.put(new StringTag(&quot;name&quot;, &quot;minecraft:cauldron&quot;));
+	// 格式版本
+	tag.put(new IntTag(&quot;version&quot;, 17825808));
+	
+	{
+        //又一个复合标签
+        CompoundTag stateTag = new CompoundTag(&quot;states&quot;);
+        
+        // fill_level
+        stateTag.put(new IntTag(&quot;fill_level&quot;, 6));
+        // cauldron_liquid
+        stateTag.put(new StringTag(&quot;cauldron_liquid&quot;, &quot;water&quot;));
+     
+        // 将states加入进去
+        tag.put(stateTag);
+    }
+
+	// 将这个复合标签加入到数据区中的方块状态列表并返回对应索引的值
+	// 假装有这样的方法: int add(Object) 如果列表中存在同样的元素，就返回那个元素的索引; 否则就先在这个列表的结尾加入这个元素，然后返回目前列表的元素数量 - 1【Do you know why~】
+	int index = datas.add(tag);
+	
+</code></pre>
 
                 </div>
             </article>
