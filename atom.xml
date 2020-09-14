@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://lovelyzeeiam.github.io</id>
     <title>Xueli的小博客</title>
-    <updated>2020-09-13T14:45:05.536Z</updated>
+    <updated>2020-09-14T14:58:37.326Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://lovelyzeeiam.github.io"/>
     <link rel="self" href="https://lovelyzeeiam.github.io/atom.xml"/>
@@ -11,8 +11,8 @@
     <rights>All rights reserved 2020, Xueli的小博客</rights>
     <entry>
         <title type="html"><![CDATA[开发一个Bilibili专栏Markdown编辑客户端!]]></title>
-        <id>https://lovelyzeeiam.github.io/post/kai-fa-yi-ge-bilibili-zhuan-lan-markdown-bian-ji-ke-hu-duan/</id>
-        <link href="https://lovelyzeeiam.github.io/post/kai-fa-yi-ge-bilibili-zhuan-lan-markdown-bian-ji-ke-hu-duan/">
+        <id>https://lovelyzeeiam.github.io/post/develop-bilibili-markdown/</id>
+        <link href="https://lovelyzeeiam.github.io/post/develop-bilibili-markdown/">
         </link>
         <updated>2020-09-13T14:29:28.000Z</updated>
         <content type="html"><![CDATA[<p>写完基岩版的存档研究就开工~</p>
@@ -28,7 +28,8 @@
 <p>啊 是sans.（<br>
 </font></p>
 <h1 id="目录">目录</h1>
-<p>[TOC]</p>
+<p>当这个文档写完之后这里会有可链接的目录哒~<br>
+[TOC]</p>
 <h1 id="写在前面">写在前面</h1>
 <p><del>人在家中，刚下床，谢邀。</del>本专栏由&quot;基本&quot;不会编程的up🐖书写，许多专业术语知识还欠缺，可能会有错误，还请大佬们见谅。</p>
 <p>许多时候程序yuan并不会那么bt，许多在编程中用到数据的命名肯定都和英语有一部分关系，mc的level.dat就是一个例子。</p>
@@ -54,6 +55,7 @@
 来自百度百科 - NBT （二进制命名标签）</p>
 <p>在NBT中，游戏一般会拿一个长度为3的数组存储一个坐标或一个长方体的长宽高。如果是存储坐标的话，这个数组的第一个元素就代表x坐标，第二个元素代表y坐标，第三个元素代表z坐标；如果是存储一个矩形的大小的话，那么这个数组的三个元素分别代表这个矩形的长宽高。这个在下面就不再赘述了。</p>
 <p>还有一点就是在游戏里面，观测到存在NBT格式的地方，都会由一个Compound Tag包裹着。也就是说，游戏内存在的NBT标签，最外面一层都应该一个或多个是Compound Tag。这一点下面可能会提到，也可能不会【因为这是沃在写村庄那一节的时候写嗲】，所以的话，就，大家都懂，对吧？【听不见听不见】</p>
+<p>还有一件事（）就是在游戏里面一般能够查询到NBT的地方都是小字节序的无压缩的NBT。</p>
 <h1 id="存档其它信息"><strong>存档其它信息</strong></h1>
 <p>其它的信息包括地形信息，方块内部特有的信息，实体信息等等（或许概括全了）都<strong>存在&quot;db&quot;文件夹里面</strong>。这个文件夹里面存储的是一个LevelDB数据库（以下简称数据库）。与NBT类似，也是给出一个值，会返回另外一个唯一的值（程序员: 不就是key-value数据库嘛）。</p>
 <p>（偷个懒 技术玩家可以通过直接写代码的方式来访问这个数据库 其ta的玩家捏可以通过MCC ToolChest打开这个存档 不过后者可能可见的信息要少一些）</p>
@@ -88,7 +90,7 @@
 <h3 id="结构">结构</h3>
 <p>想要找到一个结构是非常简单的事，只需要在宁的结构名称前面加上“structuretemplate_”就可以找到了。但是解读其是需要地形存储的基础的，所以咱们就放在地形存储之后再讲这个。</p>
 <h1 id="村庄">村庄</h1>
-<p>目前已知的找到村庄的方法就是通过村民的实体NBT找到”DwellingUniqueID“的对应的值，这个值是一个字符串，我们在这个字符串前面加入”VILLAGE_&quot;，后面加上&quot;_&quot;，然后再加上四个不同的全大写的单词，就可以得到村庄的四种类型的信息：加上”INFO“可以得到这个村庄的全局信息，”PLAYERS“可以得到每个玩家的声望值，”POI“可以得到村民的工作站点，”DWELLERS“可以得到这个村庄内的所有与村庄有关的生物。</p>
+<p>目前已知的找到村庄的方法就是通过村民的实体NBT找到”DwellingUniqueID“的对应的值，这个值是一个字符串，我们在这个字符串前面加入”VILLAGE_&quot;，后面加上&quot;_&quot;，然后再加上四个不同的全大写的单词，传入到数据库里面，就可以得到村庄的四种类型的信息：加上”INFO“可以得到这个村庄的全局信息，”PLAYERS“可以得到每个玩家的声望值，”POI“可以得到村民的工作站点，”DWELLERS“可以得到这个村庄内的所有与村庄有关的生物。</p>
 <h3 id="村庄信息">村庄信息</h3>
 <p>得到的数据是一个小字节序的未经压缩的NBT。其中包括这些值：【沃对村庄机制几乎不了解 这个剩下的就留给大家填叭~】</p>
 <table>
@@ -322,22 +324,91 @@
 <p>得到并不是直接的玩家声望，而是一个Compound Tag，这个父标签里面有且仅有一个Tag，类型是List，里面存储的是Compound Tag，每个Compound Tag都有两个Tag：ID，类型为Long，是玩家ID（UniqueID）；S，类型为Int，是玩家的声望值，即：</p>
 <figure data-type="image" tabindex="5"><img src="C:/Users/22598/AppData/Roaming/Typora/typora-user-images/image-20200913205524952.png" alt="image-20200913205524952" loading="lazy"></figure>
 <h1 id="世界维度信息">世界维度信息</h1>
-<p>【TODO】</p>
+<h3 id="末地">末地</h3>
+<p>获取末地的信息非常容易记住，只需要向数据库里面传入“TheEnd”每个字符组成的Ascii码就可以。得到的是一个小字节序的NBT格式，最外层由一个Compound Tag包裹着。这个Compound Tag经过依次套娃终于得到了我们想要的信息，至于是几次套娃，沃就展示在下面的示例图片里面了。</p>
+<p>套完娃之后终于到了我们真正想要用到的信息的环节了，得到的Tag有如下几条：</p>
+<table border=1 cellpadding=0 cellspacing=0>
+    <tr>
+        <th><center>键</center></th>
+        <th><center>类型</center></th>
+        <th><center>说明</center></th>
+    </tr>
+    <tr>
+        <td style="color:#00FFCC;"><center>DragonFight</center></td>
+        <td style="color:#66CCFF;"><center>Compound</center></td>
+        <td><center>这里存储了与龙战斗有关的东西。在这个Compound Tag里面会有这些东西:
+              <table border=1 cellpadding=0 cellspacing=0>
+                  <tr>
+                    <th><center>键</center></th>
+                    <th><center>类型</center></th>
+                    <th><center>说明</center></th>
+                  </tr>
+                  <tr>
+                    <td style="color:#00FFCC;"><center>DragonFightVersion</center></td>
+                    <td style="color:#66CCFF;"><center>Byte</center></td>
+                    <td><center>应该是指☞这个数据文件的版本</center></td>
+                  </tr>
+                  <tr>
+                    <td style="color:#00FFCC;"><center>DragonSpawned</center></td>
+                    <td style="color:#66CCFF;"><center>Byte</center></td>
+                    <td><center></center></td>
+                  </tr>
+                  <tr>
+                    <td style="color:#00FFCC;"><center>IsRespawning</center></td>
+                    <td style="color:#66CCFF;"><center>Byte</center></td>
+                    <td><center></center></td>
+                  </tr>
+                  <tr>
+                    <td style="color:#00FFCC;"><center>DragonUUID</center></td>
+                    <td style="color:#66CCFF;"><center>Long</center></td>
+                    <td><center></center></td>
+                  </tr>
+                  <tr>
+                    <td style="color:#00FFCC;"><center>DragonKilled</center></td>
+                    <td style="color:#66CCFF;"><center>Byte</center></td>
+                    <td><center></center></td>
+                  </tr>
+                  <tr>
+                    <td style="color:#00FFCC;"><center>ExitPortalLocation</center></td>
+                    <td style="color:#66CCFF;"><center>List&lt;Integer&gt;</center></td>
+                    <td><center>这是一个数量为3的Integer数组，存放的是离开末地的传送门中心的坐标。</center></td>
+                  </tr>
+                  <tr>
+                    <td style="color:#00FFCC;"><center>Gateways</center></td>
+                    <td style="color:#66CCFF;"><center>List&lt;Integer&gt;</center></td>
+                    <td><center></center></td>
+                  </tr>
+                  <tr>
+                    <td style="color:#00FFCC;"><center>PreviouslyKilled</center></td>
+                    <td style="color:#66CCFF;"><center>Byte</center></td>
+                    <td><center></center></td>
+                  </tr>
+              </table>
+        </center></td>
+    </tr>
+    <tr>
+        <td style="color:#00FFCC;"><center>LimboEntities</center></td>
+        <td style="color:#66CCFF;"><center>List</center></td>
+        <td><center>并不清楚这里存储了些什么东西，如果大家去数据库里面尝试用"Overworld"值获取，得到的NBT里面的同级也会有这个数据.</center></td>
+    </tr>
+</table>
+<p>例: 某个已经杀死过龙的末地</p>
+<figure data-type="image" tabindex="6"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-20200914223632357.png" alt="image-20200914223632357" loading="lazy"></figure>
 <h1 id="地形存储">地形存储</h1>
 <p><strong>【本节内容可能会有不对的地方 也请大佬们在评论底下修正 非常感谢！】</strong></p>
 <p>终于到我们的重头戏了——游戏的地形存储。<del>今天小编就来带大家看看。</del></p>
 <p>首先还是我们的惯例，灵魂疑问：该怎么得到区块的信息呢？真的很简单，人人都可以学得会：首先将这个区块的x坐标以小字节序变成四个字节（即一个int类型）然后将这个区块的z坐标也以小字节序变成四个字节紧随其后，如果这个区块不是主世界区块那就再将其维度对应的id以小字节序还是变成四个字节跟在后面（1是地狱，2是末地），然后后面跟上一个特定的数字以一个字节存储的字节。这个特定的数字可以是下面的任意一个，取决于要申请的数据的类型：【下面有一类数据，只传这个特定的数字是拿不到滴，下面会有解释】</p>
-<figure data-type="image" tabindex="6"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/77932686035b7324f5ba68f63e5db2352359bb6f.png" alt="img" loading="lazy"></figure>
+<figure data-type="image" tabindex="7"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/77932686035b7324f5ba68f63e5db2352359bb6f.png" alt="img" loading="lazy"></figure>
 <p>【TODO: 发现也可以传入51，得到的好像是隔一段时间就要刷新的东西比如说流动的水】</p>
 <p>例： 如果想要申请x坐标是114514，z坐标是1919180的区块的高度图（臭味图（逃）和生物群系:</p>
-<figure data-type="image" tabindex="7"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/d43f4f78deb235cffff4e47725952c59ba7402c8.gif" alt="img" loading="lazy"></figure>
+<figure data-type="image" tabindex="8"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/d43f4f78deb235cffff4e47725952c59ba7402c8.gif" alt="img" loading="lazy"></figure>
 <h3 id="高度图和生物群系">高度图和生物群系</h3>
 <p>​    申请得到的高度图和生物群系中，前512个字节存储的是高度图。高度图存储了俯视这个区块得到的平面图中，每一格存储一个short类型（一个占两个字节的整数）代表这一格最高的方块处在的y坐标。紧接着是生物群系，以同样的方式，但是是以每一格一个byte类型存储生物群系id。</p>
 <p><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/381545dcdfdacb447b46b2b1a65825984c7e65f8.png" alt="img" loading="lazy"><br>
 左图:mcc tool chest pe截图 横坐标是x 纵坐标是z   右图:从数据库中取出的数据在十六进制编辑器中的模样</p>
 <h3 id="方块实体数据">方块实体数据</h3>
 <p>申请得到的方块实体数据是一个小字节序的NBT数据。</p>
-<figure data-type="image" tabindex="8"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/46b06817a8eb2f0db31b1c982eb1306f0d174a4c.png" alt="img" loading="lazy"></figure>
+<figure data-type="image" tabindex="9"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/46b06817a8eb2f0db31b1c982eb1306f0d174a4c.png" alt="img" loading="lazy"></figure>
 <p>有些方块为了每一个游戏刻都要刷新，所以将其归结到方块实体里面；还有一些功能方块，存储的数据比较多，所以就存在了这里，具体为什么要放在下面的地形数据再说啦~</p>
 <p>由于未在minecraft维基上面找到每个方块实体存储的信息（抑或是我没找到），于是沃自己整理了一下：</p>
 <p>（以下内容按照CC BY-NC-SA 3.0协议分享）</p>
@@ -347,7 +418,7 @@
 <ul>
 <li>
 <p>Base: (Integer) 旗帜的背景颜色</p>
-<figure data-type="image" tabindex="9"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-20200831160640985.png" alt="image-20200831160640985" loading="lazy"></figure>
+<figure data-type="image" tabindex="10"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-20200831160640985.png" alt="image-20200831160640985" loading="lazy"></figure>
 </li>
 <li>
 <p>id: (String) 应该都是banner</p>
@@ -383,7 +454,7 @@
 </li>
 <li>
 <p>SaveData: (Compound) 当&quot;ActorIdentifier&quot;是”minecraft:bee&lt;&gt;“时，这里直接存储了这个蜜蜂的实体NBT，如下图:</p>
-<figure data-type="image" tabindex="10"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/QQ%E5%9B%BE%E7%89%8720200831171900.png" alt="So_Long~" loading="lazy"></figure>
+<figure data-type="image" tabindex="11"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/QQ%E5%9B%BE%E7%89%8720200831171900.png" alt="So_Long~" loading="lazy"></figure>
 </li>
 </ul>
 </li>
@@ -434,7 +505,7 @@
 </li>
 </ul>
 <p>例： 一个箱子的NBT:</p>
-<figure data-type="image" tabindex="11"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-202008311830.PNG" alt="一个箱子的方块实体NBT" loading="lazy"></figure>
+<figure data-type="image" tabindex="12"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-202008311830.PNG" alt="一个箱子的方块实体NBT" loading="lazy"></figure>
 </li>
 <li>
 <p>篝火，灵魂篝火</p>
@@ -445,7 +516,7 @@
 <li>ItemTime1, ItemTime2, ItemTime3, ItemTime4: (Integer) 对应的篝火的四个槽位的已经进行烧烤（）的游戏tick数。</li>
 </ul>
 <p>例： 一个篝火的方块实体NBT:</p>
-<figure data-type="image" tabindex="12"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-202008311848.PNG" alt="一个篝火的方块实体NBT" loading="lazy"></figure>
+<figure data-type="image" tabindex="13"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-202008311848.PNG" alt="一个篝火的方块实体NBT" loading="lazy"></figure>
 </li>
 <li>
 <p>酿造台</p>
@@ -469,11 +540,11 @@
 <p>Items: (List) 跟箱子的Items存储类似，但是在里面炼出来的药水会多出来一个标签：<br>
 <img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-202008311930.PNG" alt="我们中，出了一个叛徒" loading="lazy"></p>
 <p>酿造台中每个槽所代表的位置放在下图:</p>
-<figure data-type="image" tabindex="13"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-202008311917.PNG" alt="酿造台的槽位位置" loading="lazy"></figure>
+<figure data-type="image" tabindex="14"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-202008311917.PNG" alt="酿造台的槽位位置" loading="lazy"></figure>
 <p>例： 一个正在酿造的酿造台的方块实体NBT:</p>
 </li>
 </ul>
-<figure data-type="image" tabindex="14"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-202008311924.PNG" alt="一个正在酿造的酿造台的方块实体NBT" loading="lazy"></figure>
+<figure data-type="image" tabindex="15"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-202008311924.PNG" alt="一个正在酿造的酿造台的方块实体NBT" loading="lazy"></figure>
 </li>
 <li>
 <p>熔炉，烟熏炉，高炉</p>
@@ -506,7 +577,7 @@
 <p>例： 一个熔炉的方块实体NBT:</p>
 </li>
 </ol>
-<figure data-type="image" tabindex="15"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-202008311948.PNG" alt="一个熔炉的方块实体NBT" loading="lazy"></figure>
+<figure data-type="image" tabindex="16"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-202008311948.PNG" alt="一个熔炉的方块实体NBT" loading="lazy"></figure>
 <ol start="8">
 <li>
 <p>讲台</p>
@@ -521,7 +592,7 @@
 <p>例： 一个放置了书的讲台（上）和一个没有放书的讲台（下）:</p>
 </li>
 </ol>
-<figure data-type="image" tabindex="16"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-202008311959.PNG" alt="一个放置了书的讲台（上）和一个没有放书的讲台（下）" loading="lazy"></figure>
+<figure data-type="image" tabindex="17"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-202008311959.PNG" alt="一个放置了书的讲台（上）和一个没有放书的讲台（下）" loading="lazy"></figure>
 <ol start="9">
 <li>
 <p>信标</p>
@@ -537,7 +608,7 @@
 </ol>
 <p>​     <img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-202008312013.PNG" alt="基岩版的药水效果对应id表" loading="lazy"></p>
 <p>​	许许多多的信标，猜猜ta们的对应效果叭~:</p>
-<figure data-type="image" tabindex="17"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-202008312018.PNG" alt="许许多多的信标" loading="lazy"></figure>
+<figure data-type="image" tabindex="18"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-202008312018.PNG" alt="许许多多的信标" loading="lazy"></figure>
 <ol start="10">
 <li>
 <p>刷怪笼</p>
@@ -554,7 +625,7 @@
 <li>DisplayEntityHeight, DisplayEntityScale, DisplayEntityWidth: (Float) 需要证实： 游戏每次尝试生成生物时，会以DisplayEntityWidth为长和宽，DisplayEntityHeight为高的矩形去测试某个地方是否会生成生物。</li>
 </ul>
 <p>例: 一个被修改过的空的刷怪箱:</p>
-<figure data-type="image" tabindex="18"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-202008312103.PNG" alt="整篇文章怎么洋溢着一股臭味呢" loading="lazy"></figure>
+<figure data-type="image" tabindex="19"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-202008312103.PNG" alt="整篇文章怎么洋溢着一股臭味呢" loading="lazy"></figure>
 </li>
 <li>
 <p>音符盒</p>
@@ -563,11 +634,11 @@
 <li>isMovable: (Byte) 是否能被活塞推动，默认是1，即能推动。0是不能被推动。</li>
 <li>note: (Byte) 该音符的音高。通俗来讲就是玩家敲击了几次音符盒。如图:</li>
 </ul>
-<figure data-type="image" tabindex="19"><img src="https://static.wikia.nocookie.net/minecraft_zh_gamepedia/images/b/bd/Noteblock_reference.png/revision/latest/scale-to-width-down/720?cb=20190129093637" alt="Noteblock reference.png" loading="lazy"></figure>
+<figure data-type="image" tabindex="20"><img src="https://static.wikia.nocookie.net/minecraft_zh_gamepedia/images/b/bd/Noteblock_reference.png/revision/latest/scale-to-width-down/720?cb=20190129093637" alt="Noteblock reference.png" loading="lazy"></figure>
 <p>例：一个被敲击了一次的音符盒的方块实体NBT标签:</p>
 </li>
 </ol>
-<figure data-type="image" tabindex="20"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-202008312055.PNG" alt="一个被敲击了一次的音符盒的方块实体NBT标签" loading="lazy"></figure>
+<figure data-type="image" tabindex="21"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-202008312055.PNG" alt="一个被敲击了一次的音符盒的方块实体NBT标签" loading="lazy"></figure>
 <ol start="12">
 <li>
 <p>唱片机</p>
@@ -577,7 +648,7 @@
 <li>RecordItem: (Compound) 是该唱片内部存储的唱片物品的NBT。当这个唱片机里面没有唱片时，则没有这一项。</li>
 </ul>
 <p>例：上方是内部存有游戏里没有的唱片的唱片机，下方是没有唱片的:</p>
-<figure data-type="image" tabindex="21"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-202008312101.PNG" alt="上方是内部存有游戏里没有的唱片的唱片机，下方是没有唱片的" loading="lazy"></figure>
+<figure data-type="image" tabindex="22"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-202008312101.PNG" alt="上方是内部存有游戏里没有的唱片的唱片机，下方是没有唱片的" loading="lazy"></figure>
 </li>
 </ol>
 <blockquote>
@@ -724,7 +795,7 @@
 </table>
 <p>​			于是可以得出普遍规律: 当出现这个实体方块NBT时，pistonPosX, pistonPosY, pistonPosZ指向的坐标总是推这个方块的活塞；当活塞正在推ta时，x, y, z指向的坐标是这个实体方块将被推到的坐标，反之，当活塞正在拉ta时，x，y，z指向的是这个实体方块将被拉回到的坐标。</p>
 <p>​			为了猜测movingBlockExtra的用途，我打算继续做一个实验:</p>
-<figure data-type="image" tabindex="22"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/Minecraft_2020_9_1_23_30_04.png" alt="又一个实验" loading="lazy"></figure>
+<figure data-type="image" tabindex="23"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/Minecraft_2020_9_1_23_30_04.png" alt="又一个实验" loading="lazy"></figure>
 <p>​			当我用史莱姆方块拉着一个方块让活塞臂进行伸缩运动时，红石块出现的MovingBlock方块实体NBT内，pistonPosX, pistonPosY, pistonPosZ仍然是推拉史莱姆方块的活塞的坐标。movingBlockExtra仍然是空气的方块NBT。</p>
 <blockquote>
 <p><code>【屑博主仍然在学校写完了几乎所有作业的第三个晚上】</code></p>
@@ -862,7 +933,7 @@
 </li>
 </ol>
 <p>​	例: 一个拼图的界面与其在存档中的存储</p>
-<figure data-type="image" tabindex="23"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-20200906122022834.png" alt="image-20200906122022834" loading="lazy"></figure>
+<figure data-type="image" tabindex="24"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-20200906122022834.png" alt="image-20200906122022834" loading="lazy"></figure>
 <ol start="22">
 <li>
 <p>结构方块</p>
@@ -1000,7 +1071,7 @@
 </li>
 </ol>
 <p>例: 一个结构方块的界面与其在存档中的存储</p>
-<figure data-type="image" tabindex="24"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-20200906153024656.png" alt="image-20200906153024656" loading="lazy"></figure>
+<figure data-type="image" tabindex="25"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-20200906153024656.png" alt="image-20200906153024656" loading="lazy"></figure>
 <blockquote>
 <p><code>【又该清空背包了，雪莉酱不假思索的在聊天列表里面打出了&quot;/cls&quot;】</code></p>
 </blockquote>
@@ -1053,12 +1124,12 @@
 <li>CustomColor: (Integer) 当炼药锅里面是水，且已经被染色的时候，这个标签才存在。这个标签虽然看起来是一个Integer类型的整数，但是实际使用的时候是将这个整数拆分成四个字节，分别对应RGBA四个颜色数值。</li>
 </ul>
 <p>这是一个装满粉色染料染过色之后的水的炼药锅的CustomColor值:</p>
-<figure data-type="image" tabindex="25"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-20200906190921023.png" alt="image-20200906190921023" loading="lazy"></figure>
+<figure data-type="image" tabindex="26"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-20200906190921023.png" alt="image-20200906190921023" loading="lazy"></figure>
 <ul>
 <li>PotionType: (Short) 该药水的类型。0是普通药水，1是喷溅型药水，2是滞留性药水。如果炼药锅内装的不是药水，这里会写-1.</li>
 <li>Potionid: (Short) 该药水的种类。如果炼药锅内装的不是药水，这里会是-1。其ta的药水对应如下表：</li>
 </ul>
-<figure data-type="image" tabindex="26"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-20200906170138149.png" alt="image-20200906170138149" loading="lazy"></figure>
+<figure data-type="image" tabindex="27"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-20200906170138149.png" alt="image-20200906170138149" loading="lazy"></figure>
 </li>
 <li>
 <p>潮涌核心</p>
@@ -1084,9 +1155,9 @@
 <p>​	其实获取子区块不仅仅只是传一个“47”。因为在游戏中，子区块是从下到上堆积起来的，像堆积木一样。一个子区块的大小是16*16*16，所以我们需要在我们的“47”后面再接上一个byte类型（在下面就称这个数this_num辽）。这个byte类型的数字范围是[ 0, 15 ]【即0 &lt;= this_num&lt;= 15】，代表这个子区块是从最下面一个子区块向上数的第this_num个的子区块。所以这个子区块的y轴范围是[ this_num * 16, (this_num + 1) * 16 )【即 this_num * 16 &lt;= y轴范围 &lt; (this_num + 1) * 16】。</p>
 <p>​	上面买了个小关子，这回我们终于拿到想要的地形存储了。再加上Python爬虫，爬取播放量多的midi文件并解析，最后再将红石音乐的样式生成做成一个Interface，唔，美汁汁~ 接下来，宁可能会被映入眼帘的获取到的杂乱的数据昏了头脑；用MCC ToolChest PE的读者，一定也会发现，在一个区块里面，似乎没有被提及的就是Sections这个列表了。这个列表里面又有几个子对象，宁可能会马上意识到，这就是我们这一节要调教的子区块，然后就会被迷住（😂）</p>
 <p>​	我们先从MCC ToolChest开始讲起，因为ta有一个可视化的界面。没有装MCC ToolChest的同学也不要紧，我这里放上我的测试世界的某一个区块的MCC ToolChest界面：</p>
-<figure data-type="image" tabindex="27"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/UFD4W@Q8S%60NW%7DUOFDW%60ABKD.png" alt="img" loading="lazy"></figure>
+<figure data-type="image" tabindex="28"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/UFD4W@Q8S%60NW%7DUOFDW%60ABKD.png" alt="img" loading="lazy"></figure>
 <p>​	还有这个区块代表的区块截图：</p>
-<figure data-type="image" tabindex="28"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-20200906201146132.png" alt="image-20200906201146132" loading="lazy"></figure>
+<figure data-type="image" tabindex="29"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-20200906201146132.png" alt="image-20200906201146132" loading="lazy"></figure>
 <p>​	将所有的标签都展开，我们就可以发现，这个子区块中的Palette存储的是这个子区块所有类型方块的方块NBT。那么为什么要这样存呢？脑袋转的快的同学马上就能反应出来，游戏为了压缩世界大小，将所有类型的方块状态存在一个列表里面，那么存储方块就是存储这个方块在列表里面的索引。存储的少，算法还简单，读写就更快了，两全其美。然后下面的BlockStates就是这个子区块的每一个方块对应的索引。</p>
 <p>​	这就是我们的假说，接下来我们要做的就是将上面的BlockStates导出，变成一张表，然后将这张表对着Palette中的项去对照。我们就取有熔炉的那一层，是第58层，即这个子区块的第<code>58 % 16 = 10</code>层。按照每一层<code>16 * 16 = 256</code>个方块，每个方块的索引占一个Integer即4个字节，我们就得取偏移了<code>(10 - 1) * (256 * 4) = 9216</code>字节之后的1024字节：</p>
 <table>
@@ -1679,7 +1750,7 @@
 </tbody>
 </table>
 <p>​	接下来与原版进行对比:</p>
-<figure data-type="image" tabindex="29"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-20200906213556482.png" alt="image-20200906213556482" loading="lazy"></figure>
+<figure data-type="image" tabindex="30"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-20200906213556482.png" alt="image-20200906213556482" loading="lazy"></figure>
 <p>​	因为盔甲架是实体，不算方块，所以就可以看到，算是完全一致。那么这个假说算是可以证明成立了。【大家可以替换掉几个方块，多实验几次，毕竟只实验一次具有偶然性，这里为了节省篇幅就不多做实验了】</p>
 <p>​	所以我们可以得出初步的结论：在存档里面，游戏将所有类型的方块状态存在一个列表里面，存储方块就是存储这个方块在这个列表里面的索引。懂得了这个原理，我们就可以从图形的界面进入二进制的世界了~ 啊好，没进呢。我们先整理一下游戏存储了些什么：首先就是上面提到的索引，然后就是列表，可能还会存个版本号。列表需要什么呢？需要一个数字代表这个列表存了多少个方块状态。OK，接下来我们就来康康在磁盘中，这些数据该怎么存储。</p>
 <p>​	正如我们所猜测的一样，在磁盘中，这些数据的存储分为三个部分：标头，索引区，数据区：</p>
@@ -1743,7 +1814,7 @@
 <h3 id="结构-2">结构</h3>
 <p>​	上面在”存档其它信息“里面提及了如何获取一个结构的数据，这里就不再赘述了，还没有看的同学可以去康康。</p>
 <p>​	获取到的数据应该是一个NBT数据，并且是由一个Compound Tag包裹的NBT数据。在这个父Compound Tag会存在这些数据：</p>
-<table border=0 cellpadding=0 cellspacing=0>
+<table border=1 cellpadding=0 cellspacing=0>
  <col>
  <col>
  <tr>
