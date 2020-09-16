@@ -6,7 +6,7 @@
 
 <title>Minecraft基岩版存档格式简介（未完成） | Xueli的小博客</title>
 
-<link rel="shortcut icon" href="https://lovelyzeeiam.github.io/favicon.ico?v=1600181769965">
+<link rel="shortcut icon" href="https://lovelyzeeiam.github.io/favicon.ico?v=1600268591125">
 
 <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://lovelyzeeiam.github.io/styles/main.css">
@@ -77,7 +77,7 @@
             
         </div>
         <div style="text-align: center">
-            <form id="gridea-search-form" style="position: relative" data-update="1600181769965" action="/search/index.html">
+            <form id="gridea-search-form" style="position: relative" data-update="1600268591125" action="/search/index.html">
                 <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
                 <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
             </form>
@@ -102,11 +102,421 @@
 <p>啊 是sans.（<br>
 </font></p>
 <h1 id="目录">目录</h1>
-<p>当这个文档写完之后这里会有可链接的目录哒~<br>
-[TOC]</p>
+<p>当这个文档写完之后这里会有可链接的目录哒~</p>
 <h1 id="写在前面">写在前面</h1>
 <p><del>人在家中，刚下床，谢邀。</del>本专栏由&quot;基本&quot;不会编程的up🐖书写，许多专业术语知识还欠缺，可能会有错误，还请大佬们见谅。</p>
 <p>许多时候程序yuan并不会那么bt，许多在编程中用到数据的命名肯定都和英语有一部分关系，mc的level.dat就是一个例子。</p>
+<h3 id="游戏维度表">游戏维度表</h3>
+<p>在下面我们可能会涉及到一些有关维度的数据，而游戏中，维度一般都是通过一个id来存储的，如下表：</p>
+<center>
+    <table>
+        <tr>
+        	<th><center>维度id</center></th>
+            <th><center>维度名称</center></th>
+        </tr>
+        <tr>
+        	<td style="color:#162b80;"><center>0</center></td>
+            <td style="color:#004f53;"><center>主世界</center></td>
+        </tr>
+        <tr>
+        	<td style="color:#162b80;"><center>1</center></td>
+            <td style="color:#004f53;"><center>下界</center></td>
+        </tr>
+        <tr>
+        	<td style="color:#162b80;"><center>2</center></td>
+            <td style="color:#004f53;"><center>末地</center></td>
+        </tr>
+    </table>
+</center>
+<p>所以如果下面的内容有说某个数据是一个整数类型（Integer，Byte，Short），是用来记录什么什么的维度的话，那么那个数据的值就可以对照这个表。</p>
+<h3 id="生物群系表">生物群系表</h3>
+<p>注：本文按照CC BY-NC-SA 3.0协议分享，转载自<a href="https://minecraft.gamepedia.com/Biome#Biome_IDs">Minecraft维基</a>，有修改</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Name</th>
+<th style="text-align:center">命名空间</th>
+<th style="text-align:center">ID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Ocean">Ocean</a></td>
+<td style="text-align:center"><code>ocean</code></td>
+<td style="text-align:center">42</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Legacy_Frozen_Ocean">Legacy Frozen Ocean</a></td>
+<td style="text-align:center"><code>legacy_frozen_ocean</code></td>
+<td style="text-align:center">43</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Deep_Ocean">Deep Ocean</a></td>
+<td style="text-align:center"><code>deep_ocean</code></td>
+<td style="text-align:center">24</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Frozen_Ocean">Frozen Ocean</a></td>
+<td style="text-align:center"><code>frozen_ocean</code></td>
+<td style="text-align:center">10</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Deep_Frozen_Ocean">Deep Frozen Ocean</a></td>
+<td style="text-align:center"><code>deep_frozen_ocean</code></td>
+<td style="text-align:center">50</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Cold_Ocean">Cold Ocean</a></td>
+<td style="text-align:center"><code>cold_ocean</code></td>
+<td style="text-align:center">46</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Deep_Cold_Ocean">Deep Cold Ocean</a></td>
+<td style="text-align:center"><code>deep_cold_ocean</code></td>
+<td style="text-align:center">49</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Lukewarm_Ocean">Lukewarm Ocean</a></td>
+<td style="text-align:center"><code>lukewarm_ocean</code></td>
+<td style="text-align:center">45</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Deep_Lukewarm_Ocean">Deep Lukewarm Ocean</a></td>
+<td style="text-align:center"><code>deep_lukewarm_ocean</code></td>
+<td style="text-align:center">48</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Warm_Ocean">Warm Ocean</a></td>
+<td style="text-align:center"><code>warm_ocean</code></td>
+<td style="text-align:center">44</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Deep_Warm_Ocean">Deep Warm Ocean</a></td>
+<td style="text-align:center"><code>deep_warm_ocean</code></td>
+<td style="text-align:center">47</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/River">River</a></td>
+<td style="text-align:center"><code>river</code></td>
+<td style="text-align:center">7</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Frozen_River">Frozen River</a></td>
+<td style="text-align:center"><code>frozen_river</code></td>
+<td style="text-align:center">11</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Beach">Beach</a></td>
+<td style="text-align:center"><code>beach</code></td>
+<td style="text-align:center">16</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Stone_Shore">Stone Shore</a></td>
+<td style="text-align:center"><code>stone_beach</code></td>
+<td style="text-align:center">25</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Snowy_Beach">Snowy Beach</a></td>
+<td style="text-align:center"><code>cold_beach</code></td>
+<td style="text-align:center">26</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Forest">Forest</a></td>
+<td style="text-align:center"><code>forest</code></td>
+<td style="text-align:center">4</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Wooded_Hills">Wooded Hills</a></td>
+<td style="text-align:center"><code>forest_hills</code></td>
+<td style="text-align:center">18</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Flower_Forest">Flower Forest</a></td>
+<td style="text-align:center"><code>flower_forest</code></td>
+<td style="text-align:center">132</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Birch_Forest">Birch Forest</a></td>
+<td style="text-align:center"><code>birch_forest</code></td>
+<td style="text-align:center">27</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Birch_Forest_Hills">Birch Forest Hills</a></td>
+<td style="text-align:center"><code>birch_forest_hills</code></td>
+<td style="text-align:center">28</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Tall_Birch_Forest">Tall Birch Forest</a></td>
+<td style="text-align:center"><code>birch_forest_mutated</code></td>
+<td style="text-align:center">155</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Tall_Birch_Hills">Tall Birch Hills</a></td>
+<td style="text-align:center"><code>birch_forest_hills_mutated</code></td>
+<td style="text-align:center">156</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Dark_Forest">Dark Forest</a></td>
+<td style="text-align:center"><code>roofed_forest</code></td>
+<td style="text-align:center">29</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Dark_Forest_Hills">Dark Forest Hills</a></td>
+<td style="text-align:center"><code>roofed_forest_mutated</code></td>
+<td style="text-align:center">157</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Jungle">Jungle</a></td>
+<td style="text-align:center"><code>jungle</code></td>
+<td style="text-align:center">21</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Jungle_Hills">Jungle Hills</a></td>
+<td style="text-align:center"><code>jungle_hills</code></td>
+<td style="text-align:center">22</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Modified_Jungle">Modified Jungle</a></td>
+<td style="text-align:center"><code>jungle_mutated</code></td>
+<td style="text-align:center">149</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Jungle_Edge">Jungle Edge</a></td>
+<td style="text-align:center"><code>jungle_edge</code></td>
+<td style="text-align:center">23</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Modified_Jungle_Edge">Modified Jungle Edge</a></td>
+<td style="text-align:center"><code>jungle_edge_mutated</code></td>
+<td style="text-align:center">151</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Bamboo_Jungle">Bamboo Jungle</a></td>
+<td style="text-align:center"><code>bamboo_jungle</code></td>
+<td style="text-align:center">168</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Bamboo_Jungle_Hills">Bamboo Jungle Hills</a></td>
+<td style="text-align:center"><code>bamboo_jungle_hills</code></td>
+<td style="text-align:center">169</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Taiga">Taiga</a></td>
+<td style="text-align:center"><code>taiga</code></td>
+<td style="text-align:center">5</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Taiga_Hills">Taiga Hills</a></td>
+<td style="text-align:center"><code>taiga_hills</code></td>
+<td style="text-align:center">19</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Taiga_Mountains">Taiga Mountains</a></td>
+<td style="text-align:center"><code>taiga_mutated</code></td>
+<td style="text-align:center">133</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Snowy_Taiga">Snowy Taiga</a></td>
+<td style="text-align:center"><code>cold_taiga</code></td>
+<td style="text-align:center">30</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Snowy_Taiga_Hills">Snowy Taiga Hills</a></td>
+<td style="text-align:center"><code>cold_taiga_hills</code></td>
+<td style="text-align:center">31</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Snowy_Taiga_Mountains">Snowy Taiga Mountains</a></td>
+<td style="text-align:center"><code>cold_taiga_mutated</code></td>
+<td style="text-align:center">158</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Giant_Tree_Taiga">Giant Tree Taiga</a></td>
+<td style="text-align:center"><code>mega_taiga</code></td>
+<td style="text-align:center">32</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Giant_Tree_Taiga_Hills">Giant Tree Taiga Hills</a></td>
+<td style="text-align:center"><code>mega_taiga_hills</code></td>
+<td style="text-align:center">33</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Giant_Spruce_Taiga">Giant Spruce Taiga</a></td>
+<td style="text-align:center"><code>redwood_taiga_mutated</code></td>
+<td style="text-align:center">160</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Giant_Spruce_Taiga_Hills">Giant Spruce Taiga Hills</a></td>
+<td style="text-align:center"><code>redwood_taiga_hills_mutated</code></td>
+<td style="text-align:center">161</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Mushroom_Fields">Mushroom Fields</a></td>
+<td style="text-align:center"><code>mushroom_island</code></td>
+<td style="text-align:center">14</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Mushroom_Field_Shore">Mushroom Field Shore</a></td>
+<td style="text-align:center"><code>mushroom_island_shore</code></td>
+<td style="text-align:center">15</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Swamp">Swamp</a></td>
+<td style="text-align:center"><code>swampland</code></td>
+<td style="text-align:center">6</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Swamp_Hills">Swamp Hills</a></td>
+<td style="text-align:center"><code>swampland_mutated</code></td>
+<td style="text-align:center">134</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Savanna">Savanna</a></td>
+<td style="text-align:center"><code>savanna</code></td>
+<td style="text-align:center">35</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Savanna_Plateau">Savanna Plateau</a></td>
+<td style="text-align:center"><code>savanna_plateau</code></td>
+<td style="text-align:center">36</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Shattered_Savanna">Shattered Savanna</a></td>
+<td style="text-align:center"><code>savanna_mutated</code></td>
+<td style="text-align:center">163</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Shattered_Savanna_Plateau">Shattered Savanna Plateau</a></td>
+<td style="text-align:center"><code>savanna_plateau_mutated</code></td>
+<td style="text-align:center">164</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Plains">Plains</a></td>
+<td style="text-align:center"><code>plains</code></td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Sunflower_Plains">Sunflower Plains</a></td>
+<td style="text-align:center"><code>sunflower_plains</code></td>
+<td style="text-align:center">129</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Desert">Desert</a></td>
+<td style="text-align:center"><code>desert</code></td>
+<td style="text-align:center">2</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Desert_Hills">Desert Hills</a></td>
+<td style="text-align:center"><code>desert_hills</code></td>
+<td style="text-align:center">17</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Desert_Lakes">Desert Lakes</a></td>
+<td style="text-align:center"><code>desert_mutated</code></td>
+<td style="text-align:center">130</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Snowy_Tundra">Snowy Tundra</a></td>
+<td style="text-align:center"><code>ice_plains</code></td>
+<td style="text-align:center">12</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Snowy_Mountains">Snowy Mountains</a></td>
+<td style="text-align:center"><code>ice_mountains</code></td>
+<td style="text-align:center">13</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Ice_Spikes">Ice Spikes</a></td>
+<td style="text-align:center"><code>ice_plains_spikes</code></td>
+<td style="text-align:center">140</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Mountains">Mountains</a></td>
+<td style="text-align:center"><code>extreme_hills</code></td>
+<td style="text-align:center">3</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Wooded_Mountains">Wooded Mountains</a></td>
+<td style="text-align:center"><code>extreme_hills_plus_trees</code></td>
+<td style="text-align:center">34</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Gravelly_Mountains">Gravelly Mountains</a></td>
+<td style="text-align:center"><code>extreme_hills_mutated</code></td>
+<td style="text-align:center">131</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Gravelly_Mountains%2B">Gravelly Mountains+</a></td>
+<td style="text-align:center"><code>extreme_hills_plus_trees_mutated</code></td>
+<td style="text-align:center">162</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Mountain_Edge">Mountain Edge</a></td>
+<td style="text-align:center"><code>extreme_hills_edge</code></td>
+<td style="text-align:center">20</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Badlands">Badlands</a></td>
+<td style="text-align:center"><code>mesa</code></td>
+<td style="text-align:center">37</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Badlands_Plateau">Badlands Plateau</a></td>
+<td style="text-align:center"><code>mesa_plateau</code></td>
+<td style="text-align:center">39</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Modified_Badlands_Plateau">Modified Badlands Plateau</a></td>
+<td style="text-align:center"><code>mesa_plateau_mutated</code></td>
+<td style="text-align:center">167</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Wooded_Badlands_Plateau">Wooded Badlands Plateau</a></td>
+<td style="text-align:center"><code>mesa_plateau_stone</code></td>
+<td style="text-align:center">38</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Modified_Wooded_Badlands_Plateau">Modified Wooded Badlands Plateau</a></td>
+<td style="text-align:center"><code>mesa_plateau_stone_mutated</code></td>
+<td style="text-align:center">166</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Eroded_Badlands">Eroded Badlands</a></td>
+<td style="text-align:center"><code>mesa_bryce</code></td>
+<td style="text-align:center">165</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Nether_Wastes">Nether Wastes</a></td>
+<td style="text-align:center"><code>hell</code></td>
+<td style="text-align:center">8</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Crimson_Forest">Crimson Forest</a></td>
+<td style="text-align:center"><code>crimson_forest</code></td>
+<td style="text-align:center">179</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Warped_Forest">Warped Forest</a></td>
+<td style="text-align:center"><code>warped_forest</code></td>
+<td style="text-align:center">180</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Soul_Sand_Valley">Soul Sand Valley</a></td>
+<td style="text-align:center"><code>soul_sand_valley</code></td>
+<td style="text-align:center">178</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/Basalt_Deltas">Basalt Deltas</a></td>
+<td style="text-align:center"><code>basalt_deltas</code></td>
+<td style="text-align:center">181</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://minecraft.gamepedia.com/The_End#The_End">The End</a></td>
+<td style="text-align:center"><code>the_end</code></td>
+<td style="text-align:center">9</td>
+</tr>
+</tbody>
+</table>
 <figure data-type="image" tabindex="1"><img src="https://i0.hdslb.com/bfs/article/4adb9255ada5b97061e610b682b8636764fe50ed.png" alt="img" loading="lazy"></figure>
 <h1 id="存档全局信息"><strong>存档全局信息</strong></h1>
 <p>网上关于修改level.dat的教程其实害挺多的，沃这里就一笔带过一下Awawawa~</p>
@@ -174,30 +584,94 @@
 <tr>
 <td style="text-align:center">DimId</td>
 <td style="text-align:center">Integer</td>
-<td style="text-align:center"></td>
+<td style="text-align:center">这个传送门所位于的世界维度。</td>
 </tr>
 <tr>
 <td style="text-align:center">Span</td>
 <td style="text-align:center">Byte</td>
-<td style="text-align:center"></td>
+<td style="text-align:center">观测一直是2</td>
 </tr>
 <tr>
 <td style="text-align:center">TpX, TpY, TpX</td>
 <td style="text-align:center">Integer</td>
-<td style="text-align:center"></td>
+<td style="text-align:center">这个传送门的坐标。即该传送门区域内可以找到的最小的坐标【xyz的值都是最小的】</td>
 </tr>
 <tr>
 <td style="text-align:center">Xa, Za</td>
 <td style="text-align:center">Byte</td>
-<td style="text-align:center"></td>
+<td style="text-align:center">传送门朝向的方向。如果朝向东西方向，这两个值就是 (0, 1)；如果朝向南北方向，这两个值就是 (1, 0)</td>
 </tr>
 </tbody>
 </table>
+<p>推断游戏在创建一个传送门之后，就将其存储到这个记录里面。下次再进入这个传送门时，就可以在这个列表里面寻找哪个传送门离游戏目标要传送到的传送门最近，就可以实现比较快速的查找，不然的话就要从那个地方逐个方块的查找，效率的话，，，【Neh heh heh】</p>
 <p>例: 某个测试世界的Portal值：</p>
 <figure data-type="image" tabindex="4"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-20200915225507338.png" alt="image-20200915225507338" loading="lazy"></figure>
+<h3 id="小部分的生物事件">小部分的生物事件</h3>
+<p>向数据库里面传入“mobevents”每个字符组成的Ascii码，会得到一个Compound Tag，在1.16.40这个版本里面，这个Compound Tag会包含四个值，如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">键</th>
+<th style="text-align:center">类型</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">events_enabled</td>
+<td style="text-align:center">Byte</td>
+<td style="text-align:center">是否启用生物事件。</td>
+</tr>
+<tr>
+<td style="text-align:center">minecraft:ender_dragon_event</td>
+<td style="text-align:center">Byte</td>
+<td style="text-align:center">是否启动末地与末影龙有关的事件。当这个值代表关的时候，那么第一次进入末地时，末影龙将不会生成，末地中心的祭坛将不会生成。</td>
+</tr>
+<tr>
+<td style="text-align:center">minecraft:pillager_patrols_event</td>
+<td style="text-align:center">Byte</td>
+<td style="text-align:center">猜测是是否启动掠夺小队的生成。</td>
+</tr>
+<tr>
+<td style="text-align:center">minecraft:wandering_trader_event</td>
+<td style="text-align:center">Byte</td>
+<td style="text-align:center">是否生成游荡商人。</td>
+</tr>
+</tbody>
+</table>
+<p>这四个值都是当为1的时候是开，当为0的时候代表关。</p>
+<h3 id="生物群系与雪有关">生物群系（与雪有关）</h3>
+<p>传入&quot;BiomeData”也可以得到NBT数据，一个Compound Tag，包含一个叫&quot;list&quot;的列表，存储的是Compound Tag，每个CompoundTag会存在这些参数：（然而似乎都不太清楚的亚子🦆）</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">键</th>
+<th style="text-align:center">类型</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">id</td>
+<td style="text-align:center">Byte</td>
+<td style="text-align:center">生物群系的id</td>
+</tr>
+<tr>
+<td style="text-align:center">snowAccumulation</td>
+<td style="text-align:center">Float</td>
+<td style="text-align:center">雪的积累程度？</td>
+</tr>
+<tr>
+<td style="text-align:center">foliageSnow （可有可无）</td>
+<td style="text-align:center">Float</td>
+<td style="text-align:center">？？？</td>
+</tr>
+</tbody>
+</table>
+<p>同时还发现，当存在名字叫&quot;foliageSnow&quot;的Tag时，snowAccumulation的值就会变得很混乱，如图，这是我的超平坦测试世界的BiomeData：</p>
+<figure data-type="image" tabindex="5"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-20200916224557971.png" alt="image-20200916224557971" loading="lazy"></figure>
 <h3 id="还有一些其ta的">还有一些其ta的</h3>
-<p>可以在这里找到: https://minecraft.gamepedia.co/Bedrock_Edition_level_format#Other_keys</p>
-<p>（是英文的 Awa）</p>
+<p>传入&quot;AutonomousEntities&quot;和&quot;schedulerWT&quot;也可以得到NBT数据，但是不清楚是干什么的。</p>
 <h1 id="村庄">村庄</h1>
 <p>目前已知的找到村庄的方法就是通过村民的实体NBT找到”DwellingUniqueID“的对应的值，这个值是一个字符串，我们在这个字符串前面加入”VILLAGE_&quot;，后面加上&quot;_&quot;，然后再加上四个不同的全大写的单词，传入到数据库里面，就可以得到村庄的四种类型的信息：加上”INFO“可以得到这个村庄的全局信息，”PLAYERS“可以得到每个玩家的声望值，”POI“可以得到村民的工作站点，”DWELLERS“可以得到这个村庄内的所有与村庄有关的生物。</p>
 <h3 id="村庄信息">村庄信息</h3>
@@ -422,7 +896,7 @@
     </tr>
 </table>
 <p>例：一个只有一个村民的测试村庄的留念（bushi</p>
-<figure data-type="image" tabindex="5"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-20200913164012377.png" alt="image-20200913164012377" loading="lazy"></figure>
+<figure data-type="image" tabindex="6"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-20200913164012377.png" alt="image-20200913164012377" loading="lazy"></figure>
 <h3 id="村庄生态">村庄生态</h3>
 <p>获取到的村庄生态是一个Compound Tag，在这里面会有一个列表叫“Dwellers”，列表总是存放着四个Compound Tag。每个Compound Tag里面都有一个叫Actors的列表，这个列表记录的对象类型是Compound Tag。在下面会以“第n个列表”的方式来提及这个“Actors”列表，大家就将其认为是“Dwellers”列表中的第n个Compound Tag里面的&quot;Actors&quot;的列表就好。</p>
 <p>第一个列表里面的每个Compound Tag都记录了一个村民的信息，其中包括三个参数：ID，类型为Long，代表村民的实体ID（UniqueID）；last_worked，类型为Long，代表上一次工作时距离开启世界多少个游戏刻；TS类型也为Long，但是并不清楚这个数值是干什么的。</p>
@@ -431,7 +905,7 @@
 <p>第四个列表里面的每个Compound Tag都记录了一只猫的信息，其中包括两个参数：ID，类型为Long，代表猫的实体ID（UniqueID）；TS类型也为Long，但是并不清楚这个数值是干什么的。</p>
 <h3 id="玩家声望">玩家声望</h3>
 <p>得到并不是直接的玩家声望，而是一个Compound Tag，这个父标签里面有且仅有一个Tag，类型是List，里面存储的是Compound Tag，每个Compound Tag都有两个Tag：ID，类型为Long，是玩家ID（UniqueID）；S，类型为Int，是玩家的声望值，即：</p>
-<figure data-type="image" tabindex="6"><img src="C:/Users/22598/AppData/Roaming/Typora/typora-user-images/image-20200913205524952.png" alt="image-20200913205524952" loading="lazy"></figure>
+<figure data-type="image" tabindex="7"><img src="C:/Users/22598/AppData/Roaming/Typora/typora-user-images/image-20200913205524952.png" alt="image-20200913205524952" loading="lazy"></figure>
 <h1 id="世界维度信息">世界维度信息</h1>
 <h3 id="末地">末地</h3>
 <p>获取末地的信息非常容易记住，只需要向数据库里面传入“TheEnd”每个字符组成的Ascii码就可以。得到的是一个小字节序的NBT格式，最外层由一个Compound Tag包裹着。这个Compound Tag经过依次套娃终于得到了我们想要的信息，至于是几次套娃，沃就展示在下面的示例图片里面了。</p>
@@ -470,7 +944,7 @@
                   <tr>
                     <td style="color:#008469;"><center>DragonUUID</center></td>
                     <td style="color:#580686;"><center>Long</center></td>
-                    <td><center>龙的实体ID。当龙死亡之后，这个id会是上一次死去的龙的实体ID</center></td>
+                    <td><center>龙的实体ID。当龙死亡之后，这个id会是上一次死去的龙的实体ID。如果没有生成过龙，那么这个值会是-1.</center></td>
                   </tr>
                   <tr>
                     <td style="color:#008469;"><center>DragonKilled</center></td>
@@ -503,28 +977,28 @@
 </table>
 <p>当这个龙正在被重生时，DragonKilled值为1，DragonSpawned为1，IsRespawning为1；当重生了龙之后，DragonKilled值为0，DragonSpawned为1，IsRespawning为0，但与打第一只龙不同的是，此时的PreviouslyKilled的值会是1.</p>
 <p>例: 某个已经杀死过龙的末地</p>
-<figure data-type="image" tabindex="7"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-20200914223632357.png" alt="image-20200914223632357" loading="lazy"></figure>
+<figure data-type="image" tabindex="8"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-20200914223632357.png" alt="image-20200914223632357" loading="lazy"></figure>
 <h3 id="主世界">主世界</h3>
 <p>主世界的维度信息似乎没有什么。获取这个数据需要向数据库里面传入“Overworld”每个字符组成的Ascii码就可以，得到的NBT数据也很简单，如图：</p>
-<figure data-type="image" tabindex="8"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-20200915223906388.png" alt="image-20200915223906388" loading="lazy"></figure>
+<figure data-type="image" tabindex="9"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-20200915223906388.png" alt="image-20200915223906388" loading="lazy"></figure>
 <h3 id="下界">下界</h3>
 <p>获取这个数据需要向数据库里面传入“Nether”每个字符组成的Ascii码就可以，得到的NBT数据几乎跟上面的相同，如图：</p>
-<figure data-type="image" tabindex="9"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-20200915224803363.png" alt="image-20200915224803363" loading="lazy"></figure>
+<figure data-type="image" tabindex="10"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-20200915224803363.png" alt="image-20200915224803363" loading="lazy"></figure>
 <h1 id="地形存储">地形存储</h1>
 <p><strong>【本节内容可能会有不对的地方 也请大佬们在评论底下修正 非常感谢！】</strong></p>
 <p>终于到我们的重头戏了——游戏的地形存储。<del>今天小编就来带大家看看。</del></p>
 <p>首先还是我们的惯例，灵魂疑问：该怎么得到区块的信e息呢？真的很简单，人人都可以学得会：首先将这个区块的x坐标以小字节序变成四个字节（即一个int类型）然后将这个区块的z坐标也以小字节序变成四个字节紧随其后，如果这个区块不是主世界区块那就再将其维度对应的id以小字节序还是变成四个字节跟在后面（1是地狱，2是末地），然后后面跟上一个特定的数字以一个字节存储的字节。这个特定的数字可以是下面的任意一个，取决于要申请的数据的类型：【下面有一类数据，只传这个特定的数字是拿不到滴，下面会有解释】</p>
-<figure data-type="image" tabindex="10"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/77932686035b7324f5ba68f63e5db2352359bb6f.png" alt="img" loading="lazy"></figure>
+<figure data-type="image" tabindex="11"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/77932686035b7324f5ba68f63e5db2352359bb6f.png" alt="img" loading="lazy"></figure>
 <p>【TODO: 发现也可以传入51，得到的好像是隔一段时间就要刷新的东西比如说流动的水】</p>
 <p>例： 如果想要申请x坐标是114514，z坐标是1919180的区块的高度图（臭味图（逃）和生物群系:</p>
-<figure data-type="image" tabindex="11"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/d43f4f78deb235cffff4e47725952c59ba7402c8.gif" alt="img" loading="lazy"></figure>
+<figure data-type="image" tabindex="12"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/d43f4f78deb235cffff4e47725952c59ba7402c8.gif" alt="img" loading="lazy"></figure>
 <h3 id="高度图和生物群系">高度图和生物群系</h3>
 <p>​    申请得到的高度图和生物群系中，前512个字节存储的是高度图。高度图存储了俯视这个区块得到的平面图中，每一格存储一个short类型（一个占两个字节的整数）代表这一格最高的方块处在的y坐标。紧接着是生物群系，以同样的方式，但是是以每一格一个byte类型存储生物群系id。</p>
 <p><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/381545dcdfdacb447b46b2b1a65825984c7e65f8.png" alt="img" loading="lazy"><br>
 左图:mcc tool chest pe截图 横坐标是x 纵坐标是z   右图:从数据库中取出的数据在十六进制编辑器中的模样</p>
 <h3 id="方块实体数据">方块实体数据</h3>
 <p>申请得到的方块实体数据是一个小字节序的NBT数据。</p>
-<figure data-type="image" tabindex="12"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/46b06817a8eb2f0db31b1c982eb1306f0d174a4c.png" alt="img" loading="lazy"></figure>
+<figure data-type="image" tabindex="13"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/46b06817a8eb2f0db31b1c982eb1306f0d174a4c.png" alt="img" loading="lazy"></figure>
 <p>有些方块为了每一个游戏刻都要刷新，所以将其归结到方块实体里面；还有一些功能方块，存储的数据比较多，所以就存在了这里，具体为什么要放在下面的地形数据再说啦~</p>
 <p>由于未在minecraft维基上面找到每个方块实体存储的信息（抑或是我没找到），于是沃自己整理了一下：</p>
 <p>（以下内容按照CC BY-NC-SA 3.0协议分享）</p>
@@ -534,7 +1008,7 @@
 <ul>
 <li>
 <p>Base: (Integer) 旗帜的背景颜色</p>
-<figure data-type="image" tabindex="13"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-20200831160640985.png" alt="image-20200831160640985" loading="lazy"></figure>
+<figure data-type="image" tabindex="14"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-20200831160640985.png" alt="image-20200831160640985" loading="lazy"></figure>
 </li>
 <li>
 <p>id: (String) 应该都是banner</p>
@@ -570,7 +1044,7 @@
 </li>
 <li>
 <p>SaveData: (Compound) 当&quot;ActorIdentifier&quot;是”minecraft:bee&lt;&gt;“时，这里直接存储了这个蜜蜂的实体NBT，如下图:</p>
-<figure data-type="image" tabindex="14"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/QQ%E5%9B%BE%E7%89%8720200831171900.png" alt="So_Long~" loading="lazy"></figure>
+<figure data-type="image" tabindex="15"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/QQ%E5%9B%BE%E7%89%8720200831171900.png" alt="So_Long~" loading="lazy"></figure>
 </li>
 </ul>
 </li>
@@ -621,7 +1095,7 @@
 </li>
 </ul>
 <p>例： 一个箱子的NBT:</p>
-<figure data-type="image" tabindex="15"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-202008311830.PNG" alt="一个箱子的方块实体NBT" loading="lazy"></figure>
+<figure data-type="image" tabindex="16"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-202008311830.PNG" alt="一个箱子的方块实体NBT" loading="lazy"></figure>
 </li>
 <li>
 <p>篝火，灵魂篝火</p>
@@ -632,7 +1106,7 @@
 <li>ItemTime1, ItemTime2, ItemTime3, ItemTime4: (Integer) 对应的篝火的四个槽位的已经进行烧烤（）的游戏tick数。</li>
 </ul>
 <p>例： 一个篝火的方块实体NBT:</p>
-<figure data-type="image" tabindex="16"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-202008311848.PNG" alt="一个篝火的方块实体NBT" loading="lazy"></figure>
+<figure data-type="image" tabindex="17"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-202008311848.PNG" alt="一个篝火的方块实体NBT" loading="lazy"></figure>
 </li>
 <li>
 <p>酿造台</p>
@@ -656,11 +1130,11 @@
 <p>Items: (List) 跟箱子的Items存储类似，但是在里面炼出来的药水会多出来一个标签：<br>
 <img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-202008311930.PNG" alt="我们中，出了一个叛徒" loading="lazy"></p>
 <p>酿造台中每个槽所代表的位置放在下图:</p>
-<figure data-type="image" tabindex="17"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-202008311917.PNG" alt="酿造台的槽位位置" loading="lazy"></figure>
+<figure data-type="image" tabindex="18"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-202008311917.PNG" alt="酿造台的槽位位置" loading="lazy"></figure>
 <p>例： 一个正在酿造的酿造台的方块实体NBT:</p>
 </li>
 </ul>
-<figure data-type="image" tabindex="18"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-202008311924.PNG" alt="一个正在酿造的酿造台的方块实体NBT" loading="lazy"></figure>
+<figure data-type="image" tabindex="19"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-202008311924.PNG" alt="一个正在酿造的酿造台的方块实体NBT" loading="lazy"></figure>
 </li>
 <li>
 <p>熔炉，烟熏炉，高炉</p>
@@ -693,7 +1167,7 @@
 <p>例： 一个熔炉的方块实体NBT:</p>
 </li>
 </ol>
-<figure data-type="image" tabindex="19"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-202008311948.PNG" alt="一个熔炉的方块实体NBT" loading="lazy"></figure>
+<figure data-type="image" tabindex="20"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-202008311948.PNG" alt="一个熔炉的方块实体NBT" loading="lazy"></figure>
 <ol start="8">
 <li>
 <p>讲台</p>
@@ -708,7 +1182,7 @@
 <p>例： 一个放置了书的讲台（上）和一个没有放书的讲台（下）:</p>
 </li>
 </ol>
-<figure data-type="image" tabindex="20"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-202008311959.PNG" alt="一个放置了书的讲台（上）和一个没有放书的讲台（下）" loading="lazy"></figure>
+<figure data-type="image" tabindex="21"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-202008311959.PNG" alt="一个放置了书的讲台（上）和一个没有放书的讲台（下）" loading="lazy"></figure>
 <ol start="9">
 <li>
 <p>信标</p>
@@ -724,7 +1198,7 @@
 </ol>
 <p>​     <img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-202008312013.PNG" alt="基岩版的药水效果对应id表" loading="lazy"></p>
 <p>​	许许多多的信标，猜猜ta们的对应效果叭~:</p>
-<figure data-type="image" tabindex="21"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-202008312018.PNG" alt="许许多多的信标" loading="lazy"></figure>
+<figure data-type="image" tabindex="22"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-202008312018.PNG" alt="许许多多的信标" loading="lazy"></figure>
 <ol start="10">
 <li>
 <p>刷怪笼</p>
@@ -741,7 +1215,7 @@
 <li>DisplayEntityHeight, DisplayEntityScale, DisplayEntityWidth: (Float) 需要证实： 游戏每次尝试生成生物时，会以DisplayEntityWidth为长和宽，DisplayEntityHeight为高的矩形去测试某个地方是否会生成生物。</li>
 </ul>
 <p>例: 一个被修改过的空的刷怪箱:</p>
-<figure data-type="image" tabindex="22"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-202008312103.PNG" alt="整篇文章怎么洋溢着一股臭味呢" loading="lazy"></figure>
+<figure data-type="image" tabindex="23"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-202008312103.PNG" alt="整篇文章怎么洋溢着一股臭味呢" loading="lazy"></figure>
 </li>
 <li>
 <p>音符盒</p>
@@ -750,11 +1224,11 @@
 <li>isMovable: (Byte) 是否能被活塞推动，默认是1，即能推动。0是不能被推动。</li>
 <li>note: (Byte) 该音符的音高。通俗来讲就是玩家敲击了几次音符盒。如图:</li>
 </ul>
-<figure data-type="image" tabindex="23"><img src="https://static.wikia.nocookie.net/minecraft_zh_gamepedia/images/b/bd/Noteblock_reference.png/revision/latest/scale-to-width-down/720?cb=20190129093637" alt="Noteblock reference.png" loading="lazy"></figure>
+<figure data-type="image" tabindex="24"><img src="https://static.wikia.nocookie.net/minecraft_zh_gamepedia/images/b/bd/Noteblock_reference.png/revision/latest/scale-to-width-down/720?cb=20190129093637" alt="Noteblock reference.png" loading="lazy"></figure>
 <p>例：一个被敲击了一次的音符盒的方块实体NBT标签:</p>
 </li>
 </ol>
-<figure data-type="image" tabindex="24"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-202008312055.PNG" alt="一个被敲击了一次的音符盒的方块实体NBT标签" loading="lazy"></figure>
+<figure data-type="image" tabindex="25"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-202008312055.PNG" alt="一个被敲击了一次的音符盒的方块实体NBT标签" loading="lazy"></figure>
 <ol start="12">
 <li>
 <p>唱片机</p>
@@ -764,7 +1238,7 @@
 <li>RecordItem: (Compound) 是该唱片内部存储的唱片物品的NBT。当这个唱片机里面没有唱片时，则没有这一项。</li>
 </ul>
 <p>例：上方是内部存有游戏里没有的唱片的唱片机，下方是没有唱片的:</p>
-<figure data-type="image" tabindex="25"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-202008312101.PNG" alt="上方是内部存有游戏里没有的唱片的唱片机，下方是没有唱片的" loading="lazy"></figure>
+<figure data-type="image" tabindex="26"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-202008312101.PNG" alt="上方是内部存有游戏里没有的唱片的唱片机，下方是没有唱片的" loading="lazy"></figure>
 </li>
 </ol>
 <blockquote>
@@ -911,7 +1385,7 @@
 </table>
 <p>​			于是可以得出普遍规律: 当出现这个实体方块NBT时，pistonPosX, pistonPosY, pistonPosZ指向的坐标总是推这个方块的活塞；当活塞正在推ta时，x, y, z指向的坐标是这个实体方块将被推到的坐标，反之，当活塞正在拉ta时，x，y，z指向的是这个实体方块将被拉回到的坐标。</p>
 <p>​			为了猜测movingBlockExtra的用途，我打算继续做一个实验:</p>
-<figure data-type="image" tabindex="26"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/Minecraft_2020_9_1_23_30_04.png" alt="又一个实验" loading="lazy"></figure>
+<figure data-type="image" tabindex="27"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/Minecraft_2020_9_1_23_30_04.png" alt="又一个实验" loading="lazy"></figure>
 <p>​			当我用史莱姆方块拉着一个方块让活塞臂进行伸缩运动时，红石块出现的MovingBlock方块实体NBT内，pistonPosX, pistonPosY, pistonPosZ仍然是推拉史莱姆方块的活塞的坐标。movingBlockExtra仍然是空气的方块NBT。</p>
 <blockquote>
 <p><code>【屑博主仍然在学校写完了几乎所有作业的第三个晚上】</code></p>
@@ -1049,7 +1523,7 @@
 </li>
 </ol>
 <p>​	例: 一个拼图的界面与其在存档中的存储</p>
-<figure data-type="image" tabindex="27"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-20200906122022834.png" alt="image-20200906122022834" loading="lazy"></figure>
+<figure data-type="image" tabindex="28"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-20200906122022834.png" alt="image-20200906122022834" loading="lazy"></figure>
 <ol start="22">
 <li>
 <p>结构方块</p>
@@ -1187,7 +1661,7 @@
 </li>
 </ol>
 <p>例: 一个结构方块的界面与其在存档中的存储</p>
-<figure data-type="image" tabindex="28"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-20200906153024656.png" alt="image-20200906153024656" loading="lazy"></figure>
+<figure data-type="image" tabindex="29"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-20200906153024656.png" alt="image-20200906153024656" loading="lazy"></figure>
 <blockquote>
 <p><code>【又该清空背包了，雪莉酱不假思索的在聊天列表里面打出了&quot;/cls&quot;】</code></p>
 </blockquote>
@@ -1240,12 +1714,12 @@
 <li>CustomColor: (Integer) 当炼药锅里面是水，且已经被染色的时候，这个标签才存在。这个标签虽然看起来是一个Integer类型的整数，但是实际使用的时候是将这个整数拆分成四个字节，分别对应RGBA四个颜色数值。</li>
 </ul>
 <p>这是一个装满粉色染料染过色之后的水的炼药锅的CustomColor值:</p>
-<figure data-type="image" tabindex="29"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-20200906190921023.png" alt="image-20200906190921023" loading="lazy"></figure>
+<figure data-type="image" tabindex="30"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-20200906190921023.png" alt="image-20200906190921023" loading="lazy"></figure>
 <ul>
 <li>PotionType: (Short) 该药水的类型。0是普通药水，1是喷溅型药水，2是滞留性药水。如果炼药锅内装的不是药水，这里会写-1.</li>
 <li>Potionid: (Short) 该药水的种类。如果炼药锅内装的不是药水，这里会是-1。其ta的药水对应如下表：</li>
 </ul>
-<figure data-type="image" tabindex="30"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-20200906170138149.png" alt="image-20200906170138149" loading="lazy"></figure>
+<figure data-type="image" tabindex="31"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-20200906170138149.png" alt="image-20200906170138149" loading="lazy"></figure>
 </li>
 <li>
 <p>潮涌核心</p>
@@ -1271,9 +1745,9 @@
 <p>​	其实获取子区块不仅仅只是传一个“47”。因为在游戏中，子区块是从下到上堆积起来的，像堆积木一样。一个子区块的大小是16*16*16，所以我们需要在我们的“47”后面再接上一个byte类型（在下面就称这个数this_num辽）。这个byte类型的数字范围是[ 0, 15 ]【即0 &lt;= this_num&lt;= 15】，代表这个子区块是从最下面一个子区块向上数的第this_num个的子区块。所以这个子区块的y轴范围是[ this_num * 16, (this_num + 1) * 16 )【即 this_num * 16 &lt;= y轴范围 &lt; (this_num + 1) * 16】。</p>
 <p>​	上面买了个小关子，这回我们终于拿到想要的地形存储了。再加上Python爬虫，爬取播放量多的midi文件并解析，最后再将红石音乐的样式生成做成一个Interface，唔，美汁汁~ 接下来，宁可能会被映入眼帘的获取到的杂乱的数据昏了头脑；用MCC ToolChest PE的读者，一定也会发现，在一个区块里面，似乎没有被提及的就是Sections这个列表了。这个列表里面又有几个子对象，宁可能会马上意识到，这就是我们这一节要调教的子区块，然后就会被迷住（😂）</p>
 <p>​	我们先从MCC ToolChest开始讲起，因为ta有一个可视化的界面。没有装MCC ToolChest的同学也不要紧，我这里放上我的测试世界的某一个区块的MCC ToolChest界面：</p>
-<figure data-type="image" tabindex="31"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/UFD4W@Q8S%60NW%7DUOFDW%60ABKD.png" alt="img" loading="lazy"></figure>
+<figure data-type="image" tabindex="32"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/UFD4W@Q8S%60NW%7DUOFDW%60ABKD.png" alt="img" loading="lazy"></figure>
 <p>​	还有这个区块代表的区块截图：</p>
-<figure data-type="image" tabindex="32"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-20200906201146132.png" alt="image-20200906201146132" loading="lazy"></figure>
+<figure data-type="image" tabindex="33"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-20200906201146132.png" alt="image-20200906201146132" loading="lazy"></figure>
 <p>​	将所有的标签都展开，我们就可以发现，这个子区块中的Palette存储的是这个子区块所有类型方块的方块NBT。那么为什么要这样存呢？脑袋转的快的同学马上就能反应出来，游戏为了压缩世界大小，将所有类型的方块状态存在一个列表里面，那么存储方块就是存储这个方块在列表里面的索引。存储的少，算法还简单，读写就更快了，两全其美。然后下面的BlockStates就是这个子区块的每一个方块对应的索引。</p>
 <p>​	这就是我们的假说，接下来我们要做的就是将上面的BlockStates导出，变成一张表，然后将这张表对着Palette中的项去对照。我们就取有熔炉的那一层，是第58层，即这个子区块的第<code>58 % 16 = 10</code>层。按照每一层<code>16 * 16 = 256</code>个方块，每个方块的索引占一个Integer即4个字节，我们就得取偏移了<code>(10 - 1) * (256 * 4) = 9216</code>字节之后的1024字节：</p>
 <table>
@@ -1866,7 +2340,7 @@
 </tbody>
 </table>
 <p>​	接下来与原版进行对比:</p>
-<figure data-type="image" tabindex="33"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-20200906213556482.png" alt="image-20200906213556482" loading="lazy"></figure>
+<figure data-type="image" tabindex="34"><img src="https://lovelyzeeiam.github.io/post-images/bedrock-save/image-20200906213556482.png" alt="image-20200906213556482" loading="lazy"></figure>
 <p>​	因为盔甲架是实体，不算方块，所以就可以看到，算是完全一致。那么这个假说算是可以证明成立了。【大家可以替换掉几个方块，多实验几次，毕竟只实验一次具有偶然性，这里为了节省篇幅就不多做实验了】</p>
 <p>​	所以我们可以得出初步的结论：在存档里面，游戏将所有类型的方块状态存在一个列表里面，存储方块就是存储这个方块在这个列表里面的索引。懂得了这个原理，我们就可以从图形的界面进入二进制的世界了~ 啊好，没进呢。我们先整理一下游戏存储了些什么：首先就是上面提到的索引，然后就是列表，可能还会存个版本号。列表需要什么呢？需要一个数字代表这个列表存了多少个方块状态。OK，接下来我们就来康康在磁盘中，这些数据该怎么存储。</p>
 <p>​	正如我们所猜测的一样，在磁盘中，这些数据的存储分为三个部分：标头，索引区，数据区：</p>
