@@ -2,22 +2,13 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://lovelyzeeiam.github.io</id>
     <title>Xueli的小博客</title>
-    <updated>2020-09-16T15:03:37.442Z</updated>
+    <updated>2020-09-23T14:43:59.146Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://lovelyzeeiam.github.io"/>
     <link rel="self" href="https://lovelyzeeiam.github.io/atom.xml"/>
     <logo>https://lovelyzeeiam.github.io/images/avatar.png</logo>
     <icon>https://lovelyzeeiam.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Xueli的小博客</rights>
-    <entry>
-        <title type="html"><![CDATA[开发一个Bilibili专栏Markdown编辑客户端!]]></title>
-        <id>https://lovelyzeeiam.github.io/post/develop-bilibili-markdown/</id>
-        <link href="https://lovelyzeeiam.github.io/post/develop-bilibili-markdown/">
-        </link>
-        <updated>2020-09-13T14:29:28.000Z</updated>
-        <content type="html"><![CDATA[<p>写完基岩版的存档研究就开工~</p>
-]]></content>
-    </entry>
     <entry>
         <title type="html"><![CDATA[Minecraft基岩版存档格式简介（未完成）]]></title>
         <id>https://lovelyzeeiam.github.io/post/minecraft-bedrock-level-format/</id>
@@ -2409,6 +2400,8 @@
 	int index = datas.add(tag);
 	
 </code></pre>
+<h1 id="代码示范">代码示范</h1>
+<p>up在nuget找到了一个可以读取存档leveldb的库，当up将测试代码(可能是C#)写好之后马上就来写这个哦~</p>
 ]]></content>
     </entry>
 </feed>
